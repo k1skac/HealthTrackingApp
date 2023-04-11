@@ -29,8 +29,8 @@ public class SpringSecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests()
-            .requestMatchers("/user/**").permitAll()
-            .requestMatchers("/user/hello").hasAuthority("USER")
+            .requestMatchers("/user/authenticate", "user/register").permitAll()
+            .requestMatchers("/user/**").hasAuthority("USER")
             .requestMatchers("/admin/**").hasAuthority("ADMIN");
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

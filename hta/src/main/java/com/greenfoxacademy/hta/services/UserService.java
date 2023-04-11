@@ -3,6 +3,7 @@ package com.greenfoxacademy.hta.services;
 import com.greenfoxacademy.hta.dtos.BearerToken;
 import com.greenfoxacademy.hta.dtos.LoginDto;
 import com.greenfoxacademy.hta.dtos.RegisterDto;
+import com.greenfoxacademy.hta.models.BiologicalGender;
 import com.greenfoxacademy.hta.models.Role;
 import com.greenfoxacademy.hta.models.RoleName;
 import com.greenfoxacademy.hta.models.User;
@@ -60,6 +61,12 @@ public class UserService implements IUserService{
             //By Default , he/she is a simple user
             Role role = iRoleRepository.findByRoleName(RoleName.USER);
             user.setRoles(Collections.singletonList(role));
+            user.setRealName(registerDto.getRealName());
+            if (registerDto.getBiologicalGender().equals("MALE")) {user.setBiologicalGender(BiologicalGender.MALE);}
+            else if (registerDto.getBiologicalGender().equals("FEMALE")) {user.setBiologicalGender(BiologicalGender.MALE);}
+            else {user.setBiologicalGender(BiologicalGender.UNDEFINED);}
+            user.setHeight(registerDto.getHeight());
+            user.setBirthDate(registerDto.getBirthDate());
             iUserRepository.save(user);
             String token = jwtUtilities.generateToken(registerDto.getEmail(),Collections.singletonList(role.getRoleName()));
             return new ResponseEntity<>(new BearerToken(token , "Bearer "),HttpStatus.OK); }

@@ -18,11 +18,18 @@ public class UserRestController {
         return "Hello" ;
     }
 
+    @GetMapping("/hellouser")
+    public String sayHelloUser () {
+        return "Hello User" ;
+    }
+
     //RessourceEndPoint:http://localhost:8087/api/user/register
+
     @PostMapping("/register")
     public ResponseEntity<?> register (@RequestBody RegisterDto registerDto) {
-        return  iUserService.register(registerDto);
+        return iUserService.register(registerDto);
     }
+
 
     //RessourceEndPoint:http://localhost:8087/api/user/authenticate
     @PostMapping("/authenticate")

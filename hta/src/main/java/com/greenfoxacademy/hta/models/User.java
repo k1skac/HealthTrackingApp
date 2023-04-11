@@ -3,11 +3,13 @@ package com.greenfoxacademy.hta.models;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -22,20 +24,55 @@ import java.util.List;
 public class User implements Serializable , UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id ;
-    String username ;
-    String email;
-    String password ;
+    private Long id ;
+    private String username ;
+    private String email;
+    private String password ;
 
-    //Un utilisateur peut avoir plusieurs roles
     @ManyToMany(fetch = FetchType.EAGER  , cascade = CascadeType.PERSIST)
-    List <Role> roles = new ArrayList<>();
+    private List <Role> roles = new ArrayList<>();
+
+    @CreationTimestamp
+    private LocalDate createdAt;
+    private String realName;
+    private BiologicalGender biologicalGender;
+
+    private LocalDate birthDate;
+    @ManyToOne()
+    private City city;
+    @OneToMany(mappedBy = "user")
+    private List<Log> logs = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<BloodPressure> bloodPressures = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<HeartRate> heartRates = new ArrayList<>();
+    private double height;
+    private List<BNOCode> illnessCode = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Weight> weights = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Medication> medications = new ArrayList<>();
+    @OneToOne()
+    private BloodLabData bloodLabData;
 
 
-    public User (String email , String password , List<Role> roles) {
+
+    public User (String username, String email , String password , List<Role> roles) {
+      this.username=username;
       this.email= email ;
       this.password=password ;
       this.roles=roles ;
+    }
+
+    public User( String username, String email, String password,  String realName, BiologicalGender biologicalGender,
+                 LocalDate birthDate, double height) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.realName = realName;
+        this.biologicalGender = biologicalGender;
+        this.birthDate = birthDate;
+        this.height=height;
     }
 
     @Override
