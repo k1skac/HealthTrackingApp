@@ -1,5 +1,10 @@
 package com.greenfoxacademy.hta.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.greenfoxacademy.hta.models.goalentities.Goal;
+import com.greenfoxacademy.hta.models.healthylivingentities.DailyCalorieIntake;
+import com.greenfoxacademy.hta.models.healthylivingentities.ExerciseTime;
+import com.greenfoxacademy.hta.models.healthylivingentities.Weight;
 import com.greenfoxacademy.hta.models.bloodlabdata.BloodLabData;
 import com.greenfoxacademy.hta.models.medication.Medication;
 import com.greenfoxacademy.hta.models.notifications.Notification;
@@ -52,8 +57,18 @@ public class User implements Serializable , UserDetails {
     private List<HeartRate> heartRates = new ArrayList<>();
     private double height;
     private List<BNOCode> illnessCode = new ArrayList<>();
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Weight> weights = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<DailyCalorieIntake> dailyCalories = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<ExerciseTime> dailyExercise = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Goal> goals = new ArrayList<>();
     @OneToMany(mappedBy = "user")
     private List<Medication> medications = new ArrayList<>();
     @OneToOne()

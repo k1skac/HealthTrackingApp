@@ -5,6 +5,7 @@ import com.greenfoxacademy.hta.repositories.ILogTypeRepository;
 import com.greenfoxacademy.hta.repositories.IRoleRepository;
 import com.greenfoxacademy.hta.repositories.IUserRepository;
 import com.greenfoxacademy.hta.services.user.IUserService;
+import com.greenfoxacademy.hta.models.healthylivingentities.Weight;
 import com.greenfoxacademy.hta.models.medication.Medication;
 import com.greenfoxacademy.hta.models.medication.MedicationIntake;
 import com.greenfoxacademy.hta.models.medication.Units;
@@ -147,13 +148,5 @@ public class HtaApplication {
         user2.getRoles().add(role2);
         iUserService.saveUser(user2);
       }
-    }
-
-    public void addLogType(ILogTypeRepository iLogTypeRepository) {
-      iLogTypeRepository.save(new LogType("registration", "A new account registered by "));
-      iLogTypeRepository.save(new LogType("login", "Logged in : "));
-      iLogTypeRepository.save(new LogType("pwchange", "Password changed by "));
-      iLogTypeRepository.save(new LogType("adminpwchange", "The admin reseted the password of "));
-      iLogTypeRepository.save(new LogType("adminuserdelete", "The admin deleted the account of "));
     }
 }

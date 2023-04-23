@@ -1,12 +1,15 @@
-package com.greenfoxacademy.hta.models;
+package com.greenfoxacademy.hta.models.healthylivingentities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.greenfoxacademy.hta.models.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -19,14 +22,16 @@ public class Weight {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private LocalDateTime measureTime;
+  @JsonIgnore
+  @CreatedDate
+  private LocalDateTime creationDate;
   private float weight;
   @JsonIgnore
   @ManyToOne(fetch = FetchType.LAZY)
   private User user;
 
   public Weight(LocalDateTime measureTime, float weight) {
-    this.measureTime = measureTime;
+    this.creationDate = measureTime;
     this.weight = weight;
   }
 }
