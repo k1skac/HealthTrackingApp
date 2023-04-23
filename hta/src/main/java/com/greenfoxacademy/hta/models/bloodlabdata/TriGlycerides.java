@@ -1,4 +1,4 @@
-package com.greenfoxacademy.hta.models;
+package com.greenfoxacademy.hta.models.bloodlabdata;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,13 +13,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Glucose {
+public class TriGlycerides {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private double value;
-  private static final double maxNormalValue = 6.0;
-  private static final double minNormalValue = 3.0;
+  private double maxNormalValue;
+  private double minNormalValue;
   private LocalDateTime measureTime;
   @ManyToOne(fetch = FetchType.LAZY)
   private BloodLabData bloodLabData;

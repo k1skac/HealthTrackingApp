@@ -1,7 +1,7 @@
 package com.greenfoxacademy.hta.repositories;
 
-import com.greenfoxacademy.hta.models.Role;
-import com.greenfoxacademy.hta.models.RoleName;
+import com.greenfoxacademy.hta.models.roles.Role;
+import com.greenfoxacademy.hta.models.roles.RoleName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

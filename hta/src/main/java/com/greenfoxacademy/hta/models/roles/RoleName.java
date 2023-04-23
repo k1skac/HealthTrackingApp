@@ -1,4 +1,4 @@
-package com.greenfoxacademy.hta.models;
+package com.greenfoxacademy.hta.models.roles;
 
 
 public enum RoleName {

@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -15,16 +15,16 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 public class Weight {
-
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
-  private Date date;
+  private LocalDateTime measureTime;
   private float weight;
-
   @ManyToOne(fetch = FetchType.LAZY)
   private User user;
 
-
+  public Weight(LocalDateTime measureTime, float weight) {
+    this.measureTime = measureTime;
+    this.weight = weight;
+  }
 }

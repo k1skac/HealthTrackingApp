@@ -1,5 +1,9 @@
 package com.greenfoxacademy.hta.models;
 
+import com.greenfoxacademy.hta.models.bloodlabdata.BloodLabData;
+import com.greenfoxacademy.hta.models.medication.Medication;
+import com.greenfoxacademy.hta.models.notifications.Notification;
+import com.greenfoxacademy.hta.models.roles.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -14,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 @Entity
 @Getter
 @Setter
@@ -28,16 +31,15 @@ public class User implements Serializable , UserDetails {
     private String username ;
     private String email;
     private String password ;
-
-    @ManyToMany(fetch = FetchType.EAGER  , cascade = CascadeType.PERSIST)
-    private List <Role> roles = new ArrayList<>();
-
     @CreationTimestamp
     private LocalDate createdAt;
     private String realName;
     private BiologicalGender biologicalGender;
-
     private LocalDate birthDate;
+    @OneToOne()
+    private Notification notification;
+    @ManyToMany(fetch = FetchType.EAGER  , cascade = CascadeType.PERSIST)
+    private List <Role> roles = new ArrayList<>();
     @ManyToOne()
     private City city;
     @OneToMany(mappedBy = "user")
@@ -54,8 +56,6 @@ public class User implements Serializable , UserDetails {
     private List<Medication> medications = new ArrayList<>();
     @OneToOne()
     private BloodLabData bloodLabData;
-
-
 
     public User (String username, String email , String password , List<Role> roles) {
       this.username=username;

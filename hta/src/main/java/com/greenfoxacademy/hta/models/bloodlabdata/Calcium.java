@@ -1,4 +1,4 @@
-package com.greenfoxacademy.hta.models;
+package com.greenfoxacademy.hta.models.bloodlabdata;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class TriGlycerides {
+public class Calcium {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

@@ -1,5 +1,6 @@
-package com.greenfoxacademy.hta.models;
+package com.greenfoxacademy.hta.models.bloodlabdata;
 
+import com.greenfoxacademy.hta.models.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
