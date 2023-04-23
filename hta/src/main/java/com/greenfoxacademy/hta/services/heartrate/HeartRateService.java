@@ -1,8 +1,10 @@
 package com.greenfoxacademy.hta.services.heartrate;
 
+import com.greenfoxacademy.hta.models.HeartRate;
 import com.greenfoxacademy.hta.models.notifications.NotificationMessage;
 import com.greenfoxacademy.hta.models.User;
 import com.greenfoxacademy.hta.repositories.IHeartRateRepository;
+import com.greenfoxacademy.hta.services.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,12 @@ import java.time.LocalDateTime;
 @Service
 public class HeartRateService implements IHeartRateService {
     private final IHeartRateRepository heartRateRepository;
+    private final IUserService iUserService;
 
     @Autowired
-    public HeartRateService(IHeartRateRepository heartRateRepository) {
+    public HeartRateService(IHeartRateRepository heartRateRepository, IUserService iUserService) {
         this.heartRateRepository = heartRateRepository;
+        this.iUserService = iUserService;
     }
 
     @Override
@@ -30,5 +34,13 @@ public class HeartRateService implements IHeartRateService {
             }
         }
         return null;
+    }
+
+    @Override
+    public void save(HeartRate heartRate, String email) {
+        User user = iUserService.findByEmail(email);
+        heartRate.setUser(user);
+        heartRateRepository.save(heartRate);
+        iUserService.saveUser(user);
     }
 }

@@ -24,4 +24,8 @@ public class TriGlycerides {
   @ManyToOne(fetch = FetchType.LAZY)
   private BloodLabData bloodLabData;
 
+  public TriGlycerides(double value, LocalDateTime measureTime){
+    this.value = value;
+    this.measureTime = measureTime;
+  };
 }

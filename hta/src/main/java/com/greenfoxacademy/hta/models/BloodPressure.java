@@ -22,12 +22,12 @@ public class BloodPressure {
   private float diastolic;
   @ManyToOne(fetch = FetchType.LAZY)
   private User user;
-//  private static final float systolicMax = 140;
-//  private static final float diastolicMin = 80;
+  private static final float systolicMax =140;
+  private static final float diastiolicMin =80;
 
-  public BloodPressure(LocalDateTime measureTime, float systolic, float diastolic) {
-    this.measureTime = measureTime;
+  public BloodPressure(float systolic, float diastolic, LocalDateTime measureTime){
     this.systolic = systolic;
     this.diastolic = diastolic;
+    this.measureTime = measureTime;
   }
 }

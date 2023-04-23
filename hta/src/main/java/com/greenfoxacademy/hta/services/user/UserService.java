@@ -51,11 +51,6 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public User findByEmail(String email) {
-        return iUserRepository.findByEmail(email).orElse(null);
-    }
-
-    @Override
     public ResponseEntity<?> register(RegisterDto registerDto) {
         if (registerDto.getEmail()==null||registerDto.getEmail().equals("")) {
             return new ResponseEntity<>("Missing email address!", HttpStatus.BAD_REQUEST);
@@ -73,7 +68,7 @@ public class UserService implements IUserService{
                 if (registerDto.getBiologicalGender().equals("MALE")) {
                     user.setBiologicalGender(BiologicalGender.MALE);
                 } else if (registerDto.getBiologicalGender().equals("FEMALE")) {
-                    user.setBiologicalGender(BiologicalGender.MALE);
+                    user.setBiologicalGender(BiologicalGender.FEMALE);
                 } else {
                     user.setBiologicalGender(BiologicalGender.UNDEFINED);
                 }
@@ -89,7 +84,12 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public String authenticate(LoginDto loginDto) throws UserNotFoundException {
+    public User findByEmail(String email) {
+        return iUserRepository.findByEmail(email).orElse(null);
+    }
+
+    @Override
+     public String authenticate(LoginDto loginDto) throws UserNotFoundException {
       Authentication authentication= authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDto.getEmail(),
@@ -118,6 +118,5 @@ public class UserService implements IUserService{
 
     public void newLog(LogType logType, User user, String description) {iLogRepository.save(new Log(user,logType,description));
     }
-
 }
 

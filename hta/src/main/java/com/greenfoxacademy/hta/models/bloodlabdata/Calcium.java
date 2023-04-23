@@ -24,4 +24,8 @@ public class Calcium {
   @ManyToOne(fetch = FetchType.LAZY)
   private BloodLabData bloodLabData;
 
+  public Calcium(double value, LocalDateTime measureTime){
+    this.value = value;
+    this.measureTime = measureTime;
+  }
 }

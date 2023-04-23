@@ -7,11 +7,7 @@ import com.greenfoxacademy.hta.models.LogType;
 import com.greenfoxacademy.hta.models.roles.Role;
 import com.greenfoxacademy.hta.models.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-
-
 public interface IUserService {
-
    String authenticate(LoginDto loginDto) throws UserNotFoundException;
    ResponseEntity<?> register (RegisterDto registerDto);
    Role saveRole(Role role);

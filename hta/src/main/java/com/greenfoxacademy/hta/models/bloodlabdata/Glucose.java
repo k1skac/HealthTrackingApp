@@ -24,4 +24,9 @@ public class Glucose {
   @ManyToOne(fetch = FetchType.LAZY)
   private BloodLabData bloodLabData;
 
+  public Glucose(double value, LocalDateTime measureTime){
+    this.measureTime = measureTime;
+    this.value = value;
+  }
+
 }

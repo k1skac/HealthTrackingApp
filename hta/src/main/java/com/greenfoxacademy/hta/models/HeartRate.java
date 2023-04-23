@@ -22,8 +22,8 @@ public class HeartRate {
   @ManyToOne(fetch = FetchType.LAZY)
   private User user;
 
-  public HeartRate(LocalDateTime measureTime, float heartRate) {
-    this.measureTime = measureTime;
+  public HeartRate(float heartRate, LocalDateTime measureTime){
     this.heartRate = heartRate;
+    this.measureTime = measureTime;
   }
 }
