@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,7 +33,8 @@ public class User implements Serializable , UserDetails {
     private String email;
     private String password ;
     @CreationTimestamp
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
+    private boolean active;
     private String realName;
     private BiologicalGender biologicalGender;
     private LocalDate birthDate;
@@ -62,6 +64,7 @@ public class User implements Serializable , UserDetails {
       this.email= email ;
       this.password=password ;
       this.roles=roles ;
+      this.active=true;
     }
 
     public User( String username, String email, String password,  String realName, BiologicalGender biologicalGender,
@@ -73,6 +76,7 @@ public class User implements Serializable , UserDetails {
         this.biologicalGender = biologicalGender;
         this.birthDate = birthDate;
         this.height=height;
+        this.active=true;
     }
 
     @Override

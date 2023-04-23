@@ -5,27 +5,29 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.util.Date;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Medication {
+public class LogType {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  private User user;
-  private boolean isActive;
-  private int dailyDose;
-  private int actualDose;
-
   private String name;
+  private String message;
 
-  private Date periodEnd;
+  @OneToMany(mappedBy = "logType")
+  private List<Log> log = new ArrayList<>();
 
+  public LogType(String name, String message) {
+    this.name=name;
+    this.message=message;
+  }
+  //
 }

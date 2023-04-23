@@ -1,6 +1,10 @@
 package com.greenfoxacademy.hta;
 
 import com.greenfoxacademy.hta.models.*;
+import com.greenfoxacademy.hta.repositories.ILogTypeRepository;
+import com.greenfoxacademy.hta.repositories.IRoleRepository;
+import com.greenfoxacademy.hta.repositories.IUserRepository;
+import com.greenfoxacademy.hta.services.user.IUserService;
 import com.greenfoxacademy.hta.models.medication.Medication;
 import com.greenfoxacademy.hta.models.medication.MedicationIntake;
 import com.greenfoxacademy.hta.models.medication.Units;
@@ -33,7 +37,7 @@ public class HtaApplication {
                            IBloodPressureRepository iBloodPressureRepository, IHeartRateRepository iHeartRateRepository,
                            IWeightRepository iWeightRepository, IMedicationIntakeRepository iMedicationIntakeRepository,
                            IMedicationRepository iMedicationRepository, INotificationRepository iNotificationRepository,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder, ILogTypeRepository iLogTypeRepository) {
       return  args -> {
             iUserService.saveRole(new Role(RoleName.USER));
             iUserService.saveRole(new Role(RoleName.ADMIN));
@@ -41,6 +45,7 @@ public class HtaApplication {
             Role role2 = iRoleRepository.findByRoleName(RoleName.USER);
             addAdmin(iUserService, iUserRepository, passwordEncoder,role2,role);
             addDummyUser(iUserService, iUserRepository, passwordEncoder,role2);
+            addLogType(iLogTypeRepository);
             addDataToUser1ForNotifications(iUserRepository, iBloodPressureRepository, iHeartRateRepository, iWeightRepository,
                     iMedicationIntakeRepository, iMedicationRepository, iNotificationRepository);
        };
@@ -142,5 +147,13 @@ public class HtaApplication {
         user2.getRoles().add(role2);
         iUserService.saveUser(user2);
       }
+    }
+
+    public void addLogType(ILogTypeRepository iLogTypeRepository) {
+      iLogTypeRepository.save(new LogType("registration", "A new account registered by "));
+      iLogTypeRepository.save(new LogType("login", "Logged in : "));
+      iLogTypeRepository.save(new LogType("pwchange", "Password changed by "));
+      iLogTypeRepository.save(new LogType("adminpwchange", "The admin reseted the password of "));
+      iLogTypeRepository.save(new LogType("adminuserdelete", "The admin deleted the account of "));
     }
 }

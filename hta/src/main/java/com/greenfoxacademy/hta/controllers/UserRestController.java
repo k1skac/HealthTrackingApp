@@ -1,7 +1,9 @@
 package com.greenfoxacademy.hta.controllers;
 
 import com.greenfoxacademy.hta.dtos.LoginDto;
+import com.greenfoxacademy.hta.dtos.NewPWDTO;
 import com.greenfoxacademy.hta.dtos.RegisterDto;
+import com.greenfoxacademy.hta.exceptions.UserNotFoundException;
 import com.greenfoxacademy.hta.services.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +34,12 @@ public class UserRestController {
 
     //ResourceEndPoint:http://localhost:8080/api/user/authenticate
     @PostMapping("/authenticate")
-    public String authenticate(@RequestBody LoginDto loginDto) {
-        //return "redirect:/hello";
+    public String authenticate(@RequestBody LoginDto loginDto) throws UserNotFoundException {
         return  iUserService.authenticate(loginDto);
+    }
+
+    @PostMapping("/pwupdate")
+    public ResponseEntity<?> changePassword(@RequestBody NewPWDTO newPWDTO, Authentication authentication) {
+        return iUserService.userChangePassword(newPWDTO.getNewPassword(), authentication);
     }
 }
