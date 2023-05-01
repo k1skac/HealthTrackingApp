@@ -1,7 +1,6 @@
 package com.greenfoxacademy.hta.models.goalentities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.greenfoxacademy.hta.models.goalentities.Goal;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,7 +25,7 @@ public class HealthyEating {
     private Goal goal;
 
     public HealthyEating(String description, float calorieLimit, Date deadline) {
-        this.description =description;
+        this.description = description;
         this.calorieLimit = calorieLimit;
         this.deadline = deadline;
     }

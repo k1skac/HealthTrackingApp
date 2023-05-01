@@ -1,8 +1,11 @@
 package com.greenfoxacademy.hta.controllers;
 
-import com.greenfoxacademy.hta.dtos.LoginDto;
+import com.greenfoxacademy.hta.dtos.LoginDTO;
 import com.greenfoxacademy.hta.dtos.NewPWDTO;
-import com.greenfoxacademy.hta.dtos.RegisterDto;
+import com.greenfoxacademy.hta.dtos.RegisterDTO;
+import com.greenfoxacademy.hta.exceptions.HtaException;
+import com.greenfoxacademy.hta.exceptions.UserEmailAlreadyTakenException;
+import com.greenfoxacademy.hta.exceptions.UserEmailMissingException;
 import com.greenfoxacademy.hta.exceptions.UserNotFoundException;
 import com.greenfoxacademy.hta.services.user.IUserService;
 import lombok.RequiredArgsConstructor;
@@ -26,20 +29,26 @@ public class UserRestController {
         return "Hello User" ;
     }
 
-    //ResourceEndPoint:http://localhost:8080/api/user/register
     @PostMapping("/register")
-    public ResponseEntity<?> register (@RequestBody RegisterDto registerDto) {
-        return iUserService.register(registerDto);
+    public ResponseEntity<?> register (@RequestBody RegisterDTO registerDto) {
+        try {
+            return ResponseEntity.ok(iUserService.register(registerDto));
+        } catch (HtaException exception) {
+            return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
+        }
     }
 
-    //ResourceEndPoint:http://localhost:8080/api/user/authenticate
     @PostMapping("/authenticate")
-    public String authenticate(@RequestBody LoginDto loginDto) throws UserNotFoundException {
+    public String authenticate(@RequestBody LoginDTO loginDto) throws UserNotFoundException {
         return  iUserService.authenticate(loginDto);
     }
 
-    @PostMapping("/pwupdate")
+    @PostMapping("/pw-update")
     public ResponseEntity<?> changePassword(@RequestBody NewPWDTO newPWDTO, Authentication authentication) {
-        return iUserService.userChangePassword(newPWDTO.getNewPassword(), authentication);
+        try {
+            return ResponseEntity.ok(iUserService.userChangePassword(newPWDTO.getNewPassword(), authentication));
+        } catch (UserNotFoundException exception) {
+            return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
+        }
     }
 }

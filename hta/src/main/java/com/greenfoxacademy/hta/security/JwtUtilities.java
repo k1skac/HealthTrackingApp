@@ -15,9 +15,8 @@ import java.util.function.Function;
 @Slf4j
 @Component
 public class JwtUtilities {
-    //probably should change that - how? --- GMSZM
-    private String secret = "ye874kte5874zsdal54FKpqa8425rceS";
-    private static final long  jwtExpiration = 1000 * 60 * 60 * 10 ;
+    private String secret = "ye874bzv5874zsdal54FKpqa1234rceS";
+    private static final long  jwtExpiration = 1000 * 60 * 60 * 10;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

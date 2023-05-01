@@ -1,11 +1,11 @@
 package com.greenfoxacademy.hta.services.notification;
 
-import com.greenfoxacademy.hta.dtos.notifications.NotificationMessageDTO;
-import com.greenfoxacademy.hta.models.User;
+import com.greenfoxacademy.hta.dtos.notificationdto.NotificationMessageDTO;
+import com.greenfoxacademy.hta.models.user.User;
 import com.greenfoxacademy.hta.services.bloodpressure.IBloodPressureService;
 import com.greenfoxacademy.hta.services.heartrate.IHeartRateService;
 import com.greenfoxacademy.hta.services.medication.IMedicationIntakeService;
-import com.greenfoxacademy.hta.services.weight.IWeightService;
+import com.greenfoxacademy.hta.services.healthylivingservices.IWeightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

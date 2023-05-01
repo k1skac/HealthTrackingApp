@@ -1,6 +1,5 @@
 package com.greenfoxacademy.hta.dtos.goalentitydto;
 
-import com.greenfoxacademy.hta.models.TimeUnit;
 import lombok.*;
 
 import java.sql.Timestamp;

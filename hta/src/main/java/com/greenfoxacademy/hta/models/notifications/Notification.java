@@ -1,7 +1,7 @@
 package com.greenfoxacademy.hta.models.notifications;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.greenfoxacademy.hta.models.User;
+import com.greenfoxacademy.hta.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

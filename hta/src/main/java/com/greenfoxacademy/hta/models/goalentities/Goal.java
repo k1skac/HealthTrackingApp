@@ -1,7 +1,7 @@
 package com.greenfoxacademy.hta.models.goalentities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.greenfoxacademy.hta.models.User;
+import com.greenfoxacademy.hta.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -21,15 +21,14 @@ public class Goal {
     @JsonIgnore
     @CreatedDate
     private Date creationDate;
-    //Suggested attribute:
-    //private Boolean isActive = true;
+    private Boolean isActive = true;
     private String goalDescription;
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "goal", cascade = CascadeType.ALL)
-    private WeightLost weightLost = null;
+    private WeightLoss weightLoss;
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "goal", cascade = CascadeType.ALL)
-    private HealthyEating calorieIntakeLimit = null;
+    private HealthyEating calorieIntakeLimit;
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "goal", cascade = CascadeType.ALL)
-    private Exercise exercise = null;
+    private Exercise exercise;
     @JsonIgnore
     @ManyToOne
     private User user;
@@ -39,27 +38,25 @@ public class Goal {
         this.creationDate = creationDate;
     }
 
-    public Goal(WeightLost weightLost) {
-        this.weightLost = weightLost;
+    public Goal(WeightLoss weightLoss) {
+        this.weightLoss = weightLoss;
     }
 
     public Goal(HealthyEating calorieIntakeLimit) {
         this.calorieIntakeLimit = calorieIntakeLimit;
-
     }
 
     public Goal(Exercise exercise) {
         this.exercise = exercise;
     }
 
-    public Goal(WeightLost weightLost, HealthyEating calorieIntakeLimit) {
-        this.weightLost = weightLost;
+    public Goal(WeightLoss weightLoss, HealthyEating calorieIntakeLimit) {
+        this.weightLoss = weightLoss;
         this.calorieIntakeLimit = calorieIntakeLimit;
-
     }
 
-    public Goal(WeightLost weightLost, Exercise exercise) {
-        this.weightLost = weightLost;
+    public Goal(WeightLoss weightLoss, Exercise exercise) {
+        this.weightLoss = weightLoss;
         this.exercise = exercise;
     }
 
@@ -72,10 +69,10 @@ public class Goal {
         this.goalDescription = goalDescription;
     }
 
-    public void setWeightLost(String description, float goalWeight, Date deadline) {
-        weightLost.setDescription(description);
-        weightLost.setGoalWeight(goalWeight);
-        weightLost.setDeadline(deadline);
+    public void setWeightLoss(String description, float goalWeight, Date deadline) {
+        weightLoss.setDescription(description);
+        weightLoss.setGoalWeight(goalWeight);
+        weightLoss.setDeadline(deadline);
     }
 
     public void setCalorieIntakeLimit(String description, float calorieLimit, Date deadline) {

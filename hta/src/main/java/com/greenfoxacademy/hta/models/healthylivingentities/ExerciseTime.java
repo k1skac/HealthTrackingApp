@@ -1,15 +1,13 @@
 package com.greenfoxacademy.hta.models.healthylivingentities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.greenfoxacademy.hta.models.User;
+import com.greenfoxacademy.hta.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Builder
@@ -37,7 +35,7 @@ public class ExerciseTime {
         this.user = user;
     }
 
-    public static long convertTimeValue( String unit, int number) {
-        return (number*6000);
+    public static long convertTimeValue(String unit, int number) {
+        return (number * 6000);
     }
 }

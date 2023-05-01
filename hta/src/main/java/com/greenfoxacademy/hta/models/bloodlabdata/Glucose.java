@@ -14,19 +14,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 public class Glucose {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  private double value;
-  private static final double maxNormalValue = 6.0;
-  private static final double minNormalValue = 3.0;
-  private LocalDateTime measureTime;
-  @ManyToOne(fetch = FetchType.LAZY)
-  private BloodLabData bloodLabData;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private double value;
+    private LocalDateTime measureTime;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private BloodLabData bloodLabData;
 
-  public Glucose(double value, LocalDateTime measureTime){
-    this.measureTime = measureTime;
-    this.value = value;
-  }
-
+    public Glucose(double value, LocalDateTime measureTime) {
+        this.measureTime = measureTime;
+        this.value = value;
+    }
 }

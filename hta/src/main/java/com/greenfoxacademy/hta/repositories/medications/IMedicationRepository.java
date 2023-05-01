@@ -1,7 +1,7 @@
 package com.greenfoxacademy.hta.repositories.medications;
 
 import com.greenfoxacademy.hta.models.medication.Medication;
-import com.greenfoxacademy.hta.models.User;
+import com.greenfoxacademy.hta.models.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;

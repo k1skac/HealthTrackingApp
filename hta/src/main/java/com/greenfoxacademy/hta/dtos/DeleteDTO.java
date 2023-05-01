@@ -9,6 +9,5 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class DeleteDTO {
-  String email;
-
+    String email;
 }

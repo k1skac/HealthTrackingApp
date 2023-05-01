@@ -1,6 +1,6 @@
 package com.greenfoxacademy.hta.services.medication;
 
-import com.greenfoxacademy.hta.models.User;
+import com.greenfoxacademy.hta.models.user.User;
 
 import java.time.LocalDateTime;
 import java.util.List;

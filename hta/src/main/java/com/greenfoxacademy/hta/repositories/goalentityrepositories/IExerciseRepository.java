@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IExerciseRepository extends JpaRepository <Exercise, Long> {
-    Exercise findExerciseByGoal(Goal goal);
 }

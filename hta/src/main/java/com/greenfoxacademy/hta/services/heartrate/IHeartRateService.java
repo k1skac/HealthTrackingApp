@@ -1,7 +1,7 @@
 package com.greenfoxacademy.hta.services.heartrate;
 
-import com.greenfoxacademy.hta.models.HeartRate;
-import com.greenfoxacademy.hta.models.User;
+import com.greenfoxacademy.hta.models.user.HeartRate;
+import com.greenfoxacademy.hta.models.user.User;
 import java.time.LocalDateTime;
 
 public interface IHeartRateService {

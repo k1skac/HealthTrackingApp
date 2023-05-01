@@ -1,13 +1,13 @@
 package com.greenfoxacademy.hta.services.notification;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.greenfoxacademy.hta.dtos.notifications.NotificationRequestDTO;
-import com.greenfoxacademy.hta.dtos.notifications.NotificationResponseDTO;
+import com.greenfoxacademy.hta.dtos.notificationdto.NotificationRequestDTO;
+import com.greenfoxacademy.hta.dtos.notificationdto.NotificationResponseDTO;
 import com.greenfoxacademy.hta.exceptions.HtaException;
 import com.greenfoxacademy.hta.exceptions.NotificationConflictException;
 import com.greenfoxacademy.hta.exceptions.NotificationNotFoundException;
 import com.greenfoxacademy.hta.models.notifications.Notification;
-import com.greenfoxacademy.hta.models.User;
+import com.greenfoxacademy.hta.models.user.User;
 import com.greenfoxacademy.hta.repositories.INotificationRepository;
 import com.greenfoxacademy.hta.repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

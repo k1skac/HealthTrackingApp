@@ -1,8 +1,8 @@
 package com.greenfoxacademy.hta.services.heartrate;
 
-import com.greenfoxacademy.hta.models.HeartRate;
+import com.greenfoxacademy.hta.models.user.HeartRate;
 import com.greenfoxacademy.hta.models.notifications.NotificationMessage;
-import com.greenfoxacademy.hta.models.User;
+import com.greenfoxacademy.hta.models.user.User;
 import com.greenfoxacademy.hta.repositories.IHeartRateRepository;
 import com.greenfoxacademy.hta.services.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;

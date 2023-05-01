@@ -1,12 +1,11 @@
 package com.greenfoxacademy.hta.models.healthylivingentities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.greenfoxacademy.hta.models.User;
+import com.greenfoxacademy.hta.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Builder
@@ -31,6 +30,7 @@ public class DailyCalorieIntake {
         this.user = user;
     }
     public DailyCalorieIntake (Long id, float calorie) {
+        this.id = id;
         this.calorie = calorie;
     }
 }

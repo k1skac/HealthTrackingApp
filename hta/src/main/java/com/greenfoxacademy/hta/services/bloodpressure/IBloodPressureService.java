@@ -1,7 +1,7 @@
 package com.greenfoxacademy.hta.services.bloodpressure;
 
-import com.greenfoxacademy.hta.models.BloodPressure;
-import com.greenfoxacademy.hta.models.User;
+import com.greenfoxacademy.hta.models.user.BloodPressure;
+import com.greenfoxacademy.hta.models.user.User;
 import java.time.LocalDateTime;
 
 public interface IBloodPressureService {

@@ -14,18 +14,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 public class Calcium {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
-  private double value;
-  private double maxNormalValue;
-  private double minNormalValue;
-  private LocalDateTime measureTime;
-  @ManyToOne(fetch = FetchType.LAZY)
-  private BloodLabData bloodLabData;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private double value;
+    private LocalDateTime measureTime;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private BloodLabData bloodLabData;
 
-  public Calcium(double value, LocalDateTime measureTime){
-    this.value = value;
-    this.measureTime = measureTime;
-  }
+    public Calcium(double value, LocalDateTime measureTime) {
+        this.value = value;
+        this.measureTime = measureTime;
+    }
 }

@@ -1,7 +1,7 @@
 package com.greenfoxacademy.hta.repositories;
 
-import com.greenfoxacademy.hta.models.BloodPressure;
-import com.greenfoxacademy.hta.models.User;
+import com.greenfoxacademy.hta.models.user.BloodPressure;
+import com.greenfoxacademy.hta.models.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
