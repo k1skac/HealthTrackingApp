@@ -50,26 +50,26 @@ public class User implements Serializable , UserDetails {
     @ManyToOne()
     private City city;
     @OneToMany(mappedBy = "user")
-    private List<Log> logs;
+    private List<Log> logs = new ArrayList<>();
     @OneToMany(mappedBy = "user")
-    private List<BloodPressure> bloodPressures;
+    private List<BloodPressure> bloodPressures = new ArrayList<>();
     @OneToMany(mappedBy = "user")
-    private List<HeartRate> heartRates;
-    private List<BNOCode> illnessCodes;
+    private List<HeartRate> heartRates = new ArrayList<>();
+    private List<BNOCode> illnessCodes = new ArrayList<>();
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Weight> weights;
+    private List<Weight> weights = new ArrayList<>();
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<DailyCalorieIntake> dailyCalories;
+    private List<DailyCalorieIntake> dailyCalories = new ArrayList<>();
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<ExerciseTime> dailyExercise;
+    private List<ExerciseTime> dailyExercise = new ArrayList<>();
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Goal> goals;
+    private List<Goal> goals = new ArrayList<>();
     @OneToMany(mappedBy = "user")
-    private List<Medication> medications;
+    private List<Medication> medications = new ArrayList<>();
     @OneToOne()
     private BloodLabData bloodLabData;
 
