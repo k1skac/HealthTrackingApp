@@ -16,4 +16,9 @@ public class HtaException extends Exception {
         super(message);
         this.status = HttpStatus.BAD_REQUEST;
     }
+
+    public HtaException(HttpStatus status) {
+        super();
+        this.status = status;
+    }
 }
