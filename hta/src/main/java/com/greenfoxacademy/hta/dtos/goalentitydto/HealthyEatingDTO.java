@@ -2,7 +2,7 @@ package com.greenfoxacademy.hta.dtos.goalentitydto;
 
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Builder
 @Setter
@@ -12,5 +12,6 @@ import java.util.Date;
 public class HealthyEatingDTO {
     private String description;
     private float calorieLimit;
-    private Date deadline;
+    private LocalDateTime deadline;
+    private LocalDateTime startDate;
 }

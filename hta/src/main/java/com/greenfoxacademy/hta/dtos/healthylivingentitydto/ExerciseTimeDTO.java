@@ -3,16 +3,17 @@ package com.greenfoxacademy.hta.dtos.healthylivingentitydto;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.time.Duration;
+
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class ExerciseTimeDTO {
-    private Timestamp dailyActiveTime;
+    private Long dailyActiveTimeInMinutes;
     private float burntCalorie;
-    public ExerciseTimeDTO (Long timeMilliSecond, float burntCalorie) {
-        this.dailyActiveTime = new Timestamp(timeMilliSecond);
+    public ExerciseTimeDTO (Long dailyActiveTimeInMinutes, float burntCalorie) {
+        this.dailyActiveTimeInMinutes = dailyActiveTimeInMinutes;
         this.burntCalorie = burntCalorie;
     }
 }

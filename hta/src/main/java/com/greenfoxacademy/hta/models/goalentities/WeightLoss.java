@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -19,21 +19,24 @@ public class WeightLoss {
     private Long id;
     private String description;
     private float goalWeight;
-    private Date deadline;
+    private LocalDateTime deadline;
+    private LocalDateTime startDate;
     @JsonIgnore
     @OneToOne (cascade = CascadeType.ALL)
     private Goal goal;
 
-    public WeightLoss(String description, float goalWeight, Date deadline, Goal goal) {
+    public WeightLoss(String description, float goalWeight, LocalDateTime deadline, Goal goal, LocalDateTime startDate) {
         this.description = description;
         this.goalWeight = goalWeight;
         this.deadline = deadline;
         this.goal = goal;
+        this.startDate = startDate;
     }
 
-    public WeightLoss(String description, float goalWeight, Date deadline) {
+    public WeightLoss(String description, float goalWeight, LocalDateTime deadline, LocalDateTime startDate) {
         this.description = description;
         this.goalWeight = goalWeight;
         this.deadline = deadline;
+        this.startDate = startDate;
     }
 }

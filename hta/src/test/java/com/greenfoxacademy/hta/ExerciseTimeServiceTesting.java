@@ -1,4 +1,5 @@
-package unittests.servicelayer.healthylivingunittests;
+package com.greenfoxacademy.hta;
+
 import com.greenfoxacademy.hta.dtos.healthylivingentitydto.ExerciseTimeDTO;
 import com.greenfoxacademy.hta.exceptions.ExerciseTimeNoContentException;
 import com.greenfoxacademy.hta.models.user.User;
@@ -26,9 +27,9 @@ public class ExerciseTimeServiceTesting {
 
         when(authentication.getName()).thenReturn("user");
         when(iUserRepository.findByEmail("user")).thenReturn(optional);
-        ExerciseTimeDTO exerciseTimeDTO = new ExerciseTimeDTO(new Timestamp(60000),500);
+        ExerciseTimeDTO exerciseTimeDTO = new ExerciseTimeDTO(15L,500);
         ExerciseTimeDTO exerciseTimeDTOReturned = exerciseTimeService.save(exerciseTimeDTO,authentication);
-        Assertions.assertEquals(exerciseTimeDTO.getDailyActiveTime(),exerciseTimeDTOReturned.getDailyActiveTime());
+        Assertions.assertEquals(exerciseTimeDTO.getDailyActiveTimeInMinutes(),exerciseTimeDTOReturned.getDailyActiveTimeInMinutes());
         Assertions.assertEquals(exerciseTimeDTO.getBurntCalorie(),exerciseTimeDTOReturned.getBurntCalorie());
     }
     @Test
@@ -44,7 +45,7 @@ public class ExerciseTimeServiceTesting {
         when(authentication.getName()).thenReturn("user");
         when(iUserRepository.findByEmail("user")).thenReturn(optional);
 
-        ExerciseTimeDTO exerciseTimeDTO = new ExerciseTimeDTO(new Timestamp(0),500);
+        ExerciseTimeDTO exerciseTimeDTO = new ExerciseTimeDTO(0L,500);
         ExerciseTimeNoContentException exerciseTimeNoContentException =
                 Assertions.assertThrows(ExerciseTimeNoContentException.class, () -> exerciseTimeService.save(exerciseTimeDTO,authentication));
         String expectedMessage = "Exercise Time has no content";
@@ -64,7 +65,7 @@ public class ExerciseTimeServiceTesting {
 
         when(authentication.getName()).thenReturn("user");
         when(iUserRepository.findByEmail("user")).thenReturn(optional);
-        ExerciseTimeDTO exerciseTimeDTO = new ExerciseTimeDTO(new Timestamp(10000),0);
+        ExerciseTimeDTO exerciseTimeDTO = new ExerciseTimeDTO(0L,0);
         ExerciseTimeNoContentException exerciseTimeNoContentException =
                 Assertions.assertThrows(ExerciseTimeNoContentException.class, () -> exerciseTimeService.save(exerciseTimeDTO,authentication));
         String expectedMessage = "Exercise Time has no content";

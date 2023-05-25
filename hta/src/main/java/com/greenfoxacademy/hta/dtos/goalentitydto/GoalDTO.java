@@ -9,12 +9,12 @@ import lombok.*;
 @AllArgsConstructor
 public class GoalDTO {
     private String goalDescription;
-    private WeightLossDTO weightLost;
+    private WeightLossDTO weightLoss;
     private HealthyEatingDTO calorieIntakeLimit;
     private ExerciseDTO exercise;
 
     public GoalDTO(String descriptionDTO, WeightLossDTO weightLossDTO) {
         this.goalDescription = descriptionDTO;
-        this.weightLost = weightLossDTO;
+        this.weightLoss = weightLossDTO;
     }
 }

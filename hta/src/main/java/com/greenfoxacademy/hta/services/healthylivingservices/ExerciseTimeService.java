@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.List;
 
 @Service
@@ -23,11 +24,11 @@ public class ExerciseTimeService implements IExerciseTimeService {
 
     @Override
     public ExerciseTimeDTO save(ExerciseTimeDTO exerciseTimeDTO, Authentication authentication) throws ExerciseTimeNoContentException {
-        if (exerciseTimeDTO == null || exerciseTimeDTO.getDailyActiveTime().getTime() == 0 || exerciseTimeDTO.getBurntCalorie() == 0) {
+        if (exerciseTimeDTO == null || exerciseTimeDTO.getDailyActiveTimeInMinutes() == 0 || exerciseTimeDTO.getBurntCalorie() == 0) {
             throw new ExerciseTimeNoContentException();
         }
         User user = iUserRepository.findByEmail(authentication.getName()).get();
-        ExerciseTime exerciseTime = new ExerciseTime(exerciseTimeDTO.getDailyActiveTime().getTime(), exerciseTimeDTO.getBurntCalorie(), user);
+        ExerciseTime exerciseTime = new ExerciseTime(exerciseTimeDTO.getDailyActiveTimeInMinutes(), exerciseTimeDTO.getBurntCalorie(), user);
         user.getDailyExercise().add(exerciseTime);
         IExerciseTimeRepository.save(exerciseTime);
         iUserRepository.save(user);
@@ -54,7 +55,7 @@ public class ExerciseTimeService implements IExerciseTimeService {
             throw new ExerciseTimeNotFoundException();
         }
         User user = iUserRepository.findByEmail(authentication.getName()).get();
-        exerciseTime.setDailyActiveTime(exerciseTimeDTO.getDailyActiveTime());
+        exerciseTime.setDailyActiveTime(Duration.ofMinutes(exerciseTimeDTO.getDailyActiveTimeInMinutes()));
         exerciseTime.setBurntCalorie(exerciseTimeDTO.getBurntCalorie());
         IExerciseTimeRepository.save(exerciseTime);
         //ToDo LogSave

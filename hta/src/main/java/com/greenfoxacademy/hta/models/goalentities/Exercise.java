@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -19,16 +19,29 @@ public class Exercise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
-    private Timestamp dailyActiveTime;
-    private Date deadline;
+    private Duration dailyActiveTime;
+    private LocalDateTime deadline;
+    private LocalDateTime startDate;
+
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     private Goal goal;
 
-    public Exercise(String description, Timestamp dailyActiveTime, Date deadline) {
+    public Exercise(String description, Duration dailyActiveTime, LocalDateTime deadline, LocalDateTime startDate) {
         this.description = description;
         this.dailyActiveTime = dailyActiveTime;
         this.deadline = deadline;
+        this.startDate = startDate;
+    }
+    public Exercise(String description, Long minutes, LocalDateTime deadline, LocalDateTime startDate) {
+        this.description = description;
+        this.dailyActiveTime = Duration.ofMinutes(minutes);
+        this.deadline = deadline;
+        this.startDate = startDate;
+    }
+
+    public void setDailyActiveTime(Long minutes) {
+        this.dailyActiveTime = Duration.ofMinutes(minutes);
     }
 }
 

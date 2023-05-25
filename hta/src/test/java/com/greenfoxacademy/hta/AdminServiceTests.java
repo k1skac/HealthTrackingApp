@@ -44,7 +44,7 @@ public class AdminServiceTests {
         when(iUserRepository.findByEmail("user1@gmail.com")).thenReturn(optionalUser);
         DeleteDTO deleteDTO = new DeleteDTO("user1@gmail.com");
         String expectedMessage = "The account of " + deleteDTO.getEmail() + " has deleted.";
-        assertEquals(expectedMessage, adminService.userDelete(deleteDTO));      
+        assertEquals(expectedMessage, adminService.userDelete(deleteDTO));
     }
 
     @Test

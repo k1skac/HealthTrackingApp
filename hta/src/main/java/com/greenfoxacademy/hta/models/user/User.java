@@ -11,7 +11,6 @@ import com.greenfoxacademy.hta.models.notifications.Notification;
 import com.greenfoxacademy.hta.models.roles.Role;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -45,7 +44,7 @@ public class User implements Serializable , UserDetails {
     private double height;
     @OneToOne()
     private Notification notification;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List <Role> roles = new ArrayList<>();
     @ManyToOne()
     private City city;
@@ -72,6 +71,7 @@ public class User implements Serializable , UserDetails {
     private List<Medication> medications = new ArrayList<>();
     @OneToOne()
     private BloodLabData bloodLabData;
+    private int userScore;
 
     public User (String username, String email , String password , List<Role> roles) {
       this.username=username;

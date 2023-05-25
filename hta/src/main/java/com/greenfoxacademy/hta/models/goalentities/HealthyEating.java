@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -19,14 +19,16 @@ public class HealthyEating {
     private Long id;
     private String description;
     private float calorieLimit;
-    private Date deadline;
+    private LocalDateTime deadline;
+    private LocalDateTime startDate;
     @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     private Goal goal;
 
-    public HealthyEating(String description, float calorieLimit, Date deadline) {
+    public HealthyEating(String description, float calorieLimit, LocalDateTime deadline, LocalDateTime startDate) {
         this.description = description;
         this.calorieLimit = calorieLimit;
         this.deadline = deadline;
+        this.startDate = startDate;
     }
 }

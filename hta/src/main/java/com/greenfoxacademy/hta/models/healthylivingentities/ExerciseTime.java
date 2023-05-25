@@ -7,6 +7,7 @@ import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,19 +24,15 @@ public class ExerciseTime {
     @JsonIgnore
     @CreatedDate
     private LocalDateTime creationDate;
-    private Timestamp dailyActiveTime;
+    private Duration dailyActiveTime;
     private float burntCalorie;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    public ExerciseTime(Long timeMilliSecond, float burntCalorie, User user) {
-        this.dailyActiveTime = new Timestamp(timeMilliSecond);
+    public ExerciseTime(Long minutes, float burntCalorie, User user) {
+        this.dailyActiveTime = Duration.ofMinutes(minutes);
         this.burntCalorie = burntCalorie;
         this.user = user;
-    }
-
-    public static long convertTimeValue(String unit, int number) {
-        return (number * 6000);
     }
 }

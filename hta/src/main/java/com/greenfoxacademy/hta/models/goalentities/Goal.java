@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -20,7 +20,7 @@ public class Goal {
     private Long id;
     @JsonIgnore
     @CreatedDate
-    private Date creationDate;
+    private LocalDateTime creationDate;
     private Boolean isActive = true;
     private String goalDescription;
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "goal", cascade = CascadeType.ALL)
@@ -33,7 +33,7 @@ public class Goal {
     @ManyToOne
     private User user;
 
-    public Goal(String goalDescription, Date creationDate) {
+    public Goal(String goalDescription, LocalDateTime creationDate) {
         this.goalDescription = goalDescription;
         this.creationDate = creationDate;
     }
@@ -69,21 +69,27 @@ public class Goal {
         this.goalDescription = goalDescription;
     }
 
-    public void setWeightLoss(String description, float goalWeight, Date deadline) {
+    public void setWeightLoss(String description, float goalWeight, LocalDateTime deadline, LocalDateTime startDate) {
         weightLoss.setDescription(description);
         weightLoss.setGoalWeight(goalWeight);
         weightLoss.setDeadline(deadline);
+        weightLoss.setStartDate(startDate);
     }
 
-    public void setCalorieIntakeLimit(String description, float calorieLimit, Date deadline) {
+    public void setCalorieIntakeLimit(String description, float calorieLimit, LocalDateTime deadline) {
         calorieIntakeLimit.setDescription(description);
         calorieIntakeLimit.setCalorieLimit(calorieLimit);
         calorieIntakeLimit.setDeadline(deadline);
     }
 
-    public void setDailyActiveTime(String description, Timestamp dailyActiveTime, Date deadline) {
+    public void setDailyActiveTime(String description, Duration dailyActiveTime, LocalDateTime deadline) {
         exercise.setDescription(description);
-        exercise.setDailyActiveTime(dailyActiveTime);
+        exercise.setDailyActiveTime(dailyActiveTime.toMinutes());
+        exercise.setDeadline(deadline);
+    }
+    public void setDailyActiveTime(String description, Long minutes, LocalDateTime deadline) {
+        exercise.setDescription(description);
+        exercise.setDailyActiveTime(minutes);
         exercise.setDeadline(deadline);
     }
 }

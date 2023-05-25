@@ -45,17 +45,20 @@ public class GoalService implements IGoalService {
             WeightLossDTO weightLossDTO = new WeightLossDTO(
                     goal.getWeightLoss().getDescription(),
                     goal.getWeightLoss().getGoalWeight(),
-                    goal.getWeightLoss().getDeadline());
-            goalDto.setWeightLost(weightLossDTO);
+                    goal.getWeightLoss().getDeadline(),
+                    goal.getWeightLoss().getStartDate());
+            goalDto.setWeightLoss(weightLossDTO);
             HealthyEatingDTO healthyEatingDTO = new HealthyEatingDTO(
                     goal.getCalorieIntakeLimit().getDescription(),
                     goal.getCalorieIntakeLimit().getCalorieLimit(),
+                    goal.getCalorieIntakeLimit().getDeadline(),
                     goal.getCalorieIntakeLimit().getDeadline());
             goalDto.setCalorieIntakeLimit(healthyEatingDTO);
             ExerciseDTO exerciseDTO = new ExerciseDTO(
                     goal.getExercise().getDescription(),
-                    goal.getExercise().getDailyActiveTime(),
-                    goal.getExercise().getDeadline());
+                    goal.getExercise().getDailyActiveTime().toMinutes(),
+                    goal.getExercise().getDeadline(),
+                    goal.getExercise().getStartDate());
             goalDto.setExercise(exerciseDTO);
             goalDTOList.add(goalDto);
         }
@@ -92,17 +95,20 @@ public class GoalService implements IGoalService {
         Goal goal = new Goal(goalDTO.getGoalDescription());
 
         WeightLoss weightLoss = new WeightLoss(
-                goalDTO.getWeightLost().getDescription(),
-                goalDTO.getWeightLost().getGoalWeight(),
-                goalDTO.getWeightLost().getDeadline());
+                goalDTO.getWeightLoss().getDescription(),
+                goalDTO.getWeightLoss().getGoalWeight(),
+                goalDTO.getWeightLoss().getDeadline(),
+                goalDTO.getWeightLoss().getStartDate());
         HealthyEating healthyEating = new HealthyEating(
                 goalDTO.getCalorieIntakeLimit().getDescription(),
                 goalDTO.getCalorieIntakeLimit().getCalorieLimit(),
-                goalDTO.getCalorieIntakeLimit().getDeadline());
+                goalDTO.getCalorieIntakeLimit().getDeadline(),
+                goalDTO.getCalorieIntakeLimit().getStartDate());
         Exercise exercise = new Exercise(
                 goalDTO.getExercise().getDescription(),
-                goalDTO.getExercise().getDailyActiveTime(),
-                goalDTO.getExercise().getDeadline());
+                goalDTO.getExercise().getDailyActiveTimeInMinutes(),
+                goalDTO.getExercise().getDeadline(),
+                goalDTO.getExercise().getStartDate());
         weightLoss.setGoal(goal);
         healthyEating.setGoal(goal);
         exercise.setGoal(goal);
@@ -130,16 +136,17 @@ public class GoalService implements IGoalService {
         }
         goal.setGoalDescription(goalDTO.getGoalDescription());
         goal.setWeightLoss(
-                goalDTO.getWeightLost().getDescription(),
-                goalDTO.getWeightLost().getGoalWeight(),
-                goalDTO.getWeightLost().getDeadline());
+                goalDTO.getWeightLoss().getDescription(),
+                goalDTO.getWeightLoss().getGoalWeight(),
+                goalDTO.getWeightLoss().getDeadline(),
+                goalDTO.getWeightLoss().getStartDate());
         goal.setCalorieIntakeLimit(
                 goalDTO.getCalorieIntakeLimit().getDescription(),
                 goalDTO.getCalorieIntakeLimit().getCalorieLimit(),
                 goalDTO.getCalorieIntakeLimit().getDeadline());
         goal.setDailyActiveTime(
                 goalDTO.getExercise().getDescription(),
-                goalDTO.getExercise().getDailyActiveTime(),
+                goalDTO.getExercise().getDailyActiveTimeInMinutes(),
                 goalDTO.getExercise().getDeadline());
         IGoalRepository.save(goal);
         //ToDo LogSave

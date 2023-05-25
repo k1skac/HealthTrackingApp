@@ -1,8 +1,7 @@
 package com.greenfoxacademy.hta.dtos.goalentitydto;
 
 import lombok.*;
-
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Builder
 @Setter
@@ -12,5 +11,6 @@ import java.util.Date;
 public class WeightLossDTO {
     private String description;
     private float goalWeight;
-    private Date deadline;
+    private LocalDateTime deadline;
+    private LocalDateTime startDate;
 }
