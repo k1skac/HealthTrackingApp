@@ -20,7 +20,7 @@ public class DailyCalorieIntake {
     private Long id;
     @JsonIgnore
     @CreatedDate
-    private LocalDateTime creationDate;
+    private LocalDateTime creationDate = LocalDateTime.now();
     private float calorie;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)

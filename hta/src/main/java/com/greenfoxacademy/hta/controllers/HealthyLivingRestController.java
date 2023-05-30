@@ -35,7 +35,7 @@ public class HealthyLivingRestController {
     @PostMapping("/exercise-time")
     public ResponseEntity<?> newExercise(@RequestBody ExerciseTimeDTO exerciseTimeDTO, Authentication authentication) {
         try {
-            return ResponseEntity.ok(exerciseTimeService.save(exerciseTimeDTO, authentication));
+            return ResponseEntity.ok(exerciseTimeService.saveExerciseTime(exerciseTimeDTO, authentication));
         } catch (ExerciseTimeNoContentException exception) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(exception.getMessage());
         }

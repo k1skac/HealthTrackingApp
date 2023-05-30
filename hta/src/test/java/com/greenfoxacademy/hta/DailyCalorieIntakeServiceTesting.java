@@ -1,4 +1,4 @@
-package unittests.servicelayer.healthylivingunittests;
+package com.greenfoxacademy.hta;
 
 import com.greenfoxacademy.hta.dtos.healthylivingentitydto.DailyCalorieIntakeDTO;
 import com.greenfoxacademy.hta.exceptions.DailyCalorieIntakeNoContentException;

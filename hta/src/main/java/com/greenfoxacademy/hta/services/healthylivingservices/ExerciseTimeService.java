@@ -23,17 +23,17 @@ public class ExerciseTimeService implements IExerciseTimeService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public ExerciseTimeDTO save(ExerciseTimeDTO exerciseTimeDTO, Authentication authentication) throws ExerciseTimeNoContentException {
+    public ExerciseTimeDTO saveExerciseTime(ExerciseTimeDTO exerciseTimeDTO, Authentication authentication) throws ExerciseTimeNoContentException {
         if (exerciseTimeDTO == null || exerciseTimeDTO.getDailyActiveTimeInMinutes() == 0 || exerciseTimeDTO.getBurntCalorie() == 0) {
             throw new ExerciseTimeNoContentException();
         }
         User user = iUserRepository.findByEmail(authentication.getName()).get();
         ExerciseTime exerciseTime = new ExerciseTime(exerciseTimeDTO.getDailyActiveTimeInMinutes(), exerciseTimeDTO.getBurntCalorie(), user);
         user.getDailyExercise().add(exerciseTime);
-        IExerciseTimeRepository.save(exerciseTime);
-        iUserRepository.save(user);
+
         //ToDo LogSave
-        return objectMapper.convertValue(exerciseTime, ExerciseTimeDTO.class);
+        ExerciseTime savedExerciseTime = IExerciseTimeRepository.save(exerciseTime);
+        return new ExerciseTimeDTO(savedExerciseTime.getDailyActiveTime().toMinutes(), savedExerciseTime.getBurntCalorie());
     }
     @Override
     public List<ExerciseTimeDTO> delete(Long id, Authentication authentication) throws ExerciseTimeNotFoundException {

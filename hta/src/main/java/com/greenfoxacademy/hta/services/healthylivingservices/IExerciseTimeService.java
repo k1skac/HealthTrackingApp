@@ -8,7 +8,7 @@ import org.springframework.security.core.Authentication;
 
 import java.util.List;
 public interface IExerciseTimeService {
-    ExerciseTimeDTO save(ExerciseTimeDTO exerciseTimeDTO, Authentication authentication) throws ExerciseTimeNoContentException;
+    ExerciseTimeDTO saveExerciseTime(ExerciseTimeDTO exerciseTimeDTO, Authentication authentication) throws ExerciseTimeNoContentException;
     List<ExerciseTimeDTO> delete (Long id, Authentication authentication) throws ExerciseTimeNotFoundException;
     List<ExerciseTimeDTO> edit(Long id, ExerciseTimeDTO exerciseTimeDTO, Authentication authentication) throws ExerciseTimeNotFoundException;
     List<ExerciseTimeDTO> getAllByAuthentication (Authentication authentication);

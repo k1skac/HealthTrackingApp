@@ -20,7 +20,7 @@ public class Goal {
     private Long id;
     @JsonIgnore
     @CreatedDate
-    private LocalDateTime creationDate;
+    private LocalDateTime creationDate = LocalDateTime.now();
     private Boolean isActive = true;
     private String goalDescription;
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "goal", cascade = CascadeType.ALL)

@@ -5,6 +5,7 @@ import com.greenfoxacademy.hta.models.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import java.sql.Timestamp;
 import java.time.Duration;
@@ -23,7 +24,7 @@ public class ExerciseTime {
     private Long id;
     @JsonIgnore
     @CreatedDate
-    private LocalDateTime creationDate;
+    private LocalDateTime creationDate = LocalDateTime.now();
     private Duration dailyActiveTime;
     private float burntCalorie;
     @JsonIgnore
