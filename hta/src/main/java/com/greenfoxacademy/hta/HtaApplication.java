@@ -65,7 +65,7 @@ public class HtaApplication {
         BloodPressure bloodPressure = new BloodPressure(
                 130f,
                 75f,
-                LocalDateTime.of(2020, 5, 27, 2, 0, 0, 0)
+                LocalDateTime.of(2020, 5, 27, 0, 0, 0, 0)
         );
         bloodPressure.setUser(user);
         iBloodPressureRepository.save(bloodPressure);
@@ -79,7 +79,7 @@ public class HtaApplication {
         iHeartRateRepository.save(heartRate);
 
         Weight weight = new Weight(
-                LocalDateTime.of(LocalDate.now(), LocalTime.of(12, 2, 0, 0)),
+                LocalDateTime.of(LocalDate.now(), LocalTime.of(12, 0, 0, 0)),
                 80f
         );
         weight.setUser(user);
@@ -91,7 +91,7 @@ public class HtaApplication {
                 0.2f,
                 Units.ML,
                 2,
-                LocalDateTime.of(2023, 11, 13, 2, 0, 0, 0)
+                LocalDateTime.of(2023, 11, 13, 0, 0, 0, 0)
         );
         Medication medication2 = new Medication(
                 true,
@@ -99,7 +99,7 @@ public class HtaApplication {
                 13f,
                 Units.DROP,
                 2,
-                LocalDateTime.of(2023, 5, 2, 2, 0, 0, 0)
+                LocalDateTime.of(2023, 8, 2, 0, 0, 0, 0)
         );
         medication1.setUser(user);
         medication2.setUser(user);
@@ -107,11 +107,11 @@ public class HtaApplication {
         iMedicationRepository.save(medication2);
 
         MedicationIntake medicationIntake1 = new MedicationIntake(
-                LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 12, 0, 0)));
+                LocalDateTime.of(LocalDate.now(), LocalTime.of(9, 12, 0, 0)));
         MedicationIntake medicationIntake2 = new MedicationIntake(
-                LocalDateTime.of(LocalDate.now(), LocalTime.of(20, 18, 0, 0)));
+                LocalDateTime.of(LocalDate.now(), LocalTime.of(18, 18, 0, 0)));
         MedicationIntake medicationIntake3 = new MedicationIntake(
-                LocalDateTime.of(LocalDate.now(), LocalTime.of(13, 10, 0, 0)));
+                LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 10, 0, 0)));
         medicationIntake1.setMedication(medication1);
         medicationIntake2.setMedication(medication1);
         medicationIntake3.setMedication(medication2);

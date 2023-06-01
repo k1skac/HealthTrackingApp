@@ -108,7 +108,7 @@
         </dependency>
     </dependencies>
 
-    <build>     
+    <build>
         <plugins>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
@@ -116,10 +116,10 @@
                <version>3.0.0-M5</version>
                <configuration>
                   <includes>
-                     <include>**/*.java</include>      
+                     <include>**/*.java</include>
                   </includes>
                </configuration>
-              </plugin>    
+              </plugin>
               <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
