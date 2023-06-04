@@ -1,5 +1,6 @@
 package com.greenfoxacademy.hta.models.medication;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ public class MedicationIntake {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime takenAt;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Medication medication;
 

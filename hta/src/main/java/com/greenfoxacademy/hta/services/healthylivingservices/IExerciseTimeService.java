@@ -12,5 +12,5 @@ public interface IExerciseTimeService {
     List<ExerciseTimeDTO> delete (Long id, Authentication authentication) throws ExerciseTimeNotFoundException;
     List<ExerciseTimeDTO> edit(Long id, ExerciseTimeDTO exerciseTimeDTO, Authentication authentication) throws ExerciseTimeNotFoundException;
     List<ExerciseTimeDTO> getAllByAuthentication (Authentication authentication);
-    List<ExerciseTimeDTO> getAll (User user);
+    List<ExerciseTimeDTO> getAllExerciseTimeDTO (User user);
 }

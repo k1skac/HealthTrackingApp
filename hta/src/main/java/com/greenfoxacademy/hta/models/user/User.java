@@ -56,16 +56,12 @@ public class User implements Serializable , UserDetails {
     @OneToMany(mappedBy = "user")
     private List<HeartRate> heartRates = new ArrayList<>();
     private List<BNOCode> illnessCodes = new ArrayList<>();
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Weight> weights = new ArrayList<>();
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<DailyCalorieIntake> dailyCalories = new ArrayList<>();
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<ExerciseTime> dailyExercise = new ArrayList<>();
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Goal> goals = new ArrayList<>();
     @OneToMany(mappedBy = "user")

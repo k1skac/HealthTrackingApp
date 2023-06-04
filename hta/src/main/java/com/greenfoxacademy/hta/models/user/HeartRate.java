@@ -1,5 +1,6 @@
 package com.greenfoxacademy.hta.models.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greenfoxacademy.hta.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class HeartRate {
     private Long id;
     private LocalDateTime measureTime;
     private float heartRate;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 

@@ -30,6 +30,7 @@ public class GoalService implements IGoalService {
     private final IExerciseRepository IExerciseRepository;
     private final IUserRepository iUserRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
     public List<GoalDTO> getAllByUser(Authentication authentication) {
         User user = iUserRepository.findByEmail(authentication.getName()).get();
@@ -120,12 +121,12 @@ public class GoalService implements IGoalService {
         goal.setCalorieIntakeLimit(healthyEating);
         goal.setExercise(exercise);
         goal.setUser(user);
-        IGoalRepository.save(goal);
+        Goal savedGoal = IGoalRepository.save(goal);
 
         user.getGoals().add(goal);
         iUserRepository.save(user);
         //ToDo LogSave
-        return objectMapper.convertValue(goal, GoalDTO.class);
+        return convertGoal(savedGoal);
     }
 
     @Override
@@ -144,18 +145,38 @@ public class GoalService implements IGoalService {
                 goalDTO.getCalorieIntakeLimit().getDescription(),
                 goalDTO.getCalorieIntakeLimit().getCalorieLimit(),
                 goalDTO.getCalorieIntakeLimit().getDeadline());
+                goalDTO.getCalorieIntakeLimit().getStartDate();
         goal.setDailyActiveTime(
                 goalDTO.getExercise().getDescription(),
                 goalDTO.getExercise().getDailyActiveTimeInMinutes(),
                 goalDTO.getExercise().getDeadline());
-        IGoalRepository.save(goal);
+                goalDTO.getExercise().getStartDate();
+        Goal updatedGoal = IGoalRepository.save(goal);
         //ToDo LogSave
-        return objectMapper.convertValue(goal, GoalDTO.class);
+        return convertGoal(updatedGoal);
     }
 
     @Override
     public GoalDTO convertGoal(Goal goal) {
-        return objectMapper.convertValue(goal, GoalDTO.class);
+        GoalDTO convertedGoalDTO = new GoalDTO();
+        convertedGoalDTO.setGoalDescription(goal.getGoalDescription());
+        convertedGoalDTO.setWeightLoss(new WeightLossDTO(
+                goal.getWeightLoss().getDescription(),
+                goal.getWeightLoss().getGoalWeight(),
+                goal.getWeightLoss().getDeadline(),
+                goal.getWeightLoss().getStartDate()));
+        convertedGoalDTO.setCalorieIntakeLimit(new HealthyEatingDTO(
+                goal.getCalorieIntakeLimit().getDescription(),
+                goal.getCalorieIntakeLimit().getCalorieLimit(),
+                goal.getCalorieIntakeLimit().getDeadline(),
+                goal.getCalorieIntakeLimit().getStartDate()));
+        convertedGoalDTO.setExercise(new ExerciseDTO(
+                goal.getExercise().getDescription(),
+                goal.getExercise().getDailyActiveTime().toMinutes(),
+                goal.getExercise().getDeadline(),
+                goal.getExercise().getStartDate()));
+        return convertedGoalDTO;
+
     }
 
     @Override

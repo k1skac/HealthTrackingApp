@@ -39,8 +39,8 @@ public class Exercise {
         this.deadline = deadline;
         this.startDate = startDate;
     }
-
     public void setDailyActiveTime(Long minutes) {
+
         this.dailyActiveTime = Duration.ofMinutes(minutes);
     }
 }

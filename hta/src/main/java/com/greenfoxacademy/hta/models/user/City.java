@@ -1,5 +1,6 @@
 package com.greenfoxacademy.hta.models.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +34,7 @@ public class City {
      * /*"x coordinate:"
      */
     private double xLongitude;
+    @JsonIgnore
     @OneToMany(mappedBy = "city", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     List<User> users;
 }

@@ -1,5 +1,6 @@
 package com.greenfoxacademy.hta.models.medication;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greenfoxacademy.hta.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class Medication {
     private Units unit;
     private int dailyFrequency;
     private LocalDateTime periodEnd;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
     @OneToMany(mappedBy = "medication")

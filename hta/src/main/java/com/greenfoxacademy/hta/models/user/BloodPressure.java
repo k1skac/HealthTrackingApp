@@ -1,5 +1,6 @@
 package com.greenfoxacademy.hta.models.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greenfoxacademy.hta.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class BloodPressure {
     private LocalDateTime measureTime;
     private float systolic;
     private float diastolic;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 

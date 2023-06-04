@@ -1,5 +1,6 @@
 package com.greenfoxacademy.hta.models.bloodlabdata;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.greenfoxacademy.hta.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ public class BloodLabData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @JsonIgnore
     @OneToOne(mappedBy = "bloodLabData")
     private User user;
     @OneToMany(mappedBy = "bloodLabData")

@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,7 +21,6 @@ import java.util.List;
 public class ExerciseTimeService implements IExerciseTimeService {
     private final IUserRepository iUserRepository;
     private final IExerciseTimeRepository IExerciseTimeRepository;
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public ExerciseTimeDTO saveExerciseTime(ExerciseTimeDTO exerciseTimeDTO, Authentication authentication) throws ExerciseTimeNoContentException {
@@ -46,7 +46,7 @@ public class ExerciseTimeService implements IExerciseTimeService {
         user.getDailyExercise().remove(exerciseTime);
         iUserRepository.save(user);
         //ToDo LogSave
-        return getAll(user);
+        return getAllExerciseTimeDTO(user);
     }
     @Override
     public List<ExerciseTimeDTO> edit(Long id, ExerciseTimeDTO exerciseTimeDTO, Authentication authentication) throws ExerciseTimeNotFoundException {
@@ -59,23 +59,33 @@ public class ExerciseTimeService implements IExerciseTimeService {
         exerciseTime.setBurntCalorie(exerciseTimeDTO.getBurntCalorie());
         IExerciseTimeRepository.save(exerciseTime);
         //ToDo LogSave
-        return getAll(user);
+        return getAllExerciseTimeDTO(user);
     }
-
     @Override
     public List<ExerciseTimeDTO> getAllByAuthentication(Authentication authentication) {
         User user = iUserRepository.findByEmail(authentication.getName()).get();
-        return IExerciseTimeRepository.findAllByUser(user)
-                .stream()
-                .map(exerciseTime -> objectMapper.convertValue(exerciseTime, ExerciseTimeDTO.class))
-                .toList();
-    }
+        List<ExerciseTime> userExerciseTimeList = IExerciseTimeRepository.findAllByUser(user);
+        List<ExerciseTimeDTO> exerciseTimeDTOList = new ArrayList<>();
 
+        for (ExerciseTime exerciseTime : userExerciseTimeList) {
+            ExerciseTimeDTO exerciseTimeDTO = new ExerciseTimeDTO();
+            exerciseTimeDTO.setBurntCalorie(exerciseTime.getBurntCalorie());
+            exerciseTimeDTO.setDailyActiveTimeInMinutes(exerciseTime.getDailyActiveTime().toMinutes());
+            exerciseTimeDTOList.add(exerciseTimeDTO);
+        }
+        return exerciseTimeDTOList;
+    }
     @Override
-    public List<ExerciseTimeDTO> getAll(User user) {
-        return IExerciseTimeRepository.findAllByUser(user)
-                .stream()
-                .map(exerciseTime -> objectMapper.convertValue(exerciseTime, ExerciseTimeDTO.class))
-                .toList();
+    public List<ExerciseTimeDTO> getAllExerciseTimeDTO(User user) {
+        List<ExerciseTime> userExerciseTimeList = IExerciseTimeRepository.findAllByUser(user);
+        List<ExerciseTimeDTO> exerciseTimeDTOList = new ArrayList<>();
+
+        for (ExerciseTime exerciseTime : userExerciseTimeList) {
+            ExerciseTimeDTO exerciseTimeDTO = new ExerciseTimeDTO();
+            exerciseTimeDTO.setBurntCalorie(exerciseTime.getBurntCalorie());
+            exerciseTimeDTO.setDailyActiveTimeInMinutes(exerciseTime.getDailyActiveTime().toMinutes());
+            exerciseTimeDTOList.add(exerciseTimeDTO);
+        }
+        return exerciseTimeDTOList;
     }
 }
