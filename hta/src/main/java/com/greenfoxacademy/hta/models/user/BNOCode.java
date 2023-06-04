@@ -6,7 +6,7 @@ public enum BNOCode {
     M2520("Lötyögő izület"),
     M2550("Izületi fájdalom");
 
-    private String description;
+    private final String description;
 
     BNOCode(String description) {
         this.description = description;

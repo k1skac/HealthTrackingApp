@@ -13,6 +13,6 @@ public interface IAdminService {
 
     LogResponseDTO adminLog(LogDTO logDto) throws UserNotFoundException;
 
-    String userDelete(DeleteDTO deleteDTO) throws UserNotFoundException, HtaException;
+    String userDelete(DeleteDTO deleteDTO) throws HtaException;
 
 }

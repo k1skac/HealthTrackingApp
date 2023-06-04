@@ -8,6 +8,7 @@ import com.greenfoxacademy.hta.models.bloodlabdata.BloodLabData;
 import com.greenfoxacademy.hta.models.log.Log;
 import com.greenfoxacademy.hta.models.medication.Medication;
 import com.greenfoxacademy.hta.models.notifications.Notification;
+import com.greenfoxacademy.hta.models.nutrition.Meal;
 import com.greenfoxacademy.hta.models.roles.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -68,7 +69,10 @@ public class User implements Serializable , UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Goal> goals = new ArrayList<>();
     @OneToMany(mappedBy = "user")
-    private List<Medication> medications = new ArrayList<>();
+    private List<Medication> medications= new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Meal> meals;
     @OneToOne()
     private BloodLabData bloodLabData;
     private int userScore;

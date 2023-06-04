@@ -1,11 +1,14 @@
 package com.greenfoxacademy.hta;
 
 import com.greenfoxacademy.hta.models.log.LogType;
+import com.greenfoxacademy.hta.models.nutrition.FoodstuffType;
+import com.greenfoxacademy.hta.models.nutrition.ReadyFoodType;
 import com.greenfoxacademy.hta.models.user.*;
 import com.greenfoxacademy.hta.repositories.log.ILogTypeRepository;
 import com.greenfoxacademy.hta.repositories.IRoleRepository;
 import com.greenfoxacademy.hta.repositories.IUserRepository;
 import com.greenfoxacademy.hta.repositories.healthylivingrepositories.IWeightRepository;
+import com.greenfoxacademy.hta.repositories.nutrition.*;
 import com.greenfoxacademy.hta.services.city.ICityService;
 import com.greenfoxacademy.hta.services.user.IUserService;
 import com.greenfoxacademy.hta.models.medication.Medication;
@@ -23,9 +26,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import java.time.*;
 import java.util.*;
 
 @SpringBootApplication
@@ -40,7 +41,10 @@ public class HtaApplication {
                           IBloodPressureRepository iBloodPressureRepository, IHeartRateRepository iHeartRateRepository,
                           IWeightRepository iWeightRepository, IMedicationIntakeRepository iMedicationIntakeRepository,
                           IMedicationRepository iMedicationRepository, INotificationRepository iNotificationRepository,
-                          PasswordEncoder passwordEncoder, ILogTypeRepository iLogTypeRepository, ICityService iCityService) {
+                          PasswordEncoder passwordEncoder, ILogTypeRepository iLogTypeRepository,
+                          IMealRepository iMealRepository, IFoodStuffRepository iFoodStuffRepository,ICityService iCityService,
+                          IFoodStuffTypeRepository iFoodStuffTypeRepository, IReadyFoodRepository iReadyFoodRepository,
+                          IReadyFoodTypeRepository iReadyFoodTypeRepository) {
         return args -> {
             iUserService.saveRole(new Role(RoleName.USER));
             iUserService.saveRole(new Role(RoleName.ADMIN));
@@ -53,6 +57,7 @@ public class HtaApplication {
             addDataToUser1ForNotifications(iUserRepository, iBloodPressureRepository, iHeartRateRepository, iWeightRepository,
                     iMedicationIntakeRepository, iMedicationRepository, iNotificationRepository);
             addUsers(passwordEncoder, iUserService, iCityService, iRoleRepository);
+            addBasicFoods(iFoodStuffTypeRepository,iReadyFoodTypeRepository);
         };
     }
 
@@ -61,7 +66,8 @@ public class HtaApplication {
                                                 IMedicationIntakeRepository iMedicationIntakeRepository,
                                                 IMedicationRepository iMedicationRepository, INotificationRepository iNotificationRepository) {
         User user = iUserRepository.findByEmail("user1@gmail.com").get();
-
+        Duration diff = Duration.between(ZonedDateTime.now(ZoneId.systemDefault()), ZonedDateTime.now(ZoneId.of("Europe/London")));
+        long hours = diff.getSeconds()/3600;
         BloodPressure bloodPressure = new BloodPressure(
                 130f,
                 75f,
@@ -105,7 +111,6 @@ public class HtaApplication {
         medication2.setUser(user);
         iMedicationRepository.save(medication1);
         iMedicationRepository.save(medication2);
-
         MedicationIntake medicationIntake1 = new MedicationIntake(
                 LocalDateTime.of(LocalDate.now(), LocalTime.of(9, 12, 0, 0)));
         MedicationIntake medicationIntake2 = new MedicationIntake(
@@ -162,6 +167,10 @@ public class HtaApplication {
         iLogTypeRepository.save(new LogType("pwchange", "Password changed by "));
         iLogTypeRepository.save(new LogType("adminpwchange", "The admin reseted the password of "));
         iLogTypeRepository.save(new LogType("adminuserdelete", "The admin deleted the account of "));
+        iLogTypeRepository.save(new LogType("newmeal", "New meal added by "));
+        iLogTypeRepository.save(new LogType("getameal", "A meal data was requested by "));
+        iLogTypeRepository.save(new LogType("newfoodstuff", "A foodstuff is registred by "));
+        iLogTypeRepository.save(new LogType("newreadyfood", "A foodstuff is registred by "));
     }
 
     public void addUsers(PasswordEncoder passwordEncoder, IUserService iUserService, ICityService iCityService, IRoleRepository iRoleRepository){
@@ -353,4 +362,18 @@ public class HtaApplication {
         city19.setXLongitude(19.04720);
         iCityService.saveCity(city19);
     }
+
+   public void addBasicFoods(IFoodStuffTypeRepository iFoodStuffTypeRepository,IReadyFoodTypeRepository iReadyFoodTypeRepository){
+        iReadyFoodTypeRepository.save(new ReadyFoodType("Burger King Whopper", 588, 32.7,42.5, 27.8 ));
+        iReadyFoodTypeRepository.save(new ReadyFoodType("McDonald's Big Mac", 508.1, 26.3, 26.3, 26.3 ));
+        iReadyFoodTypeRepository.save(new ReadyFoodType("Abonett Sandwich Mexican", 59.4, 2.9,7.3, 1.2 ));
+        iReadyFoodTypeRepository.save(new ReadyFoodType("Norbi Update1 Hamburger", 540, 27, 27, 40.5 ));
+        iReadyFoodTypeRepository.save(new ReadyFoodType("Norbi Update1 Párizsis zsemle", 140, 6.7,6.4, 7.8));
+        iFoodStuffTypeRepository.save(new FoodstuffType("Avocado",578, 14.2,1,2 ));
+        iFoodStuffTypeRepository.save(new FoodstuffType("Spagetti",358, 1.1,1,2 ));
+        iFoodStuffTypeRepository.save(new FoodstuffType("Teavaj",746, 80,0.5,2 ));
+        iFoodStuffTypeRepository.save(new FoodstuffType("Beer",159, 0,2,0 ));
+        iFoodStuffTypeRepository.save(new FoodstuffType("Honey",306, 0,76,0 ));
+   }
+
 }

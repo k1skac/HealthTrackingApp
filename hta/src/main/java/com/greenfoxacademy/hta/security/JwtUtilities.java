@@ -15,7 +15,7 @@ import java.util.function.Function;
 @Slf4j
 @Component
 public class JwtUtilities {
-    private String secret = "ye874bzv5874zsdal54FKpqa1234rceS";
+    private final String secret = "ye874bzv5874zsdal54FKpqa1234rceS";
     private static final long  jwtExpiration = 1000 * 60 * 60 * 10;
 
     public String extractUsername(String token) {
@@ -75,7 +75,7 @@ public class JwtUtilities {
     public String getToken (HttpServletRequest httpServletRequest) {
          final String bearerToken = httpServletRequest.getHeader("Authorization");
          if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-             return bearerToken.substring(7,bearerToken.length());
+             return bearerToken.substring(7);
          } // The part after "Bearer "
          return null;
     }

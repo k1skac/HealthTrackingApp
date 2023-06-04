@@ -64,7 +64,7 @@ public class DailyCalorieIntakeServiceTesting {
         String exceptionMessage = "Cant find the value";
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
         Assertions.assertTrue(dailyCalorieIntakeNotFoundException.getMessage().contains(exceptionMessage));
-        Assertions.assertTrue(dailyCalorieIntakeNotFoundException.getStatus().equals(httpStatus));
+        Assertions.assertEquals(dailyCalorieIntakeNotFoundException.getStatus(), httpStatus);
     }
     @Test
     public void whenSaveDailyCalorieIntake() throws DailyCalorieIntakeNoContentException {
@@ -102,7 +102,7 @@ public class DailyCalorieIntakeServiceTesting {
         String expectedMessage = "Please give a Calorie value!";
         HttpStatus httpStatus = HttpStatus.NO_CONTENT;
         Assertions.assertTrue(dailyCalorieIntakeNoContentException.getMessage().contains(expectedMessage));
-        Assertions.assertTrue(dailyCalorieIntakeNoContentException.getStatus().equals(httpStatus));
+        Assertions.assertEquals(dailyCalorieIntakeNoContentException.getStatus(), httpStatus);
     }
     @Test
     public void exceptionWhenSaveDailyCalorieIntakeIsNull() {
@@ -121,6 +121,6 @@ public class DailyCalorieIntakeServiceTesting {
         String expectedMessage = "Please give a Calorie value!";
         HttpStatus httpStatus = HttpStatus.NO_CONTENT;
         Assertions.assertTrue(dailyCalorieIntakeNoContentException.getMessage().contains(expectedMessage));
-        Assertions.assertTrue(dailyCalorieIntakeNoContentException.getStatus().equals(httpStatus));
+        Assertions.assertEquals(dailyCalorieIntakeNoContentException.getStatus(), httpStatus);
     }
 }

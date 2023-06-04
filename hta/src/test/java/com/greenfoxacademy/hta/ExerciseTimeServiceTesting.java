@@ -54,7 +54,7 @@ public class ExerciseTimeServiceTesting {
         String expectedMessage = "Exercise Time has no content";
         HttpStatus httpStatus = HttpStatus.NO_CONTENT;
         Assertions.assertTrue(exerciseTimeNoContentException.getMessage().contains(expectedMessage));
-        Assertions.assertTrue(exerciseTimeNoContentException.getStatus().equals(httpStatus));
+        Assertions.assertEquals(exerciseTimeNoContentException.getStatus(), httpStatus);
     }
     @Test
     public void exceptionWhenSaveExerciseTimeBurnedCalorieIsZero() {
@@ -74,7 +74,7 @@ public class ExerciseTimeServiceTesting {
         String expectedMessage = "Exercise Time has no content";
         HttpStatus httpStatus = HttpStatus.NO_CONTENT;
         Assertions.assertTrue(exerciseTimeNoContentException.getMessage().contains(expectedMessage));
-        Assertions.assertTrue(exerciseTimeNoContentException.getStatus().equals(httpStatus));
+        Assertions.assertEquals(exerciseTimeNoContentException.getStatus(), httpStatus);
     }
     @Test
     public void exceptionWhenDailyActiveTimeIsNull() {
@@ -94,6 +94,6 @@ public class ExerciseTimeServiceTesting {
         String expectedMessage = "Exercise Time has no content";
         HttpStatus httpStatus = HttpStatus.NO_CONTENT;
         Assertions.assertTrue(exerciseTimeNoContentException.getMessage().contains(expectedMessage));
-        Assertions.assertTrue(exerciseTimeNoContentException.getStatus().equals(httpStatus));
+        Assertions.assertEquals(exerciseTimeNoContentException.getStatus(), httpStatus);
     }
 }
