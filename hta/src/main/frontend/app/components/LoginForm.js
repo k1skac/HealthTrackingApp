@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react'
 import LoginService from '@/app/service/LoginService';
-import { setCookie, hasCookie } from 'cookies-next';
 
 const LoginForm = () => {
     const [loginDTO, setLoginDTO] = useState({
