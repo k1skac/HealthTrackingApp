@@ -1,7 +1,6 @@
 package com.greenfoxacademy.hta.models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.greenfoxacademy.hta.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,14 +22,14 @@ public class Weight {
     private Long id;
     @JsonIgnore
     @CreatedDate
-    private LocalDateTime creationDate;
+    private LocalDateTime weightMeasuredAt;
     private float weight;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     public Weight(LocalDateTime measureTime, float weight) {
-        this.creationDate = measureTime;
+        this.weightMeasuredAt = measureTime;
         this.weight = weight;
     }
 }

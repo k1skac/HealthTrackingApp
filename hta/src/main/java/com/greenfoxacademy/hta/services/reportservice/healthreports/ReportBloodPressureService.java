@@ -55,7 +55,7 @@ public class ReportBloodPressureService implements IReportBloodPressureService {
         ResponseBloodPressureDTO responseBloodPressureDTO = new ResponseBloodPressureDTO();
         responseBloodPressureDTO.setSystolic(bloodPressure.getSystolic());
         responseBloodPressureDTO.setDiastolic(bloodPressure.getDiastolic());
-        responseBloodPressureDTO.setMeasureTime(bloodPressure.getMeasureTime());
+        responseBloodPressureDTO.setMeasureTime(bloodPressure.getBloodPressureMeasuredAt());
         responseBloodPressureDTO.setSystolicMax(bloodLabDataLimits.getSystolicMax());
         responseBloodPressureDTO.setDiastiolicMin(bloodLabDataLimits.getDiastiolicMin());
         String warning = getWarningMessage(bloodPressure.getSystolic(), bloodPressure.getDiastolic(),

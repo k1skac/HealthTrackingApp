@@ -13,6 +13,6 @@ import java.util.List;
 public interface IWeightRepository extends JpaRepository<Weight, Long> {
     List<Weight> findAllByUser(User user);
     Weight findWeightById(Long id);
-    @Query("SELECT COUNT(weight) FROM Weight weight WHERE weight.user = ?1 AND weight.creationDate >= ?2")
+    @Query("SELECT COUNT(weight) FROM Weight weight WHERE weight.user = ?1 AND weight.weightMeasuredAt >= ?2")
     int findWeightForNotification(User user, LocalDateTime date);
 }

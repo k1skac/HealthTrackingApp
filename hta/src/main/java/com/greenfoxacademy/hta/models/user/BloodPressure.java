@@ -1,7 +1,6 @@
 package com.greenfoxacademy.hta.models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.greenfoxacademy.hta.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,16 +18,16 @@ public class BloodPressure {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime measureTime;
+    private LocalDateTime bloodPressureMeasuredAt;
     private float systolic;
     private float diastolic;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    public BloodPressure(float systolic, float diastolic, LocalDateTime measureTime) {
+    public BloodPressure(float systolic, float diastolic, LocalDateTime bloodPressureMeasuredAt) {
         this.systolic = systolic;
         this.diastolic = diastolic;
-        this.measureTime = measureTime;
+        this.bloodPressureMeasuredAt = bloodPressureMeasuredAt;
     }
 }

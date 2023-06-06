@@ -2,11 +2,12 @@ package com.greenfoxacademy.hta.security;
 
 
 import io.jsonwebtoken.*;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
+import org.springframework.web.util.WebUtils;
 
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.function.Function;
 public class JwtUtilities {
     private final String secret = "ye874bzv5874zsdal54FKpqa1234rceS";
     private static final long  jwtExpiration = 1000 * 60 * 60 * 10;
+    private final String jwtToken = "jwtHTATokenCookie";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -30,6 +32,7 @@ public class JwtUtilities {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
@@ -38,13 +41,14 @@ public class JwtUtilities {
         final String email = extractUsername(token);
         return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
     public Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
     public String generateToken(String email , List<String> roles) {
 
-        return Jwts.builder().setSubject(email).claim("role",roles).setIssuedAt(new Date(System.currentTimeMillis()))
+        return Jwts.builder().setSubject(email).claim("role", roles).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
     }
@@ -72,11 +76,12 @@ public class JwtUtilities {
         return false;
     }
 
-    public String getToken (HttpServletRequest httpServletRequest) {
-         final String bearerToken = httpServletRequest.getHeader("Authorization");
-         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-             return bearerToken.substring(7);
-         } // The part after "Bearer "
-         return null;
+    public String getJwtFromCookies(HttpServletRequest request) {
+        Cookie cookie = WebUtils.getCookie(request, jwtToken);
+        if (cookie != null) {
+            return cookie.getValue();
+        } else {
+            return null;
+        }
     }
 }

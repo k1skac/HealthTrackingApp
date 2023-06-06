@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaveHeartRateDTO {
-    private LocalDateTime measureTime;
+    private LocalDateTime heartRateMeasuredAt;
     @Min(20)
     @Max(170)
     private float heartRate;

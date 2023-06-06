@@ -29,8 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     @NonNull FilterChain filterChain)
                                     throws ServletException, IOException {
 
-        String token = jwtUtilities.getToken(request) ;
-
+        String token = parseJwt(request) ;
         if (token!=null && jwtUtilities.validateToken(token)) {
             String email = jwtUtilities.extractUsername(token);
 
@@ -43,5 +42,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
         filterChain.doFilter(request,response);
+    }
+
+    private String parseJwt(HttpServletRequest request){
+        String token = jwtUtilities.getJwtFromCookies(request);
+        return token;
     }
 }

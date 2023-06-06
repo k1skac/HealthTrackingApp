@@ -13,5 +13,5 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class SaveWeightDTO {
     private float weight;
-    private LocalDateTime creationDate;
+    private LocalDateTime weightMeasuredAt;
 }

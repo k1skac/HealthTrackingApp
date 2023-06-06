@@ -1,7 +1,6 @@
 package com.greenfoxacademy.hta.models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.greenfoxacademy.hta.models.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,14 +18,14 @@ public class HeartRate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime measureTime;
+    private LocalDateTime heartRateMeasuredAt;
     private float heartRate;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    public HeartRate(float heartRate, LocalDateTime measureTime) {
+    public HeartRate(float heartRate, LocalDateTime heartRateMeasuredAt) {
         this.heartRate = heartRate;
-        this.measureTime = measureTime;
+        this.heartRateMeasuredAt = heartRateMeasuredAt;
     }
 }

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaveBloodPressureDTO {
-    private LocalDateTime measureTime;
+    private LocalDateTime bloodPressureMeasuredAt;
     @Max(260)
     private float systolic;
     @Min(30)

@@ -9,6 +9,6 @@ import java.time.LocalDateTime;
 
 public interface IBloodPressureRepository extends JpaRepository<BloodPressure, Long> {
     @Query("SELECT COUNT(bloodPressure) FROM BloodPressure bloodPressure WHERE bloodPressure.user = ?1 " +
-            "AND bloodPressure.measureTime >= ?2")
+            "AND bloodPressure.bloodPressureMeasuredAt >= ?2")
     int findBloodPressureForNotification(User user, LocalDateTime date);
 }
