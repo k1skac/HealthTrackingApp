@@ -4,9 +4,6 @@ import com.greenfoxacademy.hta.dtos.saveuserdatadto.*;
 import com.greenfoxacademy.hta.models.bloodlabdata.Calcium;
 import com.greenfoxacademy.hta.models.bloodlabdata.Glucose;
 import com.greenfoxacademy.hta.models.bloodlabdata.TriGlycerides;
-import com.greenfoxacademy.hta.models.user.BloodPressure;
-import com.greenfoxacademy.hta.models.user.HeartRate;
-import com.greenfoxacademy.hta.models.user.Weight;
 import com.greenfoxacademy.hta.services.bloodlabdata.ICalciumService;
 import com.greenfoxacademy.hta.services.bloodlabdata.IGlucoseService;
 import com.greenfoxacademy.hta.services.bloodlabdata.ITriGlyceridesService;
@@ -15,6 +12,7 @@ import com.greenfoxacademy.hta.services.healthylivingservices.IWeightService;
 import com.greenfoxacademy.hta.services.heartrate.IHeartRateService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -32,19 +30,24 @@ public class DataSaveRestController {
     private static final String MESSAGE = "Data successfully saved!";
 
     @PostMapping("/heart-rate")
-    public ResponseEntity<?> heartRateSaving(@Valid @RequestBody SaveHeartRateDTO saveHeartRateDTO, Authentication authentication) {
-        HeartRate heartRate = new HeartRate(saveHeartRateDTO.getHeartRate(), saveHeartRateDTO.getHeartRateMeasuredAt());
-        iHeartRateService.save(heartRate, authentication.getName());
-        return ResponseEntity.ok(MESSAGE);
+    public ResponseEntity<?> heartRateSaving(@Valid @ModelAttribute SaveHeartRateDTO saveHeartRateDTO, Authentication authentication) {
+        try {
+            iHeartRateService.save(saveHeartRateDTO, authentication);
+            return ResponseEntity.ok(MESSAGE);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PostMapping("/blood-pressure")
-    public ResponseEntity<?> bloodPressureSaving(@Valid @RequestBody SaveBloodPressureDTO saveBloodPressureDTO,
+    public ResponseEntity<?> bloodPressureSaving(@Valid @ModelAttribute SaveBloodPressureDTO saveBloodPressureDTO,
                                                  Authentication authentication) {
-        BloodPressure bloodPressure = new BloodPressure(saveBloodPressureDTO.getSystolic(), saveBloodPressureDTO.getDiastolic(),
-                saveBloodPressureDTO.getBloodPressureMeasuredAt());
-        iBloodPressureService.save(bloodPressure, authentication.getName());
-        return ResponseEntity.ok(MESSAGE);
+        try {
+            iBloodPressureService.save(saveBloodPressureDTO, authentication);
+            return ResponseEntity.ok(MESSAGE);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PostMapping("/glucose")
@@ -55,10 +58,13 @@ public class DataSaveRestController {
     }
 
     @PostMapping("/weight")
-    public ResponseEntity<?> weightSaving(@Valid @RequestBody SaveWeightDTO saveWeightDTO, Authentication authentication) {
-        Weight weight = new Weight(saveWeightDTO.getWeightMeasuredAt(),saveWeightDTO.getWeight());
-        iWeightService.save(weight, authentication);
-        return ResponseEntity.ok(MESSAGE);
+    public ResponseEntity<?> weightSaving(@ModelAttribute SaveWeightDTO saveWeightDTO, Authentication authentication) {
+        try {
+            iWeightService.save(saveWeightDTO, authentication);
+            return ResponseEntity.ok(MESSAGE);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PostMapping("/calcium")

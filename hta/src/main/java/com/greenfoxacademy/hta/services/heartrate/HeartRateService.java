@@ -1,29 +1,36 @@
 package com.greenfoxacademy.hta.services.heartrate;
 
+import com.greenfoxacademy.hta.dtos.saveuserdatadto.SaveHeartRateDTO;
+import com.greenfoxacademy.hta.exceptions.HeartRateBadRequestException;
+import com.greenfoxacademy.hta.models.filemanagement.FileData;
 import com.greenfoxacademy.hta.models.user.HeartRate;
 import com.greenfoxacademy.hta.models.notifications.NotificationMessage;
 import com.greenfoxacademy.hta.models.user.User;
 import com.greenfoxacademy.hta.repositories.IHeartRateRepository;
+import com.greenfoxacademy.hta.services.filemanagment.IFileDataService;
 import com.greenfoxacademy.hta.services.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
 public class HeartRateService implements IHeartRateService {
-    private final IHeartRateRepository heartRateRepository;
+    private final IHeartRateRepository iHeartRateRepository;
     private final IUserService iUserService;
+    private final IFileDataService iFileDataService;
 
     @Autowired
-    public HeartRateService(IHeartRateRepository heartRateRepository, IUserService iUserService) {
-        this.heartRateRepository = heartRateRepository;
+    public HeartRateService(IHeartRateRepository iHeartRateRepository, IUserService iUserService, IFileDataService iFileDataService) {
+        this.iHeartRateRepository = iHeartRateRepository;
         this.iUserService = iUserService;
+        this.iFileDataService = iFileDataService;
     }
 
     @Override
     public int getHeartRateForNotification(User user, LocalDateTime date) {
-        return heartRateRepository.findHeartRateForNotification(user, date);
+        return iHeartRateRepository.findHeartRateForNotification(user, date);
     }
 
     @Override
@@ -37,10 +44,22 @@ public class HeartRateService implements IHeartRateService {
     }
 
     @Override
-    public void save(HeartRate heartRate, String email) {
-        User user = iUserService.findByEmail(email);
+    public void save(SaveHeartRateDTO saveHeartRateDTO, Authentication authentication) throws Exception {
+        if (saveHeartRateDTO.getHeartRate() == 0f || saveHeartRateDTO.getHeartRateMeasuredAt() == null) {
+            throw new HeartRateBadRequestException();
+        }
+
+        User user = iUserService.findByEmail(authentication.getName());
+        HeartRate heartRate = new HeartRate(saveHeartRateDTO.getHeartRate(), saveHeartRateDTO.getHeartRateMeasuredAt());
         heartRate.setUser(user);
-        heartRateRepository.save(heartRate);
-        iUserService.saveUser(user);
+        iHeartRateRepository.save(heartRate);
+
+        if (saveHeartRateDTO.getHeartRateFile() != null) {
+            FileData uploadedFile = iFileDataService.uploadFileDataToDirectory(saveHeartRateDTO.getHeartRateFile());
+            FileData fileData = iFileDataService.save(uploadedFile);
+
+            heartRate.setFileData(fileData);
+            iHeartRateRepository.save(heartRate);
+        }
     }
 }

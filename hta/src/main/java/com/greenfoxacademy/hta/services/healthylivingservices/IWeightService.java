@@ -2,16 +2,14 @@ package com.greenfoxacademy.hta.services.healthylivingservices;
 
 import com.greenfoxacademy.hta.dtos.saveuserdatadto.SaveWeightDTO;
 import com.greenfoxacademy.hta.exceptions.WeightNotFoundException;
-import com.greenfoxacademy.hta.models.user.Weight;
 import com.greenfoxacademy.hta.models.user.User;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IWeightService {
-    void save(Weight weight, Authentication authentication);
+    void save(SaveWeightDTO saveWeightDTO, Authentication authentication) throws Exception;
     List<SaveWeightDTO> getAll(Authentication authentication);
     List<SaveWeightDTO> edit(Long id, Authentication authentication, SaveWeightDTO saveWeightDTO) throws WeightNotFoundException;
     List<SaveWeightDTO> delete(Long id, Authentication authentication) throws WeightNotFoundException;

@@ -1,6 +1,6 @@
 package com.greenfoxacademy.hta.models.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.greenfoxacademy.hta.models.filemanagement.FileData;
 import com.greenfoxacademy.hta.models.goalentities.Goal;
 import com.greenfoxacademy.hta.models.healthylivingentities.DailyCalorieIntake;
 import com.greenfoxacademy.hta.models.healthylivingentities.ExerciseTime;
@@ -66,7 +66,6 @@ public class User implements Serializable , UserDetails {
     private List<Goal> goals = new ArrayList<>();
     @OneToMany(mappedBy = "user")
     private List<Medication> medications= new ArrayList<>();
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Meal> meals;
     @OneToOne()

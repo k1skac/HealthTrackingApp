@@ -1,6 +1,7 @@
 package com.greenfoxacademy.hta.models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.greenfoxacademy.hta.models.filemanagement.FileData;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,6 +28,8 @@ public class Weight {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+    @OneToOne()
+    private FileData fileData;
 
     public Weight(LocalDateTime measureTime, float weight) {
         this.weightMeasuredAt = measureTime;

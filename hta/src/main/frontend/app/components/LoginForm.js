@@ -17,6 +17,7 @@ const LoginForm = () => {
         e.preventDefault();
         LoginService.loginUser(loginDTO)
         .then((response) => {
+            console.log(response.data);
             console.log(response.status);
         }).catch((error) => {
             console.log(error);

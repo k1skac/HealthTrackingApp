@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.util.WebUtils;
 
 import java.util.Date;
@@ -17,7 +18,7 @@ import java.util.function.Function;
 @Component
 public class JwtUtilities {
     private final String secret = "ye874bzv5874zsdal54FKpqa1234rceS";
-    private static final long  jwtExpiration = 1000 * 60 * 60 * 10;
+    private static final long jwtExpiration = 1000 * 60 * 60 * 10;
     private final String jwtToken = "jwtHTATokenCookie";
 
     public String extractUsername(String token) {
@@ -41,11 +42,12 @@ public class JwtUtilities {
         final String email = extractUsername(token);
         return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
     public Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(String email , List<String> roles) {
+    public String generateToken(String email, List<String> roles) {
 
         return Jwts.builder().setSubject(email).claim("role", roles).setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))

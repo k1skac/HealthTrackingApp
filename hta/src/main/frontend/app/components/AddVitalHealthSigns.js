@@ -1,33 +1,59 @@
 import VitalHealthSignService from '@/app/service/VitalHealthSignService';
-import { React, useState } from 'react'
+import { React, useState, useRef } from 'react'
 
 const AddVitalHealthSigns = () => {
-    const [saveHeartRateDTO, setSaveHeartRateDTO, ] = useState({
+    const [saveHeartRateDTO, setSaveHeartRateDTO] = useState({
         heartRate: '',
-        heartRateMeasuredAt: ''
+        heartRateMeasuredAt: '',
+        heartRateFile: ''
     });
+
+    const heartRateFileValue = useRef(null);
 
     const [saveWeightDTO, setSaveWeightDTO] = useState({
         weight: '',
-        weightMeasuredAt: ''
+        weightMeasuredAt: '',
+        weightFile: ''
     });
+
+    const weightFileValue = useRef(null);
 
     const [saveBloodPressureDTO, setSaveBloodPressureDTO] = useState({
         systolic: '',
         diastolic: '',
-        bloodPressureMeasuredAt: ''
+        bloodPressureMeasuredAt: '',
+        bloodPressureFile: ''
     });
 
+    const bloodPressureFileValue = useRef(null);
+
     const handleChange = (e) => {
-        const value = e.target.value;
-        setSaveWeightDTO({...saveWeightDTO, [e.target.name]: value});
-        setSaveHeartRateDTO({...saveHeartRateDTO, [e.target.name]: value});
-        setSaveBloodPressureDTO({...saveBloodPressureDTO, [e.target.name]: value});
+        const { name, value, type } = e.target;
+
+        if (type === 'file') {
+            const file = e.target.files[0];
+            setSaveWeightDTO({...saveWeightDTO, weightFile: file});
+            setSaveHeartRateDTO({...saveHeartRateDTO, heartRateFile: file});
+            setSaveBloodPressureDTO({...saveBloodPressureDTO, bloodPressureFile: file});
+        } else {
+            setSaveWeightDTO({...saveWeightDTO, [name]: value});
+            setSaveHeartRateDTO({...saveHeartRateDTO, [e.target.name]: value});
+            setSaveBloodPressureDTO({...saveBloodPressureDTO, [e.target.name]: value});
+        }
     }
 
     const saveVitalHealthSign = (e) => {
         if (saveWeightDTO.weight !== '' & saveWeightDTO.weightMeasuredAt !== '') {
             e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('weight', saveWeightDTO.weight)
+            formData.append('weightMeasuredAt', saveWeightDTO.weightMeasuredAt);
+            if (saveWeightDTO.weightFile !== '') {
+                formData.append('weightFile', saveWeightDTO.weightFile);
+            }
+
+            VitalHealthSignService.saveWeight(formData)
             VitalHealthSignService.saveWeight(saveWeightDTO)
             .then((response) => {
                 console.log(response.data)
@@ -38,7 +64,15 @@ const AddVitalHealthSigns = () => {
         } 
         if (saveHeartRateDTO.heartRate !== '' && saveHeartRateDTO.heartRateMeasuredAt !== '') {
             e.preventDefault();
-            VitalHealthSignService.saveHeartRate(saveHeartRateDTO)
+
+            const formData = new FormData();
+            formData.append('heartRate', saveHeartRateDTO.heartRate)
+            formData.append('heartRateMeasuredAt', saveHeartRateDTO.heartRateMeasuredAt);
+            if (saveHeartRateDTO.heartRateFile !== '') {
+                formData.append('heartRateFile', saveHeartRateDTO.heartRateFile);
+            }
+
+            VitalHealthSignService.saveHeartRate(formData)
             .then((response) => {
                 console.log(response.data);
             }).catch((error) => {
@@ -48,7 +82,17 @@ const AddVitalHealthSigns = () => {
         }
         if (saveBloodPressureDTO.systolic !== '' && saveBloodPressureDTO.bloodPressureMeasuredAt !== '' && saveBloodPressureDTO.diastolic !== '') {
             e.preventDefault();
-            VitalHealthSignService.saveBloodPressure(saveBloodPressureDTO)
+
+            const formData = new FormData();
+            formData.append('systolic', saveBloodPressureDTO.systolic)
+            formData.append('diastolic', saveBloodPressureDTO.diastolic)
+            formData.append('bloodPressureMeasuredAt', saveBloodPressureDTO.bloodPressureMeasuredAt);
+            if (saveBloodPressureDTO.bloodPressureFile !== '') {
+                formData.append('bloodPressureFile', saveBloodPressureDTO.bloodPressureFile);
+            }
+
+
+            VitalHealthSignService.saveBloodPressure(formData)
                 .then((response) => {
                     console.log(response.data)
                 }).catch((error) => {
@@ -58,18 +102,29 @@ const AddVitalHealthSigns = () => {
         }
     }
 
+    
+
     const reset = (e) => {
         e.preventDefault();
         setSaveHeartRateDTO({
             heartRate: '',
-            heartRateMeasuredAt: ''});
+            heartRateMeasuredAt: ''
+        });
+    
+        setSaveWeightDTO({
+            weight: '',
+            weightMeasuredAt: ''
+        });
+    
         setSaveBloodPressureDTO({
             systolic: '',
             diastolic: '',
-            bloodPressureMeasuredAt: ''});
-        setSaveWeightDTO({
-            weight: '',
-            weightMeasuredAt: ''});
+            bloodPressureMeasuredAt: ''
+        });
+
+        heartRateFileValue.current.value = null;
+        weightFileValue.current.value = null;
+        bloodPressureFileValue.current.value = null;
     }
 
     return (
@@ -80,7 +135,7 @@ const AddVitalHealthSigns = () => {
             <div>
                 <h1 className='rounded w-full my-8 text-center bg-sky-800 text-white py-2 px-6 font-bold capitalize'>Add your vital health signs</h1>
             </div>
-            <div className='flex'>
+            <div className='flex h-80'>
                 <div className='py-2 h-14 my-4 mx-3'>
                     <label className=' text-gray-800 text-sm font-normal'>Heart Rate:
                         <input 
@@ -100,6 +155,16 @@ const AddVitalHealthSigns = () => {
                             value={saveHeartRateDTO.heartRateMeasuredAt}
                             onChange={(e) => handleChange(e)}
                             className='h-10 w-56 border mt-2 px-2 py2'
+                        />
+                    </label>
+                    <label className='text-gray-800 text-sm font-normal'>Upload File:
+                        <input
+                            id = "heartRateFile"
+                            type="file"
+                            name="heartRateFile"
+                            ref={heartRateFileValue}
+                            onChange={(e) => handleChange(e)}
+                            className='w-56 mt-2 px-2 py2'
                         />
                     </label>
                 </div>
@@ -122,6 +187,16 @@ const AddVitalHealthSigns = () => {
                             value={saveWeightDTO.weightMeasuredAt}
                             onChange={(e) => handleChange(e)}
                             className='h-10 w-56 border mt-2 px-2 py2'
+                        />
+                    </label>
+                    <label className='text-gray-800 text-sm font-normal'>Upload File:
+                        <input
+                            id="weightFile"
+                            type="file"
+                            name="weightFile"
+                            ref={weightFileValue}
+                            onChange={(e) => handleChange(e)}
+                            className='h-10 w-56 mt-2 px-2 py2'
                         />
                     </label>
                 </div>
@@ -157,9 +232,19 @@ const AddVitalHealthSigns = () => {
                             className='h-10 w-56 border mt-2 px-2 py2'
                         />
                     </label>
+                    <label className='text-gray-800 text-sm font-normal'>Upload File:
+                        <input
+                            id = "bloodPressureFile"
+                            type="file"
+                            name="bloodPressureFile"
+                            ref={bloodPressureFileValue}
+                            onChange={(e) => handleChange(e)}
+                            className='h-10 w-56 mt-2 px-2 py2'
+                        />
+                    </label>
                 </div>
-            </div> 
-            <div className='mt-48 inline-flex'>
+            </div>
+            <div className=' inline-flex'>
                 <button 
                     type="submit" 
                     onClick={saveVitalHealthSign}

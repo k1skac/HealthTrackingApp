@@ -32,7 +32,15 @@ public class UserRestController {
     @PostMapping("/register")
     public ResponseEntity<?> register (@RequestBody RegisterDTO registerDto) {
         try {
-            return ResponseEntity.ok(iUserService.register(registerDto));
+            ResponseCookie jwtHTATokenCookie = ResponseCookie.from(
+                            "jwtHTATokenCookie",
+                            iUserService.register(registerDto))
+                    .httpOnly(true).path("/")
+                    .maxAge(60*60*10)
+                    .secure(true)
+                    .sameSite("None")
+                    .build();
+            return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtHTATokenCookie.toString()).body(null);
         } catch (HtaException exception) {
             return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
         }
@@ -40,7 +48,14 @@ public class UserRestController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody LoginDTO loginDto) throws UserNotFoundException {
-        ResponseCookie jwtHTATokenCookie = ResponseCookie.from("jwtHTATokenCookie", iUserService.authenticate(loginDto)).httpOnly(true).path("/").maxAge(60*60*10).secure(true).sameSite("None").build();
+        ResponseCookie jwtHTATokenCookie = ResponseCookie.from(
+                        "jwtHTATokenCookie",
+                        iUserService.authenticate(loginDto))
+                .httpOnly(true).path("/")
+                .maxAge(60*60*10)
+                .secure(true)
+                .sameSite("None")
+                .build();
         System.out.println("This is your cookie: " + jwtHTATokenCookie);
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtHTATokenCookie.toString()).body(null);
     }

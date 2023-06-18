@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -19,4 +20,5 @@ public class SaveBloodPressureDTO {
     private float systolic;
     @Min(30)
     private float diastolic;
+    private MultipartFile bloodPressureFile;
 }

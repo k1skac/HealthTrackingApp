@@ -53,7 +53,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public BearerToken register(RegisterDTO registerDTO) throws UserEmailAlreadyTakenException, UserEmailMissingException {
+    public String register(RegisterDTO registerDTO) throws UserEmailAlreadyTakenException, UserEmailMissingException {
         if (registerDTO.getEmail()==null||registerDTO.getEmail().equals("")) {
             throw new UserEmailMissingException();
         } else{
@@ -81,7 +81,7 @@ public class UserService implements IUserService {
                 iUserRepository.save(user);
                 newLog(iLogTypeRepository.findLogTypeByName("registration"), iUserRepository.findByEmail(registerDTO.getEmail()).orElseThrow(), "");
                 String token = jwtUtilities.generateToken(registerDTO.getEmail(), Collections.singletonList(role.getRoleName()));
-                return new BearerToken(token, "Bearer ");
+                return jwtUtilities.generateToken(user.getUsername(), user.getRoles().stream().map(Role::getRoleName).toList());
             }
         }
     }

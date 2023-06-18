@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,4 +19,5 @@ public class SaveHeartRateDTO {
     @Min(20)
     @Max(170)
     private float heartRate;
+    private MultipartFile heartRateFile;
 }

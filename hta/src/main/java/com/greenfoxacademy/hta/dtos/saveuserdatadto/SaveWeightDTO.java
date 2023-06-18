@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.time.LocalDateTime;
 
 
@@ -14,4 +16,5 @@ import java.time.LocalDateTime;
 public class SaveWeightDTO {
     private float weight;
     private LocalDateTime weightMeasuredAt;
+    private MultipartFile weightFile;
 }

@@ -13,7 +13,7 @@ import org.springframework.security.core.Authentication;
 
 public interface IUserService {
     String authenticate(LoginDTO loginDto) throws UserNotFoundException;
-    BearerToken register(RegisterDTO registerDTO) throws UserEmailAlreadyTakenException, UserEmailMissingException;
+    String register(RegisterDTO registerDTO) throws UserEmailAlreadyTakenException, UserEmailMissingException;
     Role saveRole(Role role);
     String userChangePassword(String newPassword, Authentication authentication) throws UserNotFoundException;
     void newLog(LogType logType, User user, String description);
