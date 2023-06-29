@@ -1,4 +1,3 @@
-'use client';
 import React, { useState } from 'react'
 import LoginService from '@/app/service/LoginService';
 
@@ -36,6 +35,15 @@ const LoginForm = () => {
       	<div className='m-auto w-full max-w-screen-md p-6 my-12 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md'>
 			<div>
 				<a href="http://localhost:3000/add-vital-health-signs">Add my daily data</a>
+			</div>
+			<div>
+				<a href="http://localhost:3000/calorie-intake-registration">Calorie intake registration</a>
+			</div>
+			<div>
+				<a href="http://localhost:3000/testfile">Testing dynamic content</a>
+			</div>
+			<div>
+				<a href="http://localhost:3000/add-meal">Add meal</a>
 			</div>
 			<div>
 				<h1 className='rounded w-full my-8 text-center bg-sky-800 text-white py-2 px-6 font-bold capitalize'>Login</h1>

@@ -1,5 +1,10 @@
 package com.greenfoxacademy.hta;
 
+import com.greenfoxacademy.hta.dtos.nutritiondto.NewMealDTO;
+import com.greenfoxacademy.hta.exceptions.MealFoodstuffNotFoundException;
+import com.greenfoxacademy.hta.exceptions.MealNoFoodInItException;
+import com.greenfoxacademy.hta.exceptions.MealReadyFoodNotFoundException;
+import com.greenfoxacademy.hta.exceptions.UserNotFoundException;
 import com.greenfoxacademy.hta.models.log.LogType;
 import com.greenfoxacademy.hta.models.nutrition.FoodstuffType;
 import com.greenfoxacademy.hta.models.nutrition.ReadyFoodType;
@@ -10,6 +15,7 @@ import com.greenfoxacademy.hta.repositories.IUserRepository;
 import com.greenfoxacademy.hta.repositories.healthylivingrepositories.IWeightRepository;
 import com.greenfoxacademy.hta.repositories.nutrition.*;
 import com.greenfoxacademy.hta.services.city.ICityService;
+import com.greenfoxacademy.hta.services.nutrition.INutrtionService;
 import com.greenfoxacademy.hta.services.user.IUserService;
 import com.greenfoxacademy.hta.models.medication.Medication;
 import com.greenfoxacademy.hta.models.medication.MedicationIntake;
@@ -375,5 +381,15 @@ public class HtaApplication {
         iFoodStuffTypeRepository.save(new FoodstuffType("Beer",159, 0,2,0 ));
         iFoodStuffTypeRepository.save(new FoodstuffType("Honey",306, 0,76,0 ));
    }
+
+    public void addBasicMeal(INutrtionService iNutrtionService) throws MealNoFoodInItException, UserNotFoundException, MealFoodstuffNotFoundException, MealReadyFoodNotFoundException {
+        HashMap<String,Double> newFoodstuffs = new HashMap<>();
+        newFoodstuffs.put( "Avocado", 25.5);
+        HashMap<String,Double> newReadyFoods = new HashMap<>();
+        newReadyFoods.put( "Norbi Update1 Párizsis zsemle", 1.5);
+        newReadyFoods.put(  "Burger King Whopper", 1.0);
+        NewMealDTO newMeal = new NewMealDTO(LocalDateTime.of(2023, 8, 2, 12, 0, 0, 0),newFoodstuffs,newReadyFoods);
+        iNutrtionService.addNewMeal(newMeal, "user1@gmail.com");
+    }
 
 }

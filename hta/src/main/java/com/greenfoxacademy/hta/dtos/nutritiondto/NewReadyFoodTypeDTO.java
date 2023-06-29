@@ -15,5 +15,4 @@ public class NewReadyFoodTypeDTO implements Serializable  {
     float carbohydratePerPortion;
     float proteinPerPortion;
 
-
 }

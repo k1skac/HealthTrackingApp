@@ -133,6 +133,12 @@ const AddVitalHealthSigns = () => {
                 <a href="http://localhost:3000/login">Login</a>
             </div>
             <div>
+				<a href="http://localhost:3000/calorie-intake-registration">Calorie intake reigstration</a>
+			</div>
+            <div>
+				<a href="http://localhost:3000/testfile">Testing dynamic content</a>
+			</div>
+            <div>
                 <h1 className='rounded w-full my-8 text-center bg-sky-800 text-white py-2 px-6 font-bold capitalize'>Add your vital health signs</h1>
             </div>
             <div className='flex h-80'>

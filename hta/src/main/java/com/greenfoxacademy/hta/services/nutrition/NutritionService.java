@@ -15,8 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -151,6 +153,21 @@ public class NutritionService implements INutrtionService {
     return iReadyFoodTypeRepository.findAll();
   }
 
+  @Override
+  public List<String> getReadyFoodTypeNames() {
+    List<String> readyFoodTypesString = new ArrayList<>();
+    List<ReadyFoodType> readyFoodTypes = iReadyFoodTypeRepository.findAll();
+
+    if (readyFoodTypes != null) {
+      readyFoodTypesString = readyFoodTypes.stream()
+              .map(ReadyFoodType::getName)
+              .collect(Collectors.toList());
+    }
+
+    return readyFoodTypesString;
+  }
+
+
   public GetAMealResponseDTO getAMeal(GetAMealDTO getAMealDTO, Authentication authentication)
           throws MealDoesNotExistException {
     try {
@@ -164,5 +181,18 @@ public class NutritionService implements INutrtionService {
     } catch (MealDoesNotExistException e) {
       throw new MealDoesNotExistException();
     }
+  }
+
+  @Override
+  public List<String> getFoodStuffTypeNames() {
+    List<String> foodStuffTypesString = new ArrayList<>();
+    List<FoodstuffType> foodstuffTypes = iFoodStuffTypeRepository.findAll();
+
+    if (foodstuffTypes != null) {
+      foodStuffTypesString = foodstuffTypes.stream()
+              .map(FoodstuffType::getName)
+              .collect(Collectors.toList());
+    }
+    return foodStuffTypesString;
   }
 }
