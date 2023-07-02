@@ -34,7 +34,7 @@ public class SpringSecurityConfig {
             .cors().configurationSource(corsConfigurationSource())
             .and()
             .authorizeHttpRequests()
-            .requestMatchers("/user/authenticate", "user/register").permitAll()
+            .requestMatchers("/user/authenticate", "user/register", "user/hello").permitAll()
             .requestMatchers("/user/**").hasAuthority("USER")
             .requestMatchers("/admin/**").hasAuthority("ADMIN");
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

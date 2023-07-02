@@ -13,6 +13,7 @@ public interface IMealRepository extends JpaRepository<Meal, Long> {
   Optional<Meal> findByUser(User user);
 
     Optional<Meal>  findMealByMealTimeAndUser(LocalDateTime mealTime, User user);
+    Optional<Meal> findTop1MealByUserOrderByMealTimeDesc(User user);
 
 }
 

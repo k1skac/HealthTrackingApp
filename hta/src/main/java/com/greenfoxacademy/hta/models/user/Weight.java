@@ -21,7 +21,7 @@ public class Weight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonIgnore
+
     @CreatedDate
     private LocalDateTime weightMeasuredAt;
     private float weight;

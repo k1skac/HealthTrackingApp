@@ -5,6 +5,7 @@ import com.greenfoxacademy.hta.exceptions.HtaException;
 import com.greenfoxacademy.hta.exceptions.UserNotFoundException;
 import com.greenfoxacademy.hta.models.user.BiologicalGender;
 import com.greenfoxacademy.hta.models.user.User;
+import com.greenfoxacademy.hta.repositories.ICityRepository;
 import com.greenfoxacademy.hta.repositories.IRoleRepository;
 import com.greenfoxacademy.hta.repositories.log.ILogRepository;
 import com.greenfoxacademy.hta.repositories.log.ILogTypeRepository;
@@ -28,13 +29,14 @@ public class AdminServiceTests {
     @Test
     public void adminDeleteUserOK() throws HtaException {
         var iUserRepository = mock(IUserRepository.class);
+        var iCityRepository = mock(ICityRepository.class);
         var iLogTypeRepository = mock(ILogTypeRepository.class);
         var authenticationManager = mock(AuthenticationManager.class);
         var iRoleRepository = mock(IRoleRepository.class);
         var iLogRepository = mock(ILogRepository.class);
         var passwordEncoder = mock(PasswordEncoder.class);
         var jwtUtilities = mock(JwtUtilities.class);
-        var iUserService = new UserService(authenticationManager, iUserRepository, iRoleRepository, iLogRepository, iLogTypeRepository, passwordEncoder, jwtUtilities);
+        var iUserService = new UserService(authenticationManager, iUserRepository, iRoleRepository, iLogRepository, iLogTypeRepository, iCityRepository, passwordEncoder, jwtUtilities);
         var adminService = new AdminService(iUserRepository, iLogRepository, iLogTypeRepository, passwordEncoder, iUserService);
         User user = new User("User1", "user1@gmail.com", "password1",
                 "DummyUser1", BiologicalGender.MALE, LocalDate.of(1988, 1, 4), 198.5);
@@ -50,13 +52,14 @@ public class AdminServiceTests {
     @Test
     public void adminDeleteUserNotRegistered() throws UserNotFoundException {
         var iUserRepository = mock(IUserRepository.class);
+        var iCityRepository = mock(ICityRepository.class);
         var iLogTypeRepository = mock(ILogTypeRepository.class);
         var authenticationManager = mock(AuthenticationManager.class);
         var iRoleRepository = mock(IRoleRepository.class);
         var iLogRepository = mock(ILogRepository.class);
         var passwordEncoder = mock(PasswordEncoder.class);
         var jwtUtilities = mock(JwtUtilities.class);
-        var iUserService = new UserService(authenticationManager, iUserRepository, iRoleRepository, iLogRepository, iLogTypeRepository, passwordEncoder, jwtUtilities);
+        var iUserService = new UserService(authenticationManager, iUserRepository, iRoleRepository, iLogRepository, iLogTypeRepository, iCityRepository, passwordEncoder, jwtUtilities);
         var adminService = new AdminService(iUserRepository, iLogRepository, iLogTypeRepository, passwordEncoder, iUserService);
         User user = new User("User1", "user1@gmail.com", "password1",
                 "DummyUser1", BiologicalGender.MALE, LocalDate.of(1988, 1, 4), 198.5);

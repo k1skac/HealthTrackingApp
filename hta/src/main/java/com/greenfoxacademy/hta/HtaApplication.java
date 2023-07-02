@@ -7,6 +7,7 @@ import com.greenfoxacademy.hta.exceptions.MealReadyFoodNotFoundException;
 import com.greenfoxacademy.hta.exceptions.UserNotFoundException;
 import com.greenfoxacademy.hta.models.log.LogType;
 import com.greenfoxacademy.hta.models.nutrition.FoodstuffType;
+import com.greenfoxacademy.hta.models.nutrition.Meal;
 import com.greenfoxacademy.hta.models.nutrition.ReadyFoodType;
 import com.greenfoxacademy.hta.models.user.*;
 import com.greenfoxacademy.hta.repositories.log.ILogTypeRepository;
@@ -48,29 +49,30 @@ public class HtaApplication {
                           IWeightRepository iWeightRepository, IMedicationIntakeRepository iMedicationIntakeRepository,
                           IMedicationRepository iMedicationRepository, INotificationRepository iNotificationRepository,
                           PasswordEncoder passwordEncoder, ILogTypeRepository iLogTypeRepository,
-                          IMealRepository iMealRepository, IFoodStuffRepository iFoodStuffRepository,ICityService iCityService,
-                          IFoodStuffTypeRepository iFoodStuffTypeRepository, IReadyFoodRepository iReadyFoodRepository,
-                          IReadyFoodTypeRepository iReadyFoodTypeRepository) {
+                          ICityService iCityService, IFoodStuffTypeRepository iFoodStuffTypeRepository,
+                          IReadyFoodTypeRepository iReadyFoodTypeRepository,INutrtionService iNutrtionService) {
         return args -> {
             iUserService.saveRole(new Role(RoleName.USER));
             iUserService.saveRole(new Role(RoleName.ADMIN));
             Role role = iRoleRepository.findByRoleName(RoleName.ADMIN);
             Role role2 = iRoleRepository.findByRoleName(RoleName.USER);
             addAdmin(iUserService, iUserRepository, passwordEncoder, role2, role);
-            addDummyUser(iUserService, iUserRepository, passwordEncoder, role2);
+            addDummyUser(iUserService, iUserRepository, passwordEncoder, role2, iCityService);
             addLogType(iLogTypeRepository);
             addCities(iCityService);
             addDataToUser1ForNotifications(iUserRepository, iBloodPressureRepository, iHeartRateRepository, iWeightRepository,
-                    iMedicationIntakeRepository, iMedicationRepository, iNotificationRepository);
+                    iMedicationIntakeRepository, iMedicationRepository, iNotificationRepository, iCityService);
             addUsers(passwordEncoder, iUserService, iCityService, iRoleRepository);
             addBasicFoods(iFoodStuffTypeRepository,iReadyFoodTypeRepository);
+            addBasicMeal(iNutrtionService);
         };
     }
 
     private void addDataToUser1ForNotifications(IUserRepository iUserRepository, IBloodPressureRepository iBloodPressureRepository,
                                                 IHeartRateRepository iHeartRateRepository, IWeightRepository iWeightRepository,
                                                 IMedicationIntakeRepository iMedicationIntakeRepository,
-                                                IMedicationRepository iMedicationRepository, INotificationRepository iNotificationRepository) {
+                                                IMedicationRepository iMedicationRepository, INotificationRepository iNotificationRepository,
+                                                ICityService iCityService) {
         User user = iUserRepository.findByEmail("user1@gmail.com").get();
         Duration diff = Duration.between(ZonedDateTime.now(ZoneId.systemDefault()), ZonedDateTime.now(ZoneId.of("Europe/London")));
         long hours = diff.getSeconds()/3600;
@@ -82,6 +84,38 @@ public class HtaApplication {
         bloodPressure.setUser(user);
         iBloodPressureRepository.save(bloodPressure);
 
+        BloodPressure bloodPressure2 = new BloodPressure(
+                134f,
+                79f,
+                LocalDateTime.of(2020, 5, 28, 9, 0, 0, 0)
+        );
+        bloodPressure2.setUser(user);
+        iBloodPressureRepository.save(bloodPressure2);
+
+        BloodPressure bloodPressure3 = new BloodPressure(
+                150f,
+                79f,
+                LocalDateTime.of(2020, 5, 28, 12, 0, 0, 0)
+        );
+        bloodPressure3.setUser(user);
+        iBloodPressureRepository.save(bloodPressure3);
+
+        BloodPressure bloodPressure4 = new BloodPressure(
+                140f,
+                69f,
+                LocalDateTime.of(2020, 5, 28, 18, 0, 0, 0)
+        );
+        bloodPressure4.setUser(user);
+        iBloodPressureRepository.save(bloodPressure4);
+
+        BloodPressure bloodPressure5 = new BloodPressure(
+                120f,
+                70f,
+                LocalDateTime.of(2020, 5, 30, 10, 0, 0, 0)
+        );
+        bloodPressure5.setUser(user);
+        iBloodPressureRepository.save(bloodPressure5);
+
         HeartRate heartRate = new HeartRate(
                 72f,
                 LocalDateTime.of(2021, 6, 1, 0, 0, 0, 0)
@@ -91,11 +125,46 @@ public class HtaApplication {
         iHeartRateRepository.save(heartRate);
 
         Weight weight = new Weight(
-                LocalDateTime.of(LocalDate.now(), LocalTime.of(12, 0, 0, 0)),
+                LocalDateTime.of(2021, 6, 1, 6, 0, 0, 0),
                 80f
         );
         weight.setUser(user);
         iWeightRepository.save(weight);
+
+        Weight weight2 = new Weight(
+                LocalDateTime.of(2021, 6, 2, 6, 0, 0, 0),
+                83f
+        );
+        weight2.setUser(user);
+        iWeightRepository.save(weight2);
+
+        Weight weight3 = new Weight(
+                LocalDateTime.of(2021, 6, 3, 6, 0, 0, 0),
+                82f
+        );
+        weight3.setUser(user);
+        iWeightRepository.save(weight3);
+
+        Weight weight4 = new Weight(
+                LocalDateTime.of(2021, 6, 5, 6, 0, 0, 0),
+                85f
+        );
+        weight4.setUser(user);
+        iWeightRepository.save(weight4);
+
+        Weight weight5 = new Weight(
+                LocalDateTime.of(2021, 6, 10, 6, 0, 0, 0),
+                100f
+        );
+        weight5.setUser(user);
+        iWeightRepository.save(weight5);
+
+        Weight weight6 = new Weight(
+                LocalDateTime.of(2021, 7, 2, 6, 0, 0, 0),
+                110f
+        );
+        weight6.setUser(user);
+        iWeightRepository.save(weight6);
 
         Medication medication1 = new Medication(
                 true,
@@ -135,6 +204,7 @@ public class HtaApplication {
                 true);
         iNotificationRepository.save(notification);
         user.setNotification(notification);
+        user.setCity(iCityService.findByCityName("Szombathely"));
         iUserRepository.save(user);
     }
 
@@ -150,7 +220,7 @@ public class HtaApplication {
     }
 
     public void addDummyUser(IUserService iUserService, IUserRepository iUserRepository,
-                             PasswordEncoder passwordEncoder, Role role2) {
+                             PasswordEncoder passwordEncoder, Role role2, ICityService iCityService) {
         List<User> users = Arrays.asList(
                 new User("User1", "user1@gmail.com", passwordEncoder.encode("password1"),
                         "DummyUser1", BiologicalGender.MALE, LocalDate.of(1988, 1, 4), 198.5),

@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface INutrtionService {
 
-
    String addNewMeal(NewMealDTO newMealDTO, String email) throws MealNoFoodInItException, MealFoodstuffNotFoundException, UserNotFoundException, MealReadyFoodNotFoundException;
 
    String newFoodstuff(NewFoodStuffTypeDTO newFoodStuffTypeDTO, String email) throws FoodStuffIsAlreadyExistException;
@@ -26,4 +25,6 @@ public interface INutrtionService {
            throws UserNotFoundException, MealDoesNotExistException;
 
    List<String> getFoodStuffTypeNames();
+   MealSumAggregateDataDTO getLastMealData(Authentication authentication) throws MealDoesNotExistException;
+
 }

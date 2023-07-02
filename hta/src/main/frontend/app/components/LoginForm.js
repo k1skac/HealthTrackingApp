@@ -1,11 +1,16 @@
+'use client';
 import React, { useState } from 'react'
 import LoginService from '@/app/service/LoginService';
+import Navbar from './Navbar';
+//import {Alert} from 'alert';
 
 const LoginForm = () => {
     const [loginDTO, setLoginDTO] = useState({
         email: '',
         password: ''
     })
+
+	const [errorMessage, setErrorMessage] = useState(false);
 
     const handleChange = (e) => {
         const value = e.target.value;
@@ -16,8 +21,12 @@ const LoginForm = () => {
         e.preventDefault();
         LoginService.loginUser(loginDTO)
         .then((response) => {
-            console.log(response.data);
             console.log(response.status);
+			if (response.status===200) {
+				window.location.href= "http://localhost:3000/";
+			} else {
+				setErrorMessage(true);
+			}
         }).catch((error) => {
             console.log(error);
         });
@@ -32,48 +41,38 @@ const LoginForm = () => {
     }
 
     return (
-      	<div className='m-auto w-full max-w-screen-md p-6 my-12 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md'>
+      	<div className='m-auto w-full max-w-screen-md p-6 my-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md'>
 			<div>
-				<a href="http://localhost:3000/add-vital-health-signs">Add my daily data</a>
-			</div>
-			<div>
-				<a href="http://localhost:3000/calorie-intake-registration">Calorie intake registration</a>
-			</div>
-			<div>
-				<a href="http://localhost:3000/testfile">Testing dynamic content</a>
-			</div>
-			<div>
-				<a href="http://localhost:3000/add-meal">Add meal</a>
-			</div>
-			<div>
-				<h1 className='rounded w-full my-8 text-center bg-sky-800 text-white py-2 px-6 font-bold capitalize'>Login</h1>
+				<h1 className='rounded w-full my-8 text-center bg-htadarkteal text-white py-2 px-6 font-bold'>Login</h1>
 			</div>
 			<div className='flex'>
 				<div className='m-auto py-2 h-14'>
-				<label className='inline-block text-gray-800 text-sm font-normal'>Email:
-					<br/>
-					<input 
-						type="text" 
-						name="email" 
-						placeholder="Email..."
-						value={loginDTO.email}
-						onChange={(e) => handleChange(e)}
-						className='h-10 w-56 border mt-2 px-2 py2'
-					/>
-				</label>
-					<br/>
-				<label className='inline-block text-gray-800 text-sm font-normal'>Password:
-					<br/>
-					<input 
-						type="text" 
-						name="password" 
-						placeholder="Password..."
-						value={loginDTO.password}
-						onChange={(e) => handleChange(e)}
-						className='h-10 w-56 border mt-2 px-2 py2'
-					/>
-				</label> 
+					<label className='inline-block text-gray-800 text-sm font-normal'>Email:
+						<br/>
+						<input 
+							type="text" 
+							name="email" 
+							placeholder="Email..."
+							value={loginDTO.email}
+							onChange={(e) => handleChange(e)}
+							className='h-10 w-56 border mt-2 px-2 py2'
+						/>
+					</label>
+						<br/>
+					<label className='inline-block text-gray-800 text-sm font-normal'>Password:
+						<br/>
+						<input 
+							type="text" 
+							name="password" 
+							placeholder="Password..."
+							value={loginDTO.password}
+							onChange={(e) => handleChange(e)}
+							className='h-10 w-56 border mt-2 px-2 py2'
+						/>
+					</label> 
 				</div>
+				{errorMessage}
+
 				
 			</div>
 			<div className='mt-40 inline-flex'>
@@ -89,7 +88,7 @@ const LoginForm = () => {
 					className='rounded text-white font-semibold bg-orange-500 hover:bg-orange-700 py-2 px-6 ml-6'>
 					Clear
 				</button>
-				</div>
+			</div>
 		</div>
   )
 }

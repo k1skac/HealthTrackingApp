@@ -1,6 +1,7 @@
 package com.greenfoxacademy.hta.services.healthylivingservices;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.greenfoxacademy.hta.dtos.reportsdto.health.ResponseWeightPeriodDTO;
 import com.greenfoxacademy.hta.dtos.saveuserdatadto.SaveWeightDTO;
 import com.greenfoxacademy.hta.exceptions.WeightNotFoundException;
 import com.greenfoxacademy.hta.exceptions.WeightBadRequestException;
@@ -96,4 +97,5 @@ public class WeightService implements IWeightService {
         }
         return null;
     }
+
 }

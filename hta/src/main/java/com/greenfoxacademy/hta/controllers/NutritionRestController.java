@@ -32,7 +32,6 @@ public class NutritionRestController {
   @PostMapping("/add-foodStuff")
   public ResponseEntity<?> registerFoodStuff (@RequestBody NewFoodStuffTypeDTO newFoodStuffTypeDTO, Authentication authentication) {
     try {
-      FoodstuffType foodstuffType = new FoodstuffType(newFoodStuffTypeDTO.getName(), newFoodStuffTypeDTO.getCaloriePer100g(), newFoodStuffTypeDTO.getFatPer100g(), newFoodStuffTypeDTO.getCarbohydratePer100g(), newFoodStuffTypeDTO.getProteinPer100g());
       return ResponseEntity.ok(iNutrtionService.newFoodstuff(newFoodStuffTypeDTO, authentication.getName()));
     } catch (HtaException exception) {
       return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
@@ -42,7 +41,6 @@ public class NutritionRestController {
   @PostMapping("/add-readyFood")
   public ResponseEntity<?> registerReadyFood (@RequestBody NewReadyFoodTypeDTO newReadyFoodTypeDTO, Authentication authentication) {
     try {
-      ReadyFoodType readyFoodType = new ReadyFoodType(newReadyFoodTypeDTO.getName(), newReadyFoodTypeDTO.getCaloriePerPortion(), newReadyFoodTypeDTO.getFatPerPortion(), newReadyFoodTypeDTO.getCarbohydratePerPortion(), newReadyFoodTypeDTO.getProteinPerPortion());
       return ResponseEntity.ok(iNutrtionService.newReadyFood(newReadyFoodTypeDTO, authentication.getName()));
     } catch (HtaException exception) {
       return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
@@ -60,14 +58,22 @@ public class NutritionRestController {
   }
 
   @GetMapping("/get-foodstuff-list")
-  public ResponseEntity<?> getFoodstuffList() {
+  public ResponseEntity<?> getFoodstuffList() throws HtaException {
     return ResponseEntity.ok(iNutrtionService.getFoodstuffList());
   }
 
   @GetMapping("/get-a-meal")
-  public ResponseEntity<?> getAMeal(@RequestBody GetAMealDTO getAMealDTO, Authentication authentication) {
+  public ResponseEntity<?> getAMeal(@RequestBody GetAMealDTO getAMealDTO, Authentication authentication) throws HtaException {
     try {
       return ResponseEntity.ok(iNutrtionService.getAMeal(getAMealDTO, authentication));
+    } catch (HtaException exception) {
+      return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
+    }
+  }
+  @GetMapping("/nutrition-last")
+  public ResponseEntity<?> viewLastNutritionContent(Authentication authentication) {
+    try {
+      return ResponseEntity.ok(iNutrtionService.getLastMealData(authentication));
     } catch (HtaException exception) {
       return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
     }

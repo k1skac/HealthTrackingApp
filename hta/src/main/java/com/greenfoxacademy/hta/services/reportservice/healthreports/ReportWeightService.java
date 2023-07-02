@@ -2,6 +2,7 @@ package com.greenfoxacademy.hta.services.reportservice.healthreports;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenfoxacademy.hta.dtos.reportsdto.health.ResponseWeightDTO;
+import com.greenfoxacademy.hta.dtos.reportsdto.health.ResponseWeightPeriodDTO;
 import com.greenfoxacademy.hta.exceptions.HtaException;
 import com.greenfoxacademy.hta.exceptions.reportsexceptions.WeightNotFoundException;
 import com.greenfoxacademy.hta.repositories.IUserRepository;
@@ -76,6 +77,28 @@ public class ReportWeightService implements IReportWeightService {
                 responseWeightDTO.setBodyMassIndex(calculateBMI(authentication));
             }
              return responseWeightDTOList;
+        }
+        throw new WeightNotFoundException();
+    }
+
+    @Override
+    public List<ResponseWeightPeriodDTO> getWeightPeriod(Date startDate, Date endDate, Authentication authentication) throws HtaException  {
+        Long userId = getCurrentUser(authentication);
+        if(!IReportWeightRepository.getWeightInPeriod(startDate, endDate,userId).isEmpty()) {
+            return IReportWeightRepository.getWeightInPeriod(startDate, endDate,userId).stream()
+                    .map(weight -> objectMapper.convertValue(weight, ResponseWeightPeriodDTO.class))
+                    .toList();
+        }
+        throw new WeightNotFoundException();
+    }
+
+    @Override
+    public List<ResponseWeightPeriodDTO> getLastSevenWeights(Authentication authentication) throws HtaException {
+        Long userId = getCurrentUser(authentication);
+        if(!IReportWeightRepository.findTop7ByUserIdOrderByWeightMeasuredAtDesc(userId).isEmpty()) {
+            return IReportWeightRepository.findTop7ByUserIdOrderByWeightMeasuredAtDesc(userId).stream()
+                    .map(weight -> objectMapper.convertValue(weight, ResponseWeightPeriodDTO.class))
+                    .toList();
         }
         throw new WeightNotFoundException();
     }

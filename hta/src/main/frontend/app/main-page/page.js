@@ -1,13 +1,12 @@
-'use client';
 import React from 'react'
-import LoginForm from '../components/LoginForm'
+import MainPage from '../components/MainPage'
 
 const page = () => {
 	return (
 		<div>
-			<LoginForm />
+			<MainPage />
 		</div>
-	)
+	);
 }
 
 export default page

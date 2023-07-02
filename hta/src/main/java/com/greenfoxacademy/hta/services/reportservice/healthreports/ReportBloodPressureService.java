@@ -1,6 +1,8 @@
 package com.greenfoxacademy.hta.services.reportservice.healthreports;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenfoxacademy.hta.dtos.reportsdto.health.ResponseBloodPressureDTO;
+import com.greenfoxacademy.hta.dtos.reportsdto.health.ResponseSimpleBloodPressureDTO;
 import com.greenfoxacademy.hta.exceptions.HtaException;
 import com.greenfoxacademy.hta.models.BloodLabDataLimits;
 import com.greenfoxacademy.hta.models.user.BloodPressure;
@@ -23,11 +25,13 @@ import java.util.Objects;
 public class ReportBloodPressureService implements IReportBloodPressureService {
     private final IUserRepository iUserRepository;
     private final IReportBloodPressureRepository IReportBloodPressureRepository;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public ReportBloodPressureService(IUserRepository iUserRepository, IReportBloodPressureRepository IReportBloodPressureRepository) {
+    public ReportBloodPressureService(IUserRepository iUserRepository, IReportBloodPressureRepository IReportBloodPressureRepository, ObjectMapper objectMapper) {
         this.iUserRepository = iUserRepository;
         this.IReportBloodPressureRepository = IReportBloodPressureRepository;
+        this.objectMapper = objectMapper;
     }
 
     public Date getSqlDateFromLocalDateTime(LocalDateTime localDateTime) {
@@ -227,5 +231,15 @@ public class ReportBloodPressureService implements IReportBloodPressureService {
         } else {
             throw new BloodPressureNotFoundException();
         }
+    }
+    @Override
+    public List<ResponseSimpleBloodPressureDTO> getLastSevenBloodPressure(Authentication authentication) throws HtaException {
+        Long userId = getCurrentUser(authentication);
+        if(!IReportBloodPressureRepository.findTop7ByUserIdOrderByBloodPressureMeasuredAt(userId).isEmpty()) {
+            return IReportBloodPressureRepository.findTop7ByUserIdOrderByBloodPressureMeasuredAt(userId).stream()
+                    .map(bloodPressure -> objectMapper.convertValue(bloodPressure, ResponseSimpleBloodPressureDTO.class))
+                    .toList();
+        }
+        throw new BloodPressureNotFoundException();
     }
 }

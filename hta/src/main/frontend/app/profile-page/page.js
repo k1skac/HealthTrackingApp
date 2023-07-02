@@ -1,13 +1,12 @@
-'use client';
 import React from 'react'
-import LoginForm from '../components/LoginForm'
+import ProfilePage from "@/app/components/ProfilePage";
 
 const page = () => {
 	return (
 		<div>
-			<LoginForm />
+		<ProfilePage />
 		</div>
-	)
+	);
 }
 
 export default page

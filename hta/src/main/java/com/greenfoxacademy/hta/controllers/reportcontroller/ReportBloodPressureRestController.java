@@ -2,6 +2,7 @@ package com.greenfoxacademy.hta.controllers.reportcontroller;
 
 import com.greenfoxacademy.hta.dtos.reportsdto.dateAndTime.*;
 import com.greenfoxacademy.hta.dtos.reportsdto.health.ResponseBloodPressureDTO;
+import com.greenfoxacademy.hta.dtos.reportsdto.health.ResponseSimpleBloodPressureDTO;
 import com.greenfoxacademy.hta.exceptions.HtaException;
 import com.greenfoxacademy.hta.services.reportservice.healthreports.IReportBloodPressureService;
 import jakarta.validation.Valid;
@@ -124,6 +125,15 @@ public class ReportBloodPressureRestController {
         try {
             List<ResponseBloodPressureDTO> responseBloodPressureDTOList = bloodPressureService.getMaxBloodPressureByDayLastWeek(authentication);
             return ResponseEntity.status(200).body(responseBloodPressureDTOList);
+        } catch (HtaException exception) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(exception.getMessage());
+        }
+    }
+    @GetMapping("/bloodpressure-lastSeven")
+    public ResponseEntity<?> viewLastSevenBloodPressure(Authentication authentication) {
+        try {
+            List<ResponseSimpleBloodPressureDTO> responseSimpleBloodPressureDTOS = bloodPressureService.getLastSevenBloodPressure(authentication);
+            return ResponseEntity.status(HttpStatus.OK).body(responseSimpleBloodPressureDTOS);
         } catch (HtaException exception) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(exception.getMessage());
         }

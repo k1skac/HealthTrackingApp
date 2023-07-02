@@ -29,7 +29,6 @@ public class GoalService implements IGoalService {
     private final IHealthyEatingRepository IHealthyEatingRepository;
     private final IExerciseRepository IExerciseRepository;
     private final IUserRepository iUserRepository;
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public List<GoalDTO> getAllByUser(Authentication authentication) {

@@ -16,6 +16,7 @@ public interface IReportWeightRepository extends JpaRepository<Weight, Long> {
 
     @Query("SELECT weight FROM Weight weight WHERE weight.user.id = ?3 AND date(weight.weightMeasuredAt) BETWEEN ?1 And ?2")
     List<Weight> getWeightInPeriod(Date startDate, Date endDate, Long userId);
+
     //-----------------------
 
 
@@ -31,5 +32,11 @@ public interface IReportWeightRepository extends JpaRepository<Weight, Long> {
 
     @Query("SELECT weight FROM Weight weight WHERE weight.user.id =?1 AND weight.weightMeasuredAt > ?2")
     List<Weight> getWeightsAfterLimit(Long userId, Date deadLineOfLastCalorieLimit);
+    //@Query(value = "SELECT * FROM weight WHERE id = ?1 ORDER BY weight_measured_at ASC LIMIT 7", nativeQuery = true)
+    //@Query("SELECT weight FROM Weight weight WHERE weight.id = ?1 ORDER BY weight.weightMeasuredAt ASC limit 7")
+    //List<Weight> getLastSevenWeights(Long userId);
+
+    List<Weight> findTop7ByUserIdOrderByWeightMeasuredAtDesc(Long UserId);
+
 
 }

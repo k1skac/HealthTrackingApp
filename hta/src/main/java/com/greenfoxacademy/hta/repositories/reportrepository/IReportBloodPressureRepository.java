@@ -1,6 +1,7 @@
 package com.greenfoxacademy.hta.repositories.reportrepository;
 
 import com.greenfoxacademy.hta.models.user.BloodPressure;
+import com.greenfoxacademy.hta.models.user.Weight;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -35,4 +36,6 @@ public interface IReportBloodPressureRepository extends JpaRepository<BloodPress
             "and date(bloodPressure.bloodPressureMeasuredAt) BETWEEN ?2 AND  ?3" +
             "and HOUR(bloodPressure.bloodPressureMeasuredAt) BETWEEN ?4 AND  ?5")
     List<BloodPressure> getBloodPressureOnPeriodByHours(Long userId, Date startDate, Date endDate, String startHours, String endHours);
+
+    List<BloodPressure> findTop7ByUserIdOrderByBloodPressureMeasuredAt(Long UserId);
 }

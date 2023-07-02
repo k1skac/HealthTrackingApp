@@ -1,8 +1,11 @@
 import VitalHealthSignService from '@/app/service/VitalHealthSignService';
-import { React, useState, useRef } from 'react'
+import React, {useState, useRef } from 'react'
+import {Fragment} from "react";
+import {Dialog, Transition} from "@headlessui/react";
 
 const AddVitalHealthSigns = () => {
-    const [saveHeartRateDTO, setSaveHeartRateDTO] = useState({
+    const  [isOpen, setIsOpen] = useState(false);
+    const [saveHeartRateDTO, setSaveHeartRateDTO, ] = useState({
         heartRate: '',
         heartRateMeasuredAt: '',
         heartRateFile: ''
@@ -24,6 +27,12 @@ const AddVitalHealthSigns = () => {
         bloodPressureMeasuredAt: '',
         bloodPressureFile: ''
     });
+    function closeModal() {
+        setIsOpen(false);
+    }
+    function openModal() {
+        setIsOpen(true);
+    }
 
     const bloodPressureFileValue = useRef(null);
 
@@ -54,7 +63,6 @@ const AddVitalHealthSigns = () => {
             }
 
             VitalHealthSignService.saveWeight(formData)
-            VitalHealthSignService.saveWeight(saveWeightDTO)
             .then((response) => {
                 console.log(response.data)
             }).catch((error) => {
@@ -102,7 +110,7 @@ const AddVitalHealthSigns = () => {
         }
     }
 
-    
+
 
     const reset = (e) => {
         e.preventDefault();
@@ -110,12 +118,12 @@ const AddVitalHealthSigns = () => {
             heartRate: '',
             heartRateMeasuredAt: ''
         });
-    
+
         setSaveWeightDTO({
             weight: '',
             weightMeasuredAt: ''
         });
-    
+
         setSaveBloodPressureDTO({
             systolic: '',
             diastolic: '',
@@ -128,144 +136,194 @@ const AddVitalHealthSigns = () => {
     }
 
     return (
-        <div className='m-auto w-full max-w-screen-md p-6 my-12 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md'>
-            <div>
-                <a href="http://localhost:3000/login">Login</a>
-            </div>
-            <div>
-				<a href="http://localhost:3000/calorie-intake-registration">Calorie intake reigstration</a>
-			</div>
-            <div>
-				<a href="http://localhost:3000/testfile">Testing dynamic content</a>
-			</div>
-            <div>
-                <h1 className='rounded w-full my-8 text-center bg-sky-800 text-white py-2 px-6 font-bold capitalize'>Add your vital health signs</h1>
-            </div>
-            <div className='flex h-80'>
-                <div className='py-2 h-14 my-4 mx-3'>
-                    <label className=' text-gray-800 text-sm font-normal'>Heart Rate:
-                        <input 
-                            type="number" 
-                            step="0.01"
-                            name="heartRate" 
-                            placeholder="...bpm"
-                            value={saveHeartRateDTO.heartRate}
-                            onChange={(e) => handleChange(e)}
-                            className='h-10 w-56 border mt-2 px-2 py2'
-                        />
-                    </label>
-                    <label className='text-gray-800 text-sm font-normal'>Date of Measurement:
-                        <input 
-                            type="datetime-local"
-                            name="heartRateMeasuredAt" 
-                            value={saveHeartRateDTO.heartRateMeasuredAt}
-                            onChange={(e) => handleChange(e)}
-                            className='h-10 w-56 border mt-2 px-2 py2'
-                        />
-                    </label>
-                    <label className='text-gray-800 text-sm font-normal'>Upload File:
-                        <input
-                            id = "heartRateFile"
-                            type="file"
-                            name="heartRateFile"
-                            ref={heartRateFileValue}
-                            onChange={(e) => handleChange(e)}
-                            className='w-56 mt-2 px-2 py2'
-                        />
-                    </label>
+        <div>
+            <button
+                onClick={openModal}
+                className='rounded bg-htadarkteal hover:bg-htadarktealhover text-white w-48 py-3 shadow-cyan-950 shadow-md font-semi'>
+                Add Vital Health Signs
+            </button>
+            <Transition appear show={isOpen} as={Fragment}>
+                <div className='m-auto w-full max-w-screen-md overflow-hidden text-left align-middle transition-all transform shadow-xl rounded-md'>
+                    <Dialog
+                        as="div"
+                        className='fixed inset-24 max-w-screen-lg mx-auto'
+                        onClose={closeModal}>
+                        <div className='text-center'>
+                            <Transition.Child
+                                as={Fragment}
+                                enter='ease-out duration-300'
+                                enterFrom='opacity-0 scale-95'
+                                enterTo='opacity-100 scale-100'
+                                leave='ease-in duration-200'
+                                leaveFrom='opacity-100 scale-100'
+                                leaveTo='opacity-0 scale-95'>
+                                <div>
+                                    <Dialog.Title
+                                        as='div'
+                                        className='mb-1 bg-htadarkteal rounded-md py-5 shadow-slate-900 shadow-md'>
+                                            <h3
+                                                className='text-lg font-bold text-white m-auto'>
+                                                Add your vital health signs
+                                            </h3>
+                                    </Dialog.Title>
+                                    <div className='bg-htamediumteal rounded-md shadow-slate-900 shadow-md'>
+                                        <div className='m-auto max-w-md text-white inline-flex justify-center'>
+                                            <div className='pt-28'>
+                                                <label
+                                                    className='block py-2 px-4'>
+                                                    Heart Rate:
+                                                    <input
+                                                        type="number"
+                                                        step="0.01"
+                                                        name="heartRate"
+                                                        placeholder="...bpm"
+                                                        value={saveHeartRateDTO.heartRate}
+                                                        onChange={(e) => handleChange(e)}
+                                                        className='rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
+                                                    />
+                                                </label>
+                                                <label
+                                                    className='block pt-2 py-2'>
+                                                    Date of Measurement:
+                                                    <input
+                                                        type="datetime-local"
+                                                        name="heartRateMeasuredAt"
+                                                        value={saveHeartRateDTO.heartRateMeasuredAt}
+                                                        onChange={(e) => handleChange(e)}
+                                                        className='rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
+                                                    />
+                                                </label>
+                                                <label className='text-gray-800 text-sm font-normal'>Upload File:
+                                                    <input
+                                                        id = "heartRateFile"
+                                                        type="file"
+                                                        name="heartRateFile"
+                                                        ref={heartRateFileValue}
+                                                        onChange={(e) => handleChange(e)}
+                                                        className='w-56 mt-2 px-2 py2'
+                                                    />
+                                                </label>
+                                            </div>
+                                            <div className='pt-28'>
+                                                <label
+                                                    className='block py-2 px-4'>
+                                                    Weight:
+                                                    <input
+                                                        type="number"
+                                                        step="0.01"
+                                                        name="weight"
+                                                        placeholder="...kg"
+                                                        value={saveWeightDTO.weight}
+                                                        onChange={(e) => handleChange(e)}
+                                                        className='h-8 w-60 border px-2 py2 text-black shadow-slate-900 shadow-sm'
+                                                    />
+                                                </label>
+                                                <label
+                                                    className='block pt-2 py-2'>
+                                                    Date of Measurement:
+                                                    <input
+                                                        type="datetime-local"
+                                                        name="weightMeasuredAt"
+                                                        value={saveWeightDTO.weightMeasuredAt}
+                                                        onChange={(e) => handleChange(e)}
+                                                        className='rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
+                                                    />
+                                                </label>
+                                                <label className='text-gray-800 text-sm font-normal'>Upload File:
+                                                    <input
+                                                        id="weightFile"
+                                                        type="file"
+                                                        name="weightFile"
+                                                        ref={weightFileValue}
+                                                        onChange={(e) => handleChange(e)}
+                                                        className='h-10 w-56 mt-2 px-2 py2'
+                                                    />
+                                                </label>
+                                            </div>
+                                            <div className='pt-28'>
+                                                <label
+                                                    className='block py-2 px-4'>
+                                                    Systolic Blood Pressure:
+                                                    <input
+                                                        type="number"
+                                                        step="0.01"
+                                                        name="systolic"
+                                                        placeholder="...mmHg"
+                                                        value={saveBloodPressureDTO.systolic}
+                                                        onChange={(e) => handleChange(e)}
+                                                        className='rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
+                                                    />
+                                                </label>
+                                                <label
+                                                    className='block py-2'>
+                                                    Diastolic Blood Pressure:
+                                                    <input
+                                                        type="number"
+                                                        step="0.01"
+                                                        name="diastolic"
+                                                        placeholder="...mmHg"
+                                                        value={saveBloodPressureDTO.diastolic}
+                                                        onChange={(e) => handleChange(e)}
+                                                        className='rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
+                                                    />
+                                                </label>
+                                                <label
+                                                    className='block pt-2 pb-11'>
+                                                    Date of Measurement:
+                                                    <input
+                                                        type="datetime-local"
+                                                        name="bloodPressureMeasuredAt"
+                                                        value={saveBloodPressureDTO.bloodPressureMeasuredAt}
+                                                        onChange={(e) => handleChange(e)}
+                                                        className='rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
+                                                    />
+                                                </label>
+                                                <label className='text-gray-800 text-sm font-normal'>Upload File:
+                                                    <input
+                                                        id = "bloodPressureFile"
+                                                        type="file"
+                                                        name="bloodPressureFile"
+                                                        ref={bloodPressureFileValue}
+                                                        onChange={(e) => handleChange(e)}
+                                                        className='h-10 w-56 mt-2 px-2 py2'
+                                                    />
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div className='flex justify-center pt-2 pb-20'>
+                                            <div className='h-14 my-4 pt-4'>
+                                                <button
+                                                    type="submit"
+                                                    onClick={saveVitalHealthSign}
+                                                    className='mx-2 rounded text-white font-semibold bg-green-500 hover:bg-green-700 py-2 px-6 shadow-slate-900 shadow-sm'>
+                                                    Save
+                                                </button>
+                                            </div>
+                                            <div className='h-14 my-4 pt-4'>
+                                                <button
+                                                    type="reset"
+                                                    onClick={reset}
+                                                    className='mx-2 rounded text-white font-semibold bg-orange-500 hover:bg-orange-700 py-2 px-6 shadow-slate-900 shadow-sm'>
+                                                    Clear
+                                                </button>
+                                            </div>
+                                            <div className='h-14 my-4 pt-4'>
+                                                <button
+                                                    onClick={closeModal} //Added function
+                                                    className='mx-2 rounded text-white font-semibold bg-red-500 hover:bg-red-700 py-2 px-6 shadow-slate-900 shadow-sm'>
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Transition.Child>
+                        </div>
+                    </Dialog>
                 </div>
-                <div className='py-2 h-14 my-4'>
-                    <label className='text-gray-800 text-sm font-normal'>Weight:
-                        <input 
-                            type="number" 
-                            step="0.01"
-                            name="weight" 
-                            placeholder="...kg"
-                            value={saveWeightDTO.weight}
-                            onChange={(e) => handleChange(e)}
-                            className='h-10 w-56 border mt-2 px-2 py2'
-                        />
-                    </label>
-                    <label className='text-gray-800 text-sm font-normal'>Date of Measurement:
-                        <input 
-                            type="datetime-local" 
-                            name="weightMeasuredAt" 
-                            value={saveWeightDTO.weightMeasuredAt}
-                            onChange={(e) => handleChange(e)}
-                            className='h-10 w-56 border mt-2 px-2 py2'
-                        />
-                    </label>
-                    <label className='text-gray-800 text-sm font-normal'>Upload File:
-                        <input
-                            id="weightFile"
-                            type="file"
-                            name="weightFile"
-                            ref={weightFileValue}
-                            onChange={(e) => handleChange(e)}
-                            className='h-10 w-56 mt-2 px-2 py2'
-                        />
-                    </label>
-                </div>
-                <div className='py-2 h-14 my-4 mx-3'>
-                    <label className=' text-gray-800 text-sm font-normal'>Systolic Blood Pressure:
-                        <input
-                            type="number"
-                            step="0.01"
-                            name="systolic"
-                            placeholder="...mmHg"
-                            value={saveBloodPressureDTO.systolic}
-                            onChange={(e) => handleChange(e)}
-                            className='h-10 w-56 border mt-2 px-2 py2'
-                        />
-                    </label>
-                    <label className=' text-gray-800 text-sm font-normal'>Diastolic Blood Pressure:
-                        <input
-                            type="number"
-                            step="0.01"
-                            name="diastolic"
-                            placeholder="...mmHg"
-                            value={saveBloodPressureDTO.diastolic}
-                            onChange={(e) => handleChange(e)}
-                            className='h-10 w-56 border mt-2 px-2 py2'
-                        />
-                    </label>
-                    <label className='text-gray-800 text-sm font-normal'>Date of Measurement:
-                        <input
-                            type="datetime-local"
-                            name="bloodPressureMeasuredAt"
-                            value={saveBloodPressureDTO.bloodPressureMeasuredAt}
-                            onChange={(e) => handleChange(e)}
-                            className='h-10 w-56 border mt-2 px-2 py2'
-                        />
-                    </label>
-                    <label className='text-gray-800 text-sm font-normal'>Upload File:
-                        <input
-                            id = "bloodPressureFile"
-                            type="file"
-                            name="bloodPressureFile"
-                            ref={bloodPressureFileValue}
-                            onChange={(e) => handleChange(e)}
-                            className='h-10 w-56 mt-2 px-2 py2'
-                        />
-                    </label>
-                </div>
-            </div>
-            <div className=' inline-flex'>
-                <button 
-                    type="submit" 
-                    onClick={saveVitalHealthSign}
-                    className='rounded text-white font-semibold bg-green-500 hover:bg-green-700 py-2 px-6'>
-                    Save
-                </button>
-                <button
-                    type="reset"
-                    onClick={reset}
-                    className='rounded text-white font-semibold bg-orange-500 hover:bg-orange-700 py-2 px-6 ml-6'>
-                    Clear
-                </button>
-            </div>
+            </Transition>
         </div>
     )
 }
 
-export default AddVitalHealthSigns
+export default AddVitalHealthSigns;

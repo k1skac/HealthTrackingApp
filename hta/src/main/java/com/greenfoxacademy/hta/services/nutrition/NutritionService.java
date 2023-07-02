@@ -1,6 +1,6 @@
 package com.greenfoxacademy.hta.services.nutrition;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenfoxacademy.hta.dtos.nutritiondto.*;
 import com.greenfoxacademy.hta.exceptions.*;
 import com.greenfoxacademy.hta.models.nutrition.*;
@@ -29,12 +29,13 @@ public class NutritionService implements INutrtionService {
 
   private final IFoodStuffRepository iFoodStuffRepository;
   private final IReadyFoodRepository iReadyFoodRepository;
+  private final ObjectMapper objectMapper;
 
   @Autowired
   public NutritionService(IFoodStuffTypeRepository iFoodStuffTypeRepository, IReadyFoodTypeRepository iReadyFoodTypeRepository,
                           IMealRepository iMealRepository, ILogRepository iLogRepository,
                           ILogTypeRepository iLogTypeRepository, IUserService iUserService, IFoodStuffRepository iFoodStuffRepository,
-                          IReadyFoodRepository iReadyFoodRepository) {
+                          IReadyFoodRepository iReadyFoodRepository, ObjectMapper objectMapper) {
     this.iFoodStuffTypeRepository = iFoodStuffTypeRepository;
     this.iReadyFoodTypeRepository = iReadyFoodTypeRepository;
     this.iMealRepository = iMealRepository;
@@ -43,6 +44,7 @@ public class NutritionService implements INutrtionService {
     this.iUserService = iUserService;
     this.iFoodStuffRepository = iFoodStuffRepository;
     this.iReadyFoodRepository = iReadyFoodRepository;
+    this.objectMapper = objectMapper;
   }
 
   IFoodStuffTypeRepository iFoodStuffTypeRepository;
@@ -181,6 +183,15 @@ public class NutritionService implements INutrtionService {
     } catch (MealDoesNotExistException e) {
       throw new MealDoesNotExistException();
     }
+  }
+
+  @Override
+  public MealSumAggregateDataDTO getLastMealData(Authentication authentication) throws MealDoesNotExistException {
+    User user = iUserService.findByEmail(authentication.getName());
+    if (iMealRepository.findTop1MealByUserOrderByMealTimeDesc(user).isPresent()) {
+      return objectMapper.convertValue(iMealRepository.findTop1MealByUserOrderByMealTimeDesc(user), MealSumAggregateDataDTO.class);
+    }
+    throw new MealDoesNotExistException();
   }
 
   @Override

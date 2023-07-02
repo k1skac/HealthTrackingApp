@@ -1,15 +1,16 @@
 package com.greenfoxacademy.hta.services.user;
 
-import com.greenfoxacademy.hta.dtos.BearerToken;
-import com.greenfoxacademy.hta.dtos.LoginDTO;
-import com.greenfoxacademy.hta.dtos.RegisterDTO;
+import com.greenfoxacademy.hta.dtos.*;
+import com.greenfoxacademy.hta.exceptions.CityNotFoundException;
 import com.greenfoxacademy.hta.exceptions.UserEmailAlreadyTakenException;
 import com.greenfoxacademy.hta.exceptions.UserEmailMissingException;
 import com.greenfoxacademy.hta.exceptions.UserNotFoundException;
 import com.greenfoxacademy.hta.models.log.Log;
 import com.greenfoxacademy.hta.models.log.LogType;
 import com.greenfoxacademy.hta.models.user.BiologicalGender;
+import com.greenfoxacademy.hta.models.user.City;
 import com.greenfoxacademy.hta.models.user.User;
+import com.greenfoxacademy.hta.repositories.ICityRepository;
 import com.greenfoxacademy.hta.repositories.log.ILogRepository;
 import com.greenfoxacademy.hta.repositories.log.ILogTypeRepository;
 import com.greenfoxacademy.hta.models.roles.Role;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -39,6 +41,7 @@ public class UserService implements IUserService {
     private final IRoleRepository iRoleRepository;
     private final ILogRepository iLogRepository;
     private final ILogTypeRepository iLogTypeRepository;
+    private final ICityRepository iCityRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtilities jwtUtilities;
 
@@ -84,6 +87,68 @@ public class UserService implements IUserService {
                 return jwtUtilities.generateToken(user.getUsername(), user.getRoles().stream().map(Role::getRoleName).toList());
             }
         }
+    }
+
+    public UpdateProfileDTO getUserProfileData(Authentication authentication) {
+        UpdateProfileDTO userRequestData = new UpdateProfileDTO();
+        User user = iUserRepository.findByEmail(authentication.getName()).orElseThrow();
+        userRequestData.setUsername(user.getUsername());
+        userRequestData.setRealName(user.getRealName());
+        if (user.getBiologicalGender().equals(BiologicalGender.FEMALE)) {
+            userRequestData.setBiologicalGender("Female");
+        } else if (user.getBiologicalGender().equals(BiologicalGender.MALE)) {
+            userRequestData.setBiologicalGender("Male");
+        } else {
+            userRequestData.setBiologicalGender("Undefined");
+        }
+        userRequestData.setBirthDate(user.getBirthDate());
+        userRequestData.setHeight(user.getHeight());
+        if (!Objects.isNull(user.getCity())) {
+            userRequestData.setCityName(user.getCity().getCityName());
+        } else {
+            userRequestData.setCityName("no defined");
+        }
+        return userRequestData;
+    }
+
+    public String updateUserProfile(UpdateProfileDTO updateProfileDTO, Authentication authentication) throws CityNotFoundException {
+        User user = iUserRepository.findByEmail(authentication.getName()).orElseThrow();
+        try {
+            user.setUsername(updateProfileDTO.getUsername());
+            user.setRealName(updateProfileDTO.getRealName());
+            if (updateProfileDTO.getBiologicalGender().equalsIgnoreCase("MALE")) {
+                user.setBiologicalGender(BiologicalGender.MALE);
+            } else if (updateProfileDTO.getBiologicalGender().equalsIgnoreCase("FEMALE")) {
+                user.setBiologicalGender(BiologicalGender.FEMALE);
+            } else {
+                user.setBiologicalGender(BiologicalGender.UNDEFINED);
+            }
+            user.setHeight(updateProfileDTO.getHeight());
+            user.setBirthDate(updateProfileDTO.getBirthDate());
+            if (!(updateProfileDTO.getCityName().isEmpty())) {
+                if (iCityRepository.existsByCityName(updateProfileDTO.getCityName())) {
+                    user.setCity(iCityRepository.findByCityName(updateProfileDTO.getCityName()));
+                } else {
+                    throw new CityNotFoundException(updateProfileDTO.getCityName());
+                }
+            }
+            iUserRepository.save(user);
+            newLog(iLogTypeRepository.findLogTypeByName("registration"), iUserRepository.findByEmail(authentication.getName()).orElseThrow(), "");
+            return "The profile of "+ user.getEmail()+" has changed";
+        }
+        catch (CityNotFoundException e) {
+            throw new CityNotFoundException(updateProfileDTO.getCityName());
+        }
+    }
+
+    public List<String> getCityNameList() {
+        List<City> cityList = iCityRepository.findAll();
+        List<String> cityNameList = new ArrayList<>();
+        for (City city : cityList) {
+            String cityName = city.getCityName();
+            cityNameList.add(cityName);
+        }
+        return cityNameList;
     }
 
     @Override
