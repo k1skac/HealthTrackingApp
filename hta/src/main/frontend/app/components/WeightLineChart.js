@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import axios from "axios";
 import {Line} from "react-chartjs-2";
 
@@ -29,6 +29,10 @@ const PROFILE_WEIGHT_NAME_API_BASE_URL =
             console.error('Error fetching user data:', error);
         }
     };
+
+    if (weightDatas.length === 0) {
+        return <p className='w-full h-80 bg-zinc-100 rounded-sm align-middle'>No weight data available.</p>;
+    }
 
     const dataSet = {
         labels: weightDatas.map((weight) => new Date(weight.weightMeasuredAt).toLocaleDateString()),
@@ -108,6 +112,7 @@ const PROFILE_WEIGHT_NAME_API_BASE_URL =
             },
         },
     };
+
     return (
               <div className='w-[500px] h-80 bg-zinc-100 rounded-sm'>
                 <Line data={dataSet} options={options} />

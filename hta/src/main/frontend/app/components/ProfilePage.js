@@ -1,7 +1,7 @@
 'use client'
 
 import ProfilePageService from "@/app/service/ProfilePageService";
-import React, {useEffect, useState,Fragment} from 'react'
+import {React, useEffect, useState,Fragment} from 'react'
 import axios from "axios";
 import {Dialog, Transition} from "@headlessui/react";
 import DatePicker from 'react-datepicker';

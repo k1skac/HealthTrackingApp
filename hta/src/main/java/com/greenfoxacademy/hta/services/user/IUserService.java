@@ -24,4 +24,8 @@ public interface IUserService {
 
     UpdateProfileDTO getUserProfileData(Authentication authentication);
     List<String> getCityNameList();
+    boolean emailExist(String email);
+
+
+
 }

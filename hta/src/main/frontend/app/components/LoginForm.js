@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react'
 import LoginService from '@/app/service/LoginService';
+import Register from "./RegisterForm";
 import Navbar from './Navbar';
 //import {Alert} from 'alert';
 
@@ -41,7 +42,7 @@ const LoginForm = () => {
     }
 
     return (
-      	<div className='m-auto w-full max-w-screen-md p-6 my-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md'>
+      	<div className='m-auto w-full max-w-screen-md p-6 my-12 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md'>
 			<div>
 				<h1 className='rounded w-full my-8 text-center bg-htadarkteal text-white py-2 px-6 font-bold'>Login</h1>
 			</div>
@@ -49,9 +50,9 @@ const LoginForm = () => {
 				<div className='m-auto py-2 h-14'>
 					<label className='inline-block text-gray-800 text-sm font-normal'>Email:
 						<br/>
-						<input 
-							type="text" 
-							name="email" 
+						<input
+							type="text"
+							name="email"
 							placeholder="Email..."
 							value={loginDTO.email}
 							onChange={(e) => handleChange(e)}
@@ -61,21 +62,21 @@ const LoginForm = () => {
 						<br/>
 					<label className='inline-block text-gray-800 text-sm font-normal'>Password:
 						<br/>
-						<input 
-							type="text" 
-							name="password" 
+						<input
+							type="text"
+							name="password"
 							placeholder="Password..."
 							value={loginDTO.password}
 							onChange={(e) => handleChange(e)}
 							className='h-10 w-56 border mt-2 px-2 py2'
 						/>
-					</label> 
+					</label>
 				</div>
 				{errorMessage}
 
-				
+
 			</div>
-			<div className='mt-40 inline-flex'>
+			<div className='mt-40 flex justify-center'>
 				<button 
 					type="submit" 
 					onClick={loginUser}
@@ -88,6 +89,9 @@ const LoginForm = () => {
 					className='rounded text-white font-semibold bg-orange-500 hover:bg-orange-700 py-2 px-6 ml-6'>
 					Clear
 				</button>
+				<div className='rounded text-white font-semibold bg-blue-500 hover:bg-pink-900 py-2 px-6 ml-6'>
+					<Register />
+				</div>
 			</div>
 		</div>
   )

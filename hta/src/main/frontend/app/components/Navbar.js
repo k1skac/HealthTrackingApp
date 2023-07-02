@@ -1,7 +1,8 @@
-import React, {useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
 import ProfilePageService from '../service/ProfilePageService';
 import ProfilePage from './ProfilePage';
 import AddVitalHealthSigns from './AddVitalHealthSigns';
+import Logout from './LogoutForm';
 
 const Navbar = () => {
     const [userDTO, setUserDTO] = useState({});
@@ -30,6 +31,9 @@ const Navbar = () => {
                 </div>
                 <div className='mx-4'>
                     <AddVitalHealthSigns />
+                </div>
+                <div className='mx-4'>
+                    <Logout />
                 </div>
             </span>
             <span className="mx-4 px-8 flex justify-end items-center">

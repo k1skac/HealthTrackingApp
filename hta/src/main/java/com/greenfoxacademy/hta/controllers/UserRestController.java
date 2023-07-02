@@ -4,6 +4,9 @@ import com.greenfoxacademy.hta.dtos.*;
 import com.greenfoxacademy.hta.exceptions.HtaException;
 import com.greenfoxacademy.hta.exceptions.UserNotFoundException;
 import com.greenfoxacademy.hta.services.user.IUserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -80,6 +83,17 @@ public class UserRestController {
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtHTATokenCookie.toString()).body(null);
     }
 
+    @GetMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request, HttpServletResponse response) {
+        Cookie jwtHTATokenCookie = new Cookie("jwtHTATokenCookie", "");
+        jwtHTATokenCookie.setMaxAge(0);
+        jwtHTATokenCookie.setSecure(true);
+        jwtHTATokenCookie.setHttpOnly(true);
+        jwtHTATokenCookie.setPath("/");
+        response.addCookie(jwtHTATokenCookie);
+        return ResponseEntity.ok().body("The user is deleted");
+    }
+
     @PostMapping("/pw-update")
     public ResponseEntity<?> changePassword(@RequestBody NewPWDTO newPWDTO, Authentication authentication) {
         try {
@@ -92,5 +106,10 @@ public class UserRestController {
     @GetMapping("/get-cityname-list")
     public ResponseEntity<?> getCityList() {
             return ResponseEntity.ok(iUserService.getCityNameList());
+    }
+
+    @GetMapping("/check-email-availability")
+    public ResponseEntity<?> isEmailExist(@RequestParam("email") String email) {
+        return ResponseEntity.ok(iUserService.emailExist(email));
     }
 }

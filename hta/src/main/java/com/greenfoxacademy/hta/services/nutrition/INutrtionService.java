@@ -24,7 +24,9 @@ public interface INutrtionService {
    GetAMealResponseDTO getAMeal(GetAMealDTO getAMealDTO, Authentication authentication)
            throws UserNotFoundException, MealDoesNotExistException;
 
-   List<String> getFoodStuffTypeNames();
    MealSumAggregateDataDTO getLastMealData(Authentication authentication) throws MealDoesNotExistException;
+
+   List<String> getFoodStuffTypeNames();
+
 
 }

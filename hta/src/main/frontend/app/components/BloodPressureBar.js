@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 
 import {
     Chart as ChartJS,
@@ -40,6 +40,10 @@ const BloodPressureBar = () => {
             console.error('Error fetching user data:', error);
         }
     };
+
+    if (blpDatas.length === 0) {
+        return <p className='w-full h-80 bg-zinc-100 rounded-sm align-middle'>No blood pressure data available.</p>;
+    }
 
     const data = {
         labels: blpDatas.map((blp) => new Date(blp.bloodPressureMeasuredAt)
@@ -112,6 +116,7 @@ const BloodPressureBar = () => {
                 },
             },
     };
+
 
     return (
         <div>

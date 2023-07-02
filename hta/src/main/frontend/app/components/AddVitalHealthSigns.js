@@ -63,13 +63,13 @@ const AddVitalHealthSigns = () => {
             }
 
             VitalHealthSignService.saveWeight(formData)
-            .then((response) => {
-                console.log(response.data)
-            }).catch((error) => {
+                .then((response) => {
+                    console.log(response.data)
+                }).catch((error) => {
                 console.log('Weight cannot be added!')
                 console.log(error);
             });
-        } 
+        }
         if (saveHeartRateDTO.heartRate !== '' && saveHeartRateDTO.heartRateMeasuredAt !== '') {
             e.preventDefault();
 
@@ -81,9 +81,9 @@ const AddVitalHealthSigns = () => {
             }
 
             VitalHealthSignService.saveHeartRate(formData)
-            .then((response) => {
-                console.log(response.data);
-            }).catch((error) => {
+                .then((response) => {
+                    console.log(response.data);
+                }).catch((error) => {
                 console.log('Heart rate cannot be added!')
                 console.log(error.response);
             });
@@ -161,10 +161,10 @@ const AddVitalHealthSigns = () => {
                                     <Dialog.Title
                                         as='div'
                                         className='mb-1 bg-htadarkteal rounded-md py-5 shadow-slate-900 shadow-md'>
-                                            <h3
-                                                className='text-lg font-bold text-white m-auto'>
-                                                Add your vital health signs
-                                            </h3>
+                                        <h3
+                                            className='text-lg font-bold text-white m-auto'>
+                                            Add your vital health signs
+                                        </h3>
                                     </Dialog.Title>
                                     <div className='bg-htamediumteal rounded-md shadow-slate-900 shadow-md'>
                                         <div className='m-auto max-w-md text-white inline-flex justify-center'>

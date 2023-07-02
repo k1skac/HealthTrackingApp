@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 import {
@@ -17,8 +17,7 @@ import 'chartjs-adapter-moment';
 import axios from 'axios';
 
 const MealCalorieDoughnutChart = () => {
-    const PROFILE_MEALCALORIE_NAME_API_BASE_URL =
-        'http://localhost:8080/api/user/nutrition/nutrition-last';
+    const PROFILE_MEALCALORIE_NAME_API_BASE_URL = 'http://localhost:8080/api/user/nutrition/nutrition-last';
 
     const [mealDatas, setMealDatas] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -44,6 +43,10 @@ const MealCalorieDoughnutChart = () => {
         }
     };
     const dataCenter = [mealDatas.mealSumCalorie, mealDatas.mealSumCarbohydrate, mealDatas.mealSumFat, mealDatas.mealSumProtein];
+
+    if (mealDatas.length === 0) {
+        return <div className='w-full h-80 bg-zinc-100 rounded-sm align-middle' >No meal data available.</div>;
+    }
 
     const data = {
         //plugins: [ChartDataLabels],
@@ -138,7 +141,7 @@ const MealCalorieDoughnutChart = () => {
             ctx.textBaseline = 'middle';
             ctx.fillText(data.datasets[1].data1, chart.getDatasetMeta(0).data[0].x, chart.getDatasetMeta(0).data[0].y);        },
     };
-    //$(dataCenter[0].text)
+
     return (
 
         <div>

@@ -176,6 +176,7 @@ public class UserService implements IUserService {
         }
     }
 
+
     public String userChangePassword(String newPassword, Authentication authentication) throws UserNotFoundException{
         User user = iUserRepository.findByEmail(authentication.getName()).orElseThrow(UserNotFoundException::new);
         user.setPassword(passwordEncoder.encode(newPassword));
@@ -186,5 +187,9 @@ public class UserService implements IUserService {
 
     public void newLog(LogType logType, User user, String description) {
         iLogRepository.save(new Log(user, logType, description));
+    }
+
+    public boolean emailExist(String email) {
+        return iUserRepository.existsByEmail(email);
     }
 }
