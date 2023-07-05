@@ -4,6 +4,7 @@ import com.greenfoxacademy.hta.dtos.*;
 import com.greenfoxacademy.hta.exceptions.HtaException;
 import com.greenfoxacademy.hta.exceptions.UserNotFoundException;
 import com.greenfoxacademy.hta.services.user.IUserService;
+import jakarta.validation.Valid;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,7 +29,6 @@ public class UserRestController {
         } else {
             return false;
         }
-
     }
 
     @GetMapping("/hello-user")
@@ -45,7 +45,7 @@ public class UserRestController {
                     .httpOnly(true).path("/")
                     .maxAge(60*60*10)
                     .secure(true)
-                    .sameSite("None")
+                    .sameSite("Strict")
                     .build();
             return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtHTATokenCookie.toString()).body(null);
         } catch (HtaException exception) {
@@ -70,17 +70,17 @@ public class UserRestController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticate(@RequestBody LoginDTO loginDto) throws UserNotFoundException {
+    public ResponseEntity<?> authenticate(@Valid @RequestBody LoginDTO loginDto) throws UserNotFoundException {
         ResponseCookie jwtHTATokenCookie = ResponseCookie.from(
                         "jwtHTATokenCookie",
                         iUserService.authenticate(loginDto))
                 .httpOnly(true).path("/")
                 .maxAge(60*60*10)
                 .secure(true)
-                .sameSite("None")
+                .sameSite("Strict")
                 .build();
         System.out.println("This is your cookie: " + jwtHTATokenCookie);
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtHTATokenCookie.toString()).body(null);
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtHTATokenCookie.toString()).body("You are logged in!");
     }
 
     @GetMapping("/logout")

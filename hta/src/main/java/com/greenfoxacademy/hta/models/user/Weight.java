@@ -28,7 +28,7 @@ public class Weight {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-    @OneToOne()
+    @OneToOne
     private FileData fileData;
 
     public Weight(LocalDateTime measureTime, float weight) {

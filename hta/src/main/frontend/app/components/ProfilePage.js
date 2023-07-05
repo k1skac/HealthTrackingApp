@@ -6,10 +6,12 @@ import axios from "axios";
 import {Dialog, Transition} from "@headlessui/react";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import NotificationService from "@/app/service/NotificationService";
+import {alertService} from "@/app/service/AlertService";
+import Cookies from "js-cookie";
 
 const PROFILE_UPDATE_API_BASE_URL = 'http://localhost:8080/api/user/update-user-profile';
 const PROFILE_CITY_NAME_API_BASE_URL = 'http://localhost:8080/api/user/get-cityname-list';
-
 
 const ProfilePage = () => {
     const [userDTO, setUserDTO] = useState({});
@@ -18,11 +20,10 @@ const ProfilePage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const maxDate = new Date();
 
-
-
     useEffect(() => {
         fetchCityOptions();
         fetchData();
+        fetchNotification()
         setLoading(false);
     }, []);
 
@@ -46,7 +47,6 @@ const ProfilePage = () => {
         }
     };
 
-
     const updateUserProfile = (e) => {
         e.preventDefault();
         ProfilePageService.saveUserProfile(userDTO)
@@ -57,6 +57,43 @@ const ProfilePage = () => {
             console.log(error);
             });
     }
+
+    const fetchNotification = async () => {
+        try {
+            const weightResponse = await NotificationService.showWeightNotification();
+            const heartRateResponse = await NotificationService.showHeartRateNotification();
+            const bloodPressureResponse = await NotificationService.showBloodPressureNotification();
+            const medicationResponse = await NotificationService.showMedicationNotifications();
+
+            const weightMessage = weightResponse.data.weightMessage;
+            const weightCookie = Cookies.get(weightMessage); //date
+            if (!weightCookie || new Date(weightCookie) <= new Date()) {
+                alertService.info(weightMessage);
+            }
+
+            const heartRateMessage = heartRateResponse.data.heartRateMessage;
+            const heartRateCookie = Cookies.get(heartRateMessage); //date
+            if (!heartRateCookie || new Date(heartRateCookie) <= new Date()) {
+                alertService.info(heartRateMessage);
+            }
+
+            const bloodPressureMessage = bloodPressureResponse.data.bloodPressureMessage;
+            const bloodPressureCookie = Cookies.get(bloodPressureMessage); //date
+            if (!bloodPressureCookie || new Date(bloodPressureCookie) <= new Date()) {
+                alertService.info(bloodPressureMessage);
+            }
+
+            medicationResponse.data.medicationMessages.forEach(element => {
+                const medicationCookie = Cookies.get(element); //date
+                if (!medicationCookie || new Date(medicationCookie) <= new Date()) {
+                    alertService.info(element);
+                }
+            });
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            alertService.error(error);
+        }
+    };
 
     function closeModal() {
         setIsOpen(false);
@@ -250,6 +287,5 @@ const ProfilePage = () => {
         </div>
     )
 }
-
 
 export default ProfilePage;

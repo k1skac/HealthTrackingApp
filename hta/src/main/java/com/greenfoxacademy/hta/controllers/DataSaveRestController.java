@@ -58,7 +58,7 @@ public class DataSaveRestController {
     }
 
     @PostMapping("/weight")
-    public ResponseEntity<?> weightSaving(@ModelAttribute SaveWeightDTO saveWeightDTO, Authentication authentication) {
+    public ResponseEntity<?> weightSaving(@Valid @ModelAttribute SaveWeightDTO saveWeightDTO, Authentication authentication) {
         try {
             iWeightService.save(saveWeightDTO, authentication);
             return ResponseEntity.ok(MESSAGE);

@@ -1,7 +1,6 @@
 package com.greenfoxacademy.hta.controllers;
 
-import com.greenfoxacademy.hta.dtos.notificationdto.NotificationRequestDTO;
-import com.greenfoxacademy.hta.dtos.notificationdto.NotificationMessageDTO;
+import com.greenfoxacademy.hta.dtos.notificationdto.*;
 import com.greenfoxacademy.hta.exceptions.HtaException;
 import com.greenfoxacademy.hta.services.notification.INotificationMessageService;
 import com.greenfoxacademy.hta.services.notification.INotificationService;
@@ -25,6 +24,28 @@ public class NotificationRestController {
     public ResponseEntity<?> notifications(Authentication authentication) {
         NotificationMessageDTO notifications = iNotificationMessageService.createNotifications(iUserService.findByEmail(authentication.getName()));
         return ResponseEntity.ok().body(Objects.requireNonNullElse(notifications, "There are no more notifications for today."));
+    }
+
+    @GetMapping("/weightNotification")
+    public ResponseEntity<?> weightNotification(Authentication authentication) {
+        WeightNotificationMessageDTO weightMessage = iNotificationMessageService.createWeightNotification(iUserService.findByEmail(authentication.getName()));
+        return ResponseEntity.ok().body(Objects.requireNonNullElse(weightMessage, "No weight needs to be added today!"));
+    }
+
+    @GetMapping("/heartRateNotification")
+    public ResponseEntity<?> heartRateNotification(Authentication authentication) {
+        HeartRateNotificationMessageDTO heartRateMessage = iNotificationMessageService.createHeartRateNotification(iUserService.findByEmail(authentication.getName()));
+        return ResponseEntity.ok().body(Objects.requireNonNullElse(heartRateMessage, "No heart rate needs to be added today!"));
+    }
+
+    @GetMapping("/bloodPressureNotification")
+    public ResponseEntity<BloodPressureNotificationMessageDTO> bloodPressureNotification(Authentication authentication) {
+        return ResponseEntity.ok().body(iNotificationMessageService.createBloodPressureNotification(iUserService.findByEmail(authentication.getName())));
+    }
+
+    @GetMapping("/medicationNotifications")
+    public ResponseEntity<?> medicationNotifications(Authentication authentication) {
+        return ResponseEntity.ok().body(iNotificationMessageService.createMedicationNotification(iUserService.findByEmail(authentication.getName())));
     }
 
     @PostMapping("/add")

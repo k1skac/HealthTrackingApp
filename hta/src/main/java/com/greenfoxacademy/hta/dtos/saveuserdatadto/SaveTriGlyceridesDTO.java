@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class SaveTriGlyceridesDTO {
     private LocalDateTime measureTime;
-    @Max(4)
-    @Min(0)
+    @Max(value = 4, message = "The specified triglycerides value is too high! See a doctor as soon as possible!  Or check that the value is correct!")
+    @Min(value = 0, message = "The specified triglycerides value is too low! See a doctor as soon as possible!  Or check that the value is correct!")
     private double triGlycerides;
 }

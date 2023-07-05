@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class SaveGlucoseDTO {
     private LocalDateTime measureTime;
-    @Min(0)
-    @Max(20)
+    @Min(value = 0, message = "The specified glucose value is too low! See a doctor as soon as possible!  Or check that the value is correct!")
+    @Max(value = 20, message = "The specified glucose value is too high! See a doctor as soon as possible!  Or check that the value is correct!")
     private double glucoseValue;
 }

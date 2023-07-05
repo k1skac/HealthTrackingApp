@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class SaveCalciumDTO {
     private LocalDateTime measureTime;
-    @Min(0)
-    @Max(6)
+    @Min(value = 0, message = "The specified calcium value is too low! See a doctor as soon as possible!  Or check that the value is correct!")
+    @Max(value = 6, message = "The specified calcium value is too high! See a doctor as soon as possible!  Or check that the value is correct!")
     private double calciumValue;
 }

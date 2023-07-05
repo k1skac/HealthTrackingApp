@@ -1,9 +1,10 @@
 'use client';
 import React, { useState } from 'react'
 import LoginService from '@/app/service/LoginService';
+import {alertService} from "@/app/service/AlertService";
+import {Alert} from "@/app/components/Alert";
 import Register from "./RegisterForm";
 import Navbar from './Navbar';
-//import {Alert} from 'alert';
 
 const LoginForm = () => {
     const [loginDTO, setLoginDTO] = useState({
@@ -22,7 +23,7 @@ const LoginForm = () => {
         e.preventDefault();
         LoginService.loginUser(loginDTO)
         .then((response) => {
-            console.log(response.status);
+			alertService.success(response.data);
 			if (response.status===200) {
 				window.location.href= "http://localhost:3000/";
 			} else {
@@ -30,6 +31,7 @@ const LoginForm = () => {
 			}
         }).catch((error) => {
             console.log(error);
+			alertService.error(error.response.data.errors);
         });
     }
     
@@ -45,6 +47,9 @@ const LoginForm = () => {
       	<div className='m-auto w-full max-w-screen-md p-6 my-12 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-md'>
 			<div>
 				<h1 className='rounded w-full my-8 text-center bg-htadarkteal text-white py-2 px-6 font-bold'>Login</h1>
+			</div>
+			<div>
+				<Alert/>
 			</div>
 			<div className='flex'>
 				<div className='m-auto py-2 h-14'>
@@ -73,7 +78,6 @@ const LoginForm = () => {
 					</label>
 				</div>
 				{errorMessage}
-
 
 			</div>
 			<div className='mt-40 flex justify-center'>

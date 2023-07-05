@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class SaveHeartRateDTO {
     private LocalDateTime heartRateMeasuredAt;
-    @Min(20)
-    @Max(170)
+    @Min(value = 20, message = "The specified heartrate value is too low! See a doctor as soon as possible!  Or check that the value is correct!")
+    @Max(value = 170, message = "The specified heartrate value is too high! See a doctor as soon as possible!  Or check that the value is correct!")
     private float heartRate;
     private MultipartFile heartRateFile;
 }

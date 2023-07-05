@@ -15,7 +15,6 @@ export default function Home() {
 		checkCookie();
 	}, []);
 
-
 	const checkCookie = async () => {
 		try {
 			const response = await axios.get(PROFILE_COOKIE_CHECK_BASE_URL, {withCredentials: true});

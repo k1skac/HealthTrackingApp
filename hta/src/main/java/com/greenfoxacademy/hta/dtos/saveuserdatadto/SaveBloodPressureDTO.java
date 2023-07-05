@@ -16,9 +16,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class SaveBloodPressureDTO {
     private LocalDateTime bloodPressureMeasuredAt;
-    @Max(260)
+
+    @Max(value = 260, message = "The specified systolic value is too high! See a doctor as soon as possible!  Or check that the value is correct!")
+    @Min(value = 50, message = "The specified systolic value is too low! See a doctor as soon as possible!  Or check that the value is correct!")
     private float systolic;
-    @Min(30)
+    @Min(value = 30, message = "The specified diastolic value is too low! See a doctor as soon as possible!  Or check that the value is correct!")
+    @Max(value = 250, message = "The specified diastolic value is too high! See a doctor as soon as possible!  Or check that the value is correct!")
     private float diastolic;
     private MultipartFile bloodPressureFile;
 }

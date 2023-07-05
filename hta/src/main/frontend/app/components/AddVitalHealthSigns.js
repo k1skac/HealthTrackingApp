@@ -1,14 +1,22 @@
 import VitalHealthSignService from '@/app/service/VitalHealthSignService';
-import React, {useState, useRef } from 'react'
+import { React, useState, useEffect, useRef } from 'react'
+import {alertService, AlertType} from "@/app/service/AlertService";
+import { Alert } from "@/app/components/Alert";
 import {Fragment} from "react";
 import {Dialog, Transition} from "@headlessui/react";
 
 const AddVitalHealthSigns = () => {
     const  [isOpen, setIsOpen] = useState(false);
-    const [saveHeartRateDTO, setSaveHeartRateDTO, ] = useState({
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
+
+    const [saveHeartRateDTO, setSaveHeartRateDTO] = useState({
         heartRate: '',
         heartRateMeasuredAt: '',
-        heartRateFile: ''
+        heartRateFile: null
     });
 
     const heartRateFileValue = useRef(null);
@@ -16,7 +24,7 @@ const AddVitalHealthSigns = () => {
     const [saveWeightDTO, setSaveWeightDTO] = useState({
         weight: '',
         weightMeasuredAt: '',
-        weightFile: ''
+        weightFile: null
     });
 
     const weightFileValue = useRef(null);
@@ -25,8 +33,9 @@ const AddVitalHealthSigns = () => {
         systolic: '',
         diastolic: '',
         bloodPressureMeasuredAt: '',
-        bloodPressureFile: ''
+        bloodPressureFile: null
     });
+
     function closeModal() {
         setIsOpen(false);
     }
@@ -52,22 +61,22 @@ const AddVitalHealthSigns = () => {
     }
 
     const saveVitalHealthSign = (e) => {
-        if (saveWeightDTO.weight !== '' & saveWeightDTO.weightMeasuredAt !== '') {
-            e.preventDefault();
 
+        if (saveWeightDTO.weight !== '' && saveWeightDTO.weightMeasuredAt !== '') {
+            e.preventDefault();
             const formData = new FormData();
             formData.append('weight', saveWeightDTO.weight)
             formData.append('weightMeasuredAt', saveWeightDTO.weightMeasuredAt);
-            if (saveWeightDTO.weightFile !== '') {
+            if (saveWeightDTO.weightFile !== null && saveWeightDTO.weightFile !== undefined) {
                 formData.append('weightFile', saveWeightDTO.weightFile);
             }
 
             VitalHealthSignService.saveWeight(formData)
-                .then((response) => {
-                    console.log(response.data)
-                }).catch((error) => {
+            .then((response) => {
+                alertService.success(response.data)
+            }).catch((error) => {
                 console.log('Weight cannot be added!')
-                console.log(error);
+                alertService.error(error.response.data.errors[0]);
             });
         }
         if (saveHeartRateDTO.heartRate !== '' && saveHeartRateDTO.heartRateMeasuredAt !== '') {
@@ -76,16 +85,16 @@ const AddVitalHealthSigns = () => {
             const formData = new FormData();
             formData.append('heartRate', saveHeartRateDTO.heartRate)
             formData.append('heartRateMeasuredAt', saveHeartRateDTO.heartRateMeasuredAt);
-            if (saveHeartRateDTO.heartRateFile !== '') {
+            if (saveHeartRateDTO.heartRateFile !== null && saveHeartRateDTO.heartRateFile !== undefined) {
                 formData.append('heartRateFile', saveHeartRateDTO.heartRateFile);
             }
 
             VitalHealthSignService.saveHeartRate(formData)
-                .then((response) => {
-                    console.log(response.data);
-                }).catch((error) => {
+            .then((response) => {
+                alertService.success(response.data)
+            }).catch((error) => {
                 console.log('Heart rate cannot be added!')
-                console.log(error.response);
+                alertService.error(error.response.data.errors[0]);
             });
         }
         if (saveBloodPressureDTO.systolic !== '' && saveBloodPressureDTO.bloodPressureMeasuredAt !== '' && saveBloodPressureDTO.diastolic !== '') {
@@ -95,22 +104,21 @@ const AddVitalHealthSigns = () => {
             formData.append('systolic', saveBloodPressureDTO.systolic)
             formData.append('diastolic', saveBloodPressureDTO.diastolic)
             formData.append('bloodPressureMeasuredAt', saveBloodPressureDTO.bloodPressureMeasuredAt);
-            if (saveBloodPressureDTO.bloodPressureFile !== '') {
+            if (saveBloodPressureDTO.bloodPressureFile !== null && saveBloodPressureDTO.bloodPressureFile !== undefined) {
                 formData.append('bloodPressureFile', saveBloodPressureDTO.bloodPressureFile);
             }
 
-
             VitalHealthSignService.saveBloodPressure(formData)
                 .then((response) => {
-                    console.log(response.data)
+                    alertService.success(response.data);
                 }).catch((error) => {
                 console.log('Blood pressure cannot be added!')
-                console.log(error);
-            });
+                for (const element of error.response.data.errors) {
+                    alertService.error(element);
+                }
+                });
         }
     }
-
-
 
     const reset = (e) => {
         e.preventDefault();
@@ -167,6 +175,9 @@ const AddVitalHealthSigns = () => {
                                         </h3>
                                     </Dialog.Title>
                                     <div className='bg-htamediumteal rounded-md shadow-slate-900 shadow-md'>
+                                        <div className='pt-6 '>
+                                             <Alert filterType={!AlertType.Info}/>
+                                        </div>
                                         <div className='m-auto max-w-md text-white inline-flex justify-center'>
                                             <div className='pt-28'>
                                                 <label

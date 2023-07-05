@@ -31,9 +31,10 @@ ChartJS.register(
 
 import 'chartjs-adapter-moment';
 import Navbar from './Navbar';
+import {Alert} from "@/app/components/Alert";
+import {alertService, AlertType} from "@/app/service/AlertService";
 
 const MainPage = () => {
-
 
     return (
         <div className="bg-htadarkgrey h-screen overflow-auto">
@@ -42,6 +43,9 @@ const MainPage = () => {
                 <div className="absolute top-0 right-0 mt-2 mr-2">
                     <Logo />
                 </div>
+            </div >
+            <div>
+               <Alert filterType={AlertType.Info}/>
             </div>
             <div className='mt-48'>
                 <div className='flex justify-evenly'>
