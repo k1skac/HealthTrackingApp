@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Service
@@ -44,7 +45,7 @@ public class HeartRateService implements IHeartRateService {
     }
 
     @Override
-    public void save(SaveHeartRateDTO saveHeartRateDTO, Authentication authentication) throws Exception {
+    public void save(SaveHeartRateDTO saveHeartRateDTO, Authentication authentication) throws HeartRateBadRequestException, IOException {
         if (saveHeartRateDTO.getHeartRate() == 0f || saveHeartRateDTO.getHeartRateMeasuredAt() == null) {
             throw new HeartRateBadRequestException();
         }

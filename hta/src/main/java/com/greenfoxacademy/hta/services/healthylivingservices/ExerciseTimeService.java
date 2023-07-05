@@ -1,11 +1,10 @@
 package com.greenfoxacademy.hta.services.healthylivingservices;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenfoxacademy.hta.dtos.healthylivingentitydto.ExerciseTimeDTO;
 import com.greenfoxacademy.hta.exceptions.ExerciseTimeNoContentException;
 import com.greenfoxacademy.hta.exceptions.ExerciseTimeNotFoundException;
-import com.greenfoxacademy.hta.models.user.User;
 import com.greenfoxacademy.hta.models.healthylivingentities.ExerciseTime;
+import com.greenfoxacademy.hta.models.user.User;
 import com.greenfoxacademy.hta.repositories.IUserRepository;
 import com.greenfoxacademy.hta.repositories.healthylivingrepositories.IExerciseTimeRepository;
 import lombok.RequiredArgsConstructor;

@@ -17,9 +17,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Notification {
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @JsonIgnore
     @CreationTimestamp
     private LocalDate createdAt;
     private Boolean isHeartRateAlertOn;

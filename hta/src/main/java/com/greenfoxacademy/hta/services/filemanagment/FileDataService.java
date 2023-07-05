@@ -2,6 +2,7 @@ package com.greenfoxacademy.hta.services.filemanagment;
 
 import com.greenfoxacademy.hta.models.filemanagement.FileData;
 import com.greenfoxacademy.hta.repositories.filedatarepository.IFileDataRepository;
+import lombok.Setter;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Setter
 public class FileDataService implements IFileDataService {
     private final IFileDataRepository iFileDataRepository;
     @Value("${hta.root}")
@@ -35,32 +37,37 @@ public class FileDataService implements IFileDataService {
         }
     }
 
+    public String creatingFilePath(Path root, String newFileName) {
+        return root + "\\" + newFileName;
+    }
+
     public FileData uploadFileDataToDirectory(MultipartFile file) throws IOException {
         String extension = FilenameUtils.getExtension(file.getOriginalFilename());
 
-        if (isSupportedExtension(extension)) {
-            LocalDateTime now = LocalDateTime.now();
-            String newFileName = addTimeToFileName(file.getOriginalFilename(), now);
-            String filePath = root + "\\" + newFileName;
-            String downloadPath = "http://localhost:8080/api/user/download-file/";
-            createRootDirectory();
-
-            if (!checkFileNameLength(filePath)) {
-                throw new IOException("File name is too long!");
-            }
-
-            FileData fileData = iFileDataRepository.save(FileData.builder()
-                    .fileName(newFileName)
-                    .fileType(file.getContentType())
-                    .filePath(downloadPath).build()
-            );
-            fileData.setFilePath(downloadPath.concat(fileData.getId().toString()));
-            iFileDataRepository.save(fileData);
-
-            file.transferTo(new File(filePath));
-            return fileData;
+        if (!isSupportedExtension(extension)) {
+            throw new UnsupportedDataTypeException();
         }
-        throw new UnsupportedDataTypeException();
+
+        LocalDateTime now = LocalDateTime.now();
+        String newFileName = addTimeToFileName(file.getOriginalFilename(), now);
+        String filePath = creatingFilePath(root, newFileName);
+        String downloadPath = "http://localhost:8080/api/user/download-file/";
+        createRootDirectory();
+
+        if (!checkFileNameLength(filePath)) {
+            throw new IOException("File name is too long!");
+        }
+
+        FileData fileData = iFileDataRepository.save(FileData.builder()
+                .fileName(newFileName)
+                .fileType(file.getContentType())
+                .filePath(downloadPath).build()
+        );
+        fileData.setFilePath(downloadPath.concat(fileData.getId().toString()));
+        iFileDataRepository.save(fileData);
+
+        file.transferTo(new File(filePath));
+        return fileData;
     }
 
     public byte[] downloadFileById(Long id) throws IOException {

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 @Service
@@ -44,7 +45,7 @@ public class BloodPressureService implements IBloodPressureService {
     }
 
     @Override
-    public void save(SaveBloodPressureDTO saveBloodPressureDTO, Authentication authentication) throws Exception {
+    public void save(SaveBloodPressureDTO saveBloodPressureDTO, Authentication authentication) throws IOException, BloodPressureBadRequestException {
         if (saveBloodPressureDTO.getSystolic() == 0f || saveBloodPressureDTO.getDiastolic() == 0f || saveBloodPressureDTO.getBloodPressureMeasuredAt() == null) {
             throw new BloodPressureBadRequestException();
         }
@@ -58,7 +59,6 @@ public class BloodPressureService implements IBloodPressureService {
             FileData uploadedFile = iFileDataService.uploadFileDataToDirectory(saveBloodPressureDTO.getBloodPressureFile());
             uploadedFile.setBloodPressure(bloodPressure);
             FileData fileData = iFileDataService.save(uploadedFile);
-
             bloodPressure.setFileData(fileData);
             iBloodPressureRepository.save(bloodPressure);
         }

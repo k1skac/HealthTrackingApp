@@ -16,8 +16,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +30,7 @@ public class WeightService implements IWeightService {
     private final IFileDataService iFileDataService;
 
     @Override
-    public void save(SaveWeightDTO saveWeightDTO, Authentication authentication) throws Exception {
+    public void save(SaveWeightDTO saveWeightDTO, Authentication authentication) throws IOException, WeightBadRequestException {
         if (saveWeightDTO.getWeight() == 0f || saveWeightDTO.getWeightMeasuredAt() == null) {
             throw new WeightBadRequestException();
         }
@@ -58,15 +60,15 @@ public class WeightService implements IWeightService {
 
     @Override
     public List<SaveWeightDTO> edit(Long id, Authentication authentication, SaveWeightDTO saveWeightDTO) throws WeightNotFoundException {
-        if (iWeightRepository.findById(id).isEmpty()){
+        Optional<Weight> weight = iWeightRepository.findById(id);
+        if (weight.isEmpty()){
             throw new WeightNotFoundException("Sorry, this id does not exist!");
         }
-        Weight weight = iWeightRepository.findWeightById(id);
         User user = iUserService.findByEmail(authentication.getName());
-        weight.setWeight(saveWeightDTO.getWeight());
-        iWeightRepository.save(weight);
+        weight.get().setWeight(saveWeightDTO.getWeight());
+        iWeightRepository.save(weight.get());
         List<Weight> weights = user.getWeights();
-        weights.add(weight);
+        weights.add(weight.get());
         return getAll(authentication);
     }
 
