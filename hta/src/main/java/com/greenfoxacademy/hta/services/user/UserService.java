@@ -27,10 +27,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @Transactional
@@ -71,20 +68,20 @@ public class UserService implements IUserService {
                 Role role = iRoleRepository.findByRoleName(RoleName.USER);
                 user.setRoles(Collections.singletonList(role));
                 user.setRealName(registerDTO.getRealName());
-                if (registerDTO.getBiologicalGender().equals("MALE")) {
+                if (registerDTO.getBiologicalGender().equalsIgnoreCase("MALE")) {
                     user.setBiologicalGender(BiologicalGender.MALE);
-                } else if (registerDTO.getBiologicalGender().equals("FEMALE")) {
+                } else if (registerDTO.getBiologicalGender().equalsIgnoreCase("FEMALE")) {
                     user.setBiologicalGender(BiologicalGender.MALE);
                 } else {
                     user.setBiologicalGender(BiologicalGender.UNDEFINED);
                 }
                 user.setHeight(registerDTO.getHeight());
                 user.setBirthDate(registerDTO.getBirthDate());
+                user.setCity(iCityRepository.findByCityName(registerDTO.getCityName()));
                 user.setActive(true);
                 iUserRepository.save(user);
                 newLog(iLogTypeRepository.findLogTypeByName("registration"), iUserRepository.findByEmail(registerDTO.getEmail()).orElseThrow(), "");
-                String token = jwtUtilities.generateToken(registerDTO.getEmail(), Collections.singletonList(role.getRoleName()));
-                return jwtUtilities.generateToken(user.getUsername(), user.getRoles().stream().map(Role::getRoleName).toList());
+                return jwtUtilities.generateToken(user.getEmail(), user.getRoles().stream().map(Role::getRoleName).toList());
             }
         }
     }
@@ -148,6 +145,7 @@ public class UserService implements IUserService {
             String cityName = city.getCityName();
             cityNameList.add(cityName);
         }
+        Collections.sort(cityNameList);
         return cityNameList;
     }
 

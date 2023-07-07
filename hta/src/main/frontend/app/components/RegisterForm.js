@@ -16,6 +16,7 @@ const RegisterForm = () => {
         realName:'',
         biologicalGender:'',
         birthdate:'',
+        cityName:'',
         height:0.0,
     });
     const [loading, setLoading] = useState(true);
@@ -124,7 +125,7 @@ const validateForm = () => {
         isValid = false;
     }
 
-    if (!registerDTO.cityName) {
+    if (!registerDTO.cityName||registerDTO.cityName==="") {
         errors.cityName = 'City name is required';
         isValid = false;
     }
@@ -153,12 +154,20 @@ const validateForm = () => {
     }
 
     const handleChangeDate = (date) => {
-        setRegisterDTO((prevRegisterDTO) => ({
-            ...prevRegisterDTO,
-            birthDate: date ? date.toISOString().split('T')[0] : '',
-        }));
-    };
+        if (date instanceof Date && !isNaN(date)) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const formattedDate = `${year}-${month}-${day}`;
 
+            setRegisterDTO((prevRegisterDTO) => ({
+                ...prevRegisterDTO,
+                birthDate: formattedDate,
+            }));
+        } else {
+            console.error('Invalid date:', date);
+        }
+    };
 
 
     const resetForm = () => {
@@ -169,6 +178,7 @@ const validateForm = () => {
             realName: '',
             biologicalGender: '',
             birthdate: '',
+            cityName :'',
             height: 0.0,
         });
         setValidationErrors({});
@@ -180,7 +190,7 @@ const validateForm = () => {
         <div>
             <button
                 onClick={openModal}
-                className='inline-block text-sm font-normal'>
+                className='inline-block text-md'>
                 Register
             </button>
 
@@ -326,12 +336,13 @@ const validateForm = () => {
                                                             <select
                                                                 onChange={(event) => handleChange(event)}
                                                                 name="cityName"
-                                                                value={registerDTO.cityName}
+                                                                defaultValue={""}
                                                                 required
+                                                                value={registerDTO.cityName}
                                                                 className="rounded-sm h-8 w-96 text-black shadow-slate-900 shadow-sm">
-                                                                <option className="text-black" value={registerDTO.city} placeholder='Select a city'></option>
+                                                                <option className="text-black" placeholder='Select a city'></option>
                                                                 {cityOptions.map((city) =>
-                                                                    <option className="text-black"  >
+                                                                    <option className="text-black" key={city}  >
                                                                         {city}
                                                                     </option>
                                                                 )}

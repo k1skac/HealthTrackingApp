@@ -50,9 +50,13 @@ const AddVitalHealthSigns = () => {
 
         if (type === 'file') {
             const file = e.target.files[0];
-            setSaveWeightDTO({...saveWeightDTO, weightFile: file});
-            setSaveHeartRateDTO({...saveHeartRateDTO, heartRateFile: file});
-            setSaveBloodPressureDTO({...saveBloodPressureDTO, bloodPressureFile: file});
+            if (name === 'weightFile') {
+                setSaveWeightDTO({ ...saveWeightDTO, weightFile: file });
+              } else if (name === 'heartRateFile') {
+                setSaveHeartRateDTO({ ...saveHeartRateDTO, heartRateFile: file });
+              } else if (name === 'bloodPressureFile') {
+                setSaveBloodPressureDTO({ ...saveBloodPressureDTO, bloodPressureFile: file });
+              }
         } else {
             setSaveWeightDTO({...saveWeightDTO, [name]: value});
             setSaveHeartRateDTO({...saveHeartRateDTO, [e.target.name]: value});

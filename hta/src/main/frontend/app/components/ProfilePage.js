@@ -110,10 +110,18 @@ const ProfilePage = () => {
     }
 
     const handleChangeDate = (date) => {
-        setUserDTO((prevUserDTO) => ({
-            ...prevUserDTO,
-            birthDate: date ? date.toISOString().split('T')[0] : '',
-        }));
+        if (date instanceof Date && !isNaN(date)) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const formattedDate = `${year}-${month}-${day}`;
+            setUserDTO((prevUserDTO) => ({
+                ...prevUserDTO,
+                birthDate: formattedDate,
+            }));
+        } else {
+            console.error('Invalid date:', date);
+        }
     };
 
     const resetForm = async () => {
@@ -230,9 +238,9 @@ const ProfilePage = () => {
                                                             name="cityName"
                                                             value={userDTO.cityName}
                                                             className="rounded-sm h-8 w-96 text-black shadow-slate-900 shadow-sm">
-                                                            <option className="text-black" value={userDTO.city} placeholder='Select a city'></option>
+                                                            <option className="text-black" placeholder='Select a city'></option>
                                                             {cityOptions.map((city) =>
-                                                                <option className="text-black"  >
+                                                                <option className="text-black" key={city}  >
                                                                     {city}
                                                                 </option>
                                                             )}

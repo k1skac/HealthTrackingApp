@@ -93,7 +93,7 @@ const LoginForm = () => {
 					className='rounded text-white font-semibold bg-orange-500 hover:bg-orange-700 py-2 px-6 ml-6'>
 					Clear
 				</button>
-				<div className='rounded text-white font-semibold bg-blue-500 hover:bg-pink-900 py-2 px-6 ml-6'>
+				<div className='rounded text-white font-semibold bg-sky-600 hover:bg-sky-900 py-2 px-6 ml-6'>
 					<Register />
 				</div>
 			</div>

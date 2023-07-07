@@ -22,5 +22,6 @@ public class RegisterDTO implements Serializable {
     String realName;
     String biologicalGender;
     LocalDate birthDate;
+    String cityName;
     double height;
 }
