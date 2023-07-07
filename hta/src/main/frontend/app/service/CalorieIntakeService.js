@@ -28,6 +28,12 @@ class CalorieIntakeService {
   getDynamicData() {
     return axios.get(`${NUTRITION_API_BASE_URL}/get-food-data`, { withCredentials: true });
   }
+  saveDynamicMeal(addMealDTO) {
+    return axios.post(`${NUTRITION_API_BASE_URL}/nutrition-dynamic-save`, addMealDTO, { withCredentials: true });
+  }
+  loadDynamicMeal() {
+    return axios.get(`${NUTRITION_API_BASE_URL}/nutrition-dynamic-load`, { withCredentials: true });
+  }
 
 }
 

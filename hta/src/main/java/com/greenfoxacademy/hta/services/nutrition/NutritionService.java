@@ -1,5 +1,6 @@
 package com.greenfoxacademy.hta.services.nutrition;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenfoxacademy.hta.dtos.nutritiondto.*;
 import com.greenfoxacademy.hta.exceptions.*;
@@ -24,8 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class NutritionService implements INutrtionService {
-
+public class NutritionService implements INutritionService {
 
   private final IFoodStuffRepository iFoodStuffRepository;
   private final IReadyFoodRepository iReadyFoodRepository;
@@ -35,7 +35,8 @@ public class NutritionService implements INutrtionService {
   public NutritionService(IFoodStuffTypeRepository iFoodStuffTypeRepository, IReadyFoodTypeRepository iReadyFoodTypeRepository,
                           IMealRepository iMealRepository, ILogRepository iLogRepository,
                           ILogTypeRepository iLogTypeRepository, IUserService iUserService, IFoodStuffRepository iFoodStuffRepository,
-                          IReadyFoodRepository iReadyFoodRepository, ObjectMapper objectMapper) {
+                          IReadyFoodRepository iReadyFoodRepository, ObjectMapper objectMapper,
+                          IDynamicMealRepository iDynamicMealRepository) {
     this.iFoodStuffTypeRepository = iFoodStuffTypeRepository;
     this.iReadyFoodTypeRepository = iReadyFoodTypeRepository;
     this.iMealRepository = iMealRepository;
@@ -44,9 +45,11 @@ public class NutritionService implements INutrtionService {
     this.iUserService = iUserService;
     this.iFoodStuffRepository = iFoodStuffRepository;
     this.iReadyFoodRepository = iReadyFoodRepository;
+    this.iDynamicMealRepository = iDynamicMealRepository;
     this.objectMapper = objectMapper;
   }
 
+  IDynamicMealRepository iDynamicMealRepository;
   IFoodStuffTypeRepository iFoodStuffTypeRepository;
   IReadyFoodTypeRepository iReadyFoodTypeRepository;
   IMealRepository iMealRepository;
@@ -55,14 +58,14 @@ public class NutritionService implements INutrtionService {
   IUserService iUserService;
 
   public String addNewMeal(NewMealDTO newMealDTO, String email) throws MealNoFoodInItException,
-           MealReadyFoodNotFoundException, MealFoodstuffNotFoundException {
+          MealReadyFoodNotFoundException, MealFoodstuffNotFoundException {
     if (newMealDTO.getFoodstuffsList().isEmpty() && newMealDTO.getReadyFoodsList().isEmpty()) {
       throw new MealNoFoodInItException();
     }
     Meal newMeal = new Meal(newMealDTO.getMealTime());
     newMeal.setUser(iUserService.findByEmail(email));
     if (!newMealDTO.getFoodstuffsList().isEmpty()) {
-       newMeal = fillFoodStuffList(newMeal, newMealDTO.getFoodstuffsList());
+      newMeal = fillFoodStuffList(newMeal, newMealDTO.getFoodstuffsList());
     }
     if (!newMealDTO.getReadyFoodsList().isEmpty()) {
       newMeal = fillReadyFoodList(newMeal, newMealDTO.getReadyFoodsList());
@@ -114,21 +117,21 @@ public class NutritionService implements INutrtionService {
   }
 
   public String newFoodstuff(NewFoodStuffTypeDTO newFoodStuffTypeDTO, String email) throws FoodStuffIsAlreadyExistException {
-     try {
-       if (iFoodStuffTypeRepository.existsByName(newFoodStuffTypeDTO.getName())) {
-         throw new FoodStuffIsAlreadyExistException();
-       } else {
-         iFoodStuffTypeRepository.save(new FoodstuffType(newFoodStuffTypeDTO.getName(), newFoodStuffTypeDTO.getCaloriePer100g(),
-                 newFoodStuffTypeDTO.getFatPer100g(), newFoodStuffTypeDTO.getCarbohydratePer100g(),
-                 newFoodStuffTypeDTO.getProteinPer100g()));
-         iUserService.newLog(iLogTypeRepository.findLogTypeByName("newfoodstuff"), iUserService.findByEmail(email),
-                         "The new foodstuff is " + newFoodStuffTypeDTO.getName());
-         return "The " + newFoodStuffTypeDTO.getName() + " is registered";
-       }
-     } catch (FoodStuffIsAlreadyExistException e) {
-       throw new FoodStuffIsAlreadyExistException();
-     }
-   }
+    try {
+      if (iFoodStuffTypeRepository.existsByName(newFoodStuffTypeDTO.getName())) {
+        throw new FoodStuffIsAlreadyExistException();
+      } else {
+        iFoodStuffTypeRepository.save(new FoodstuffType(newFoodStuffTypeDTO.getName(), newFoodStuffTypeDTO.getCaloriePer100g(),
+                newFoodStuffTypeDTO.getFatPer100g(), newFoodStuffTypeDTO.getCarbohydratePer100g(),
+                newFoodStuffTypeDTO.getProteinPer100g()));
+        iUserService.newLog(iLogTypeRepository.findLogTypeByName("newfoodstuff"), iUserService.findByEmail(email),
+                "The new foodstuff is " + newFoodStuffTypeDTO.getName());
+        return "The " + newFoodStuffTypeDTO.getName() + " is registered";
+      }
+    } catch (FoodStuffIsAlreadyExistException e) {
+      throw new FoodStuffIsAlreadyExistException();
+    }
+  }
 
   public String newReadyFood(NewReadyFoodTypeDTO newReadyFoodTypeDTO, String email) throws ReadyFoodIsAlreadyExistException {
     try {
@@ -186,15 +189,6 @@ public class NutritionService implements INutrtionService {
   }
 
   @Override
-  public MealSumAggregateDataDTO getLastMealData(Authentication authentication) throws MealDoesNotExistException {
-    User user = iUserService.findByEmail(authentication.getName());
-    if (iMealRepository.findTop1MealByUserOrderByMealTimeDesc(user).isPresent()) {
-      return objectMapper.convertValue(iMealRepository.findTop1MealByUserOrderByMealTimeDesc(user), MealSumAggregateDataDTO.class);
-    }
-    throw new MealDoesNotExistException();
-  }
-
-  @Override
   public List<String> getFoodStuffTypeNames() {
     List<String> foodStuffTypesString = new ArrayList<>();
     List<FoodstuffType> foodstuffTypes = iFoodStuffTypeRepository.findAll();
@@ -205,5 +199,71 @@ public class NutritionService implements INutrtionService {
               .collect(Collectors.toList());
     }
     return foodStuffTypesString;
+  }
+  @Override
+  public void clearDynamicMeal() {
+    List<DynamicMeal> meals = iDynamicMealRepository.findAll();
+    int size = meals.size();
+
+    if (size > 1) {
+      for (int i = 0; i < size - 1; i++) {
+        iDynamicMealRepository.delete(meals.get(i));
+      }
+    }
+  }
+
+  @Override
+  public String registerDynamicMeal(NewMealDTO newMealDTO) throws
+          MealReadyFoodNotFoundException, MealFoodstuffNotFoundException {
+    Meal newMeal = new Meal(newMealDTO.getMealTime());
+    if (!newMealDTO.getFoodstuffsList().isEmpty()) {
+      Map<String,Double> foodStuffList = newMealDTO.getFoodstuffsList();
+      for (Map.Entry<String,Double> entry : foodStuffList.entrySet()) {
+          FoodstuffType foodStuffType = iFoodStuffTypeRepository.findByName(entry.getKey())
+                  .orElseThrow(() -> new MealFoodstuffNotFoundException(entry.getKey()));
+          double quantity = entry.getValue();
+          Foodstuff foodstuff = new Foodstuff(quantity, newMeal, foodStuffType);
+          newMeal.getFoodstuffs().add(foodstuff);
+          newMeal.setMealSumCalorie(newMeal.getMealSumCalorie() + foodStuffType.getCaloriePer100g() * quantity / 100);
+          newMeal.setMealSumFat(newMeal.getMealSumFat() + foodStuffType.getFatPer100g() * quantity / 100);
+          newMeal.setMealSumCarbohydrate(newMeal.getMealSumCarbohydrate() + foodStuffType.getCarbohydratePer100g() * quantity / 100);
+          newMeal.setMealSumProtein(newMeal.getMealSumProtein() + foodStuffType.getProteinPer100g() * quantity / 100);
+      }
+    }
+    if (!newMealDTO.getReadyFoodsList().isEmpty()) {
+      Map<String,Double> readyFoodsList = newMealDTO.getReadyFoodsList();
+      for (Map.Entry<String,Double> entry : readyFoodsList.entrySet()) {
+          ReadyFoodType readyFoodType = iReadyFoodTypeRepository.findByName(entry.getKey())
+                  .orElseThrow(() -> new MealReadyFoodNotFoundException(entry.getKey()));
+          double quantity = entry.getValue();
+          ReadyFood readyFood = new ReadyFood(quantity, newMeal, readyFoodType);
+          newMeal.getReadyFoods().add(readyFood);
+          newMeal.setMealSumCalorie(newMeal.getMealSumCalorie() + readyFoodType.getCaloriePerPortion() * quantity);
+          newMeal.setMealSumFat(newMeal.getMealSumFat() + readyFoodType.getFatPerPortion() * quantity);
+          newMeal.setMealSumCarbohydrate(newMeal.getMealSumCarbohydrate() + readyFoodType.getCarbohydratePerPortion() * quantity);
+          newMeal.setMealSumProtein(newMeal.getMealSumProtein() + readyFoodType.getProteinPerPortion() * quantity);
+      }
+    }
+    DynamicMeal dynamicMeal = new DynamicMeal();
+    dynamicMeal.setMealSumCalorie(newMeal.getMealSumCalorie());
+    dynamicMeal.setMealSumCarbohydrate(newMeal.getMealSumCarbohydrate());
+    dynamicMeal.setMealSumFat(newMeal.getMealSumFat());
+    dynamicMeal.setMealSumProtein(newMeal.getMealSumProtein());
+    iDynamicMealRepository.save(dynamicMeal);
+    return "DynamicMealRegistered";
+  }
+
+  @Override
+  public List<DynamicMeal> findAllDynamicMealData() {
+    return iDynamicMealRepository.findAll();
+  }
+
+  @Override
+  public MealSumAggregateDataDTO getLastMealData(Authentication authentication) throws MealDoesNotExistException {
+    User user = iUserService.findByEmail(authentication.getName());
+    if (iMealRepository.findTop1MealByUserOrderByMealTimeDesc(user).isPresent()) {
+      return objectMapper.convertValue(iMealRepository.findTop1MealByUserOrderByMealTimeDesc(user), MealSumAggregateDataDTO.class);
+    }
+    throw new MealDoesNotExistException();
   }
 }

@@ -4,13 +4,18 @@ import LoginService from '@/app/service/LoginService';
 import {alertService} from "@/app/service/AlertService";
 import {Alert} from "@/app/components/Alert";
 import Register from "./RegisterForm";
-import Navbar from './Navbar';
+import { RiEyeLine, RiEyeOffLine } from 'react-icons/ri';
 
 const LoginForm = () => {
     const [loginDTO, setLoginDTO] = useState({
         email: '',
         password: ''
     })
+	const [showPassword, setShowPassword] = useState(false);
+
+	const togglePasswordVisibility = () => {
+		setShowPassword(!showPassword);
+	  };
 
 	const [errorMessage, setErrorMessage] = useState(false);
 
@@ -68,13 +73,24 @@ const LoginForm = () => {
 					<label className='inline-block text-gray-800 text-sm font-normal'>Password:
 						<br/>
 						<input
-							type="text"
+							type={showPassword ? 'text' : 'password'}
 							name="password"
 							placeholder="Password..."
 							value={loginDTO.password}
 							onChange={(e) => handleChange(e)}
 							className='h-10 w-56 border mt-2 px-2 py2'
 						/>
+						<button
+							type="button"
+							onClick={togglePasswordVisibility}
+							className="inline-block focus:outline-none ml-2"
+						>
+							{showPassword ? (
+							<RiEyeOffLine size={15} />
+							) : (
+							<RiEyeLine size={15} />
+							)}
+						</button>
 					</label>
 				</div>
 				{errorMessage}

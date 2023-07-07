@@ -7,7 +7,6 @@ import com.greenfoxacademy.hta.exceptions.MealReadyFoodNotFoundException;
 import com.greenfoxacademy.hta.exceptions.UserNotFoundException;
 import com.greenfoxacademy.hta.models.log.LogType;
 import com.greenfoxacademy.hta.models.nutrition.FoodstuffType;
-import com.greenfoxacademy.hta.models.nutrition.Meal;
 import com.greenfoxacademy.hta.models.nutrition.ReadyFoodType;
 import com.greenfoxacademy.hta.models.user.*;
 import com.greenfoxacademy.hta.repositories.log.ILogTypeRepository;
@@ -16,7 +15,7 @@ import com.greenfoxacademy.hta.repositories.IUserRepository;
 import com.greenfoxacademy.hta.repositories.healthylivingrepositories.IWeightRepository;
 import com.greenfoxacademy.hta.repositories.nutrition.*;
 import com.greenfoxacademy.hta.services.city.ICityService;
-import com.greenfoxacademy.hta.services.nutrition.INutrtionService;
+import com.greenfoxacademy.hta.services.nutrition.INutritionService;
 import com.greenfoxacademy.hta.services.user.IUserService;
 import com.greenfoxacademy.hta.models.medication.Medication;
 import com.greenfoxacademy.hta.models.medication.MedicationIntake;
@@ -50,7 +49,7 @@ public class HtaApplication {
                           IMedicationRepository iMedicationRepository, INotificationRepository iNotificationRepository,
                           PasswordEncoder passwordEncoder, ILogTypeRepository iLogTypeRepository,
                           ICityService iCityService, IFoodStuffTypeRepository iFoodStuffTypeRepository,
-                          IReadyFoodTypeRepository iReadyFoodTypeRepository,INutrtionService iNutrtionService) {
+                          IReadyFoodTypeRepository iReadyFoodTypeRepository, INutritionService iNutritionService) {
         return args -> {
             iUserService.saveRole(new Role(RoleName.USER));
             iUserService.saveRole(new Role(RoleName.ADMIN));
@@ -64,7 +63,7 @@ public class HtaApplication {
                     iMedicationIntakeRepository, iMedicationRepository, iNotificationRepository, iCityService);
             addUsers(passwordEncoder, iUserService, iCityService, iRoleRepository);
             addBasicFoods(iFoodStuffTypeRepository,iReadyFoodTypeRepository);
-            addBasicMeal(iNutrtionService);
+            addBasicMeal(iNutritionService);
         };
     }
 
@@ -452,14 +451,14 @@ public class HtaApplication {
         iFoodStuffTypeRepository.save(new FoodstuffType("Honey",306, 0,76,0 ));
    }
 
-    public void addBasicMeal(INutrtionService iNutrtionService) throws MealNoFoodInItException, UserNotFoundException, MealFoodstuffNotFoundException, MealReadyFoodNotFoundException {
+    public void addBasicMeal(INutritionService iNutritionService) throws MealNoFoodInItException, UserNotFoundException, MealFoodstuffNotFoundException, MealReadyFoodNotFoundException {
         HashMap<String,Double> newFoodstuffs = new HashMap<>();
         newFoodstuffs.put( "Avocado", 25.5);
         HashMap<String,Double> newReadyFoods = new HashMap<>();
         newReadyFoods.put( "Norbi Update1 Párizsis zsemle", 1.5);
         newReadyFoods.put(  "Burger King Whopper", 1.0);
         NewMealDTO newMeal = new NewMealDTO(LocalDateTime.of(2023, 8, 2, 12, 0, 0, 0),newFoodstuffs,newReadyFoods);
-        iNutrtionService.addNewMeal(newMeal, "user1@gmail.com");
+        iNutritionService.addNewMeal(newMeal, "user1@gmail.com");
     }
 
 }

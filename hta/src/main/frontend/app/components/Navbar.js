@@ -3,6 +3,8 @@ import ProfilePageService from '../service/ProfilePageService';
 import ProfilePage from './ProfilePage';
 import AddVitalHealthSigns from './AddVitalHealthSigns';
 import Logout from './LogoutForm';
+import AddCalorieIntake from './AddCalorieIntake';
+import AddMeal from './AddMeal';
 
 const Navbar = () => {
     const [userDTO, setUserDTO] = useState({});
@@ -26,17 +28,23 @@ const Navbar = () => {
         <div className="flex justify-between h-20 bg-htamediumteal shadow-md shadow-teal-950">
             <span className="px-8 flex justify-start items-center">
                 <p className="text-white font-bold mx-4">Health Tracking Application</p>
-                <div className='mx-4'>
+                <div className='mx-2'>
                     <ProfilePage />
                 </div>
-                <div className='mx-4'>
+                <div className='mx-2'>
                     <AddVitalHealthSigns />
                 </div>
-                <div className='mx-4'>
+                <div className='mx-2'>
+                     <AddCalorieIntake/>
+                </div>
+                <div className='mx-2'>
+                     <AddMeal/>
+                </div>
+                <div className='mx-2'>
                     <Logout />
                 </div>
             </span>
-            <span className="mx-4 px-8 flex justify-end items-center">
+            <span className="mx-2 px-6 flex justify-end items-center">
                 <p className="text-white font-bold">{userDTO.realName}</p>
             </span>
         </div>

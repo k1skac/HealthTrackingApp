@@ -41,10 +41,11 @@ public class NutritionServiceTests {
         var iLogRepository = mock(ILogRepository.class);
         var iUserService = mock(IUserService.class);
         ObjectMapper objectMapper = new ObjectMapper();
+       var iDynamicMealRepository = mock(IDynamicMealRepository.class);
 
         NutritionService nutritionService = new NutritionService(iFoodStuffTypeRepository, iReadyFoodTypeRepository,
                iMealRepository, iLogRepository, iLogTypeRepository, iUserService, iFoodStuffRepository,
-               iReadyFoodRepository, objectMapper);
+               iReadyFoodRepository, objectMapper, iDynamicMealRepository);
         User user = new User("User1", "user1@gmail.com", "password1",
                 "DummyUser1", BiologicalGender.MALE, LocalDate.of(1988, 1, 4), 198.5);
         when(iLogTypeRepository.findLogTypeByName("newmeal")).thenReturn(new LogType("newmeal", "A new meal has registred by "));
@@ -74,11 +75,12 @@ public class NutritionServiceTests {
       var iReadyFoodRepository = mock(IReadyFoodRepository.class);
       var iLogRepository = mock(ILogRepository.class);
       var iUserService = mock(IUserService.class);
+      var iDynamicMealRepository = mock(IDynamicMealRepository.class);
       ObjectMapper objectMapper = new ObjectMapper();
 
       NutritionService nutritionService = new NutritionService(iFoodStuffTypeRepository, iReadyFoodTypeRepository,
               iMealRepository, iLogRepository, iLogTypeRepository, iUserService, iFoodStuffRepository,
-              iReadyFoodRepository, objectMapper);
+              iReadyFoodRepository, objectMapper, iDynamicMealRepository);
       User user = new User("User1", "user1@gmail.com", "password1",
               "DummyUser1", BiologicalGender.MALE, LocalDate.of(1988, 1, 4), 198.5);
       when(iLogTypeRepository.findLogTypeByName("newmeal")).thenReturn(new LogType("newmeal", "A new meal has registred by "));
@@ -109,11 +111,12 @@ public class NutritionServiceTests {
       var iReadyFoodRepository = mock(IReadyFoodRepository.class);
       var iLogRepository = mock(ILogRepository.class);
       var iUserService = mock(IUserService.class);
+      var iDynamicMealRepository = mock(IDynamicMealRepository.class);
       ObjectMapper objectMapper = new ObjectMapper();
 
       NutritionService nutritionService = new NutritionService(iFoodStuffTypeRepository, iReadyFoodTypeRepository,
               iMealRepository, iLogRepository, iLogTypeRepository, iUserService, iFoodStuffRepository,
-              iReadyFoodRepository, objectMapper);
+              iReadyFoodRepository, objectMapper, iDynamicMealRepository);
       User user = new User("User1", "user1@gmail.com", "password1",
               "DummyUser1", BiologicalGender.MALE, LocalDate.of(1988, 1, 4), 198.5);
       when(iLogTypeRepository.findLogTypeByName("newmeal")).thenReturn(new LogType("newmeal", "A new meal has registred by "));
