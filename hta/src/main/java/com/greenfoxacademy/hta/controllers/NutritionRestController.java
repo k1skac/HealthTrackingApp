@@ -76,6 +76,15 @@ public class NutritionRestController {
     }
   }
 
+  @GetMapping("/nutrition-last")
+  public ResponseEntity<?> viewLastNutritionContent(Authentication authentication) {
+    try {
+      return ResponseEntity.ok(iNutritionService.getLastMealData(authentication));
+    } catch (HtaException exception) {
+      return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
+    }
+  }
+
   @PostMapping("/post-food-data")
   public ResponseEntity<?> saveDynamicData(@RequestBody DynamicData dynamicData) {
     iDynamicDataService.saveData(dynamicData);
