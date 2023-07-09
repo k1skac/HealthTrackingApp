@@ -124,6 +124,8 @@ const AddVitalHealthSigns = () => {
         }
     }
 
+
+
     const reset = (e) => {
         e.preventDefault();
         setSaveHeartRateDTO({
@@ -178,12 +180,12 @@ const AddVitalHealthSigns = () => {
                                             Add your vital health signs
                                         </h3>
                                     </Dialog.Title>
-                                    <div className='bg-htamediumteal rounded-md shadow-slate-900 shadow-md'>
+                                    <div className=' overflow-y-auto h-96 bg-htamediumteal rounded-md shadow-slate-900 shadow-md'>
                                         <div className='pt-6 '>
                                              <Alert filterType={!AlertType.Info}/>
                                         </div>
                                         <div className='m-auto max-w-md text-white inline-flex justify-center'>
-                                            <div className='pt-28'>
+                                            <div className='pt-20'>
                                                 <label
                                                     className='block py-2 px-4'>
                                                     Heart Rate:
@@ -194,7 +196,7 @@ const AddVitalHealthSigns = () => {
                                                         placeholder="...bpm"
                                                         value={saveHeartRateDTO.heartRate}
                                                         onChange={(e) => handleChange(e)}
-                                                        className='rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
+                                                        className='px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
                                                     />
                                                 </label>
                                                 <label
@@ -205,7 +207,7 @@ const AddVitalHealthSigns = () => {
                                                         name="heartRateMeasuredAt"
                                                         value={saveHeartRateDTO.heartRateMeasuredAt}
                                                         onChange={(e) => handleChange(e)}
-                                                        className='rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
+                                                        className='px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
                                                     />
                                                 </label>
                                                 <label className='text-gray-800 text-sm font-normal'>Upload File:
@@ -219,7 +221,7 @@ const AddVitalHealthSigns = () => {
                                                     />
                                                 </label>
                                             </div>
-                                            <div className='pt-28'>
+                                            <div className='pt-20'>
                                                 <label
                                                     className='block py-2 px-4'>
                                                     Weight:
@@ -241,7 +243,7 @@ const AddVitalHealthSigns = () => {
                                                         name="weightMeasuredAt"
                                                         value={saveWeightDTO.weightMeasuredAt}
                                                         onChange={(e) => handleChange(e)}
-                                                        className='rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
+                                                        className='px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
                                                     />
                                                 </label>
                                                 <label className='text-gray-800 text-sm font-normal'>Upload File:
@@ -255,7 +257,7 @@ const AddVitalHealthSigns = () => {
                                                     />
                                                 </label>
                                             </div>
-                                            <div className='pt-28'>
+                                            <div className='pt-20'>
                                                 <label
                                                     className='block py-2 px-4'>
                                                     Systolic Blood Pressure:
@@ -266,7 +268,7 @@ const AddVitalHealthSigns = () => {
                                                         placeholder="...mmHg"
                                                         value={saveBloodPressureDTO.systolic}
                                                         onChange={(e) => handleChange(e)}
-                                                        className='rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
+                                                        className='px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
                                                     />
                                                 </label>
                                                 <label
@@ -279,7 +281,7 @@ const AddVitalHealthSigns = () => {
                                                         placeholder="...mmHg"
                                                         value={saveBloodPressureDTO.diastolic}
                                                         onChange={(e) => handleChange(e)}
-                                                        className='rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
+                                                        className='px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
                                                     />
                                                 </label>
                                                 <label
@@ -290,7 +292,7 @@ const AddVitalHealthSigns = () => {
                                                         name="bloodPressureMeasuredAt"
                                                         value={saveBloodPressureDTO.bloodPressureMeasuredAt}
                                                         onChange={(e) => handleChange(e)}
-                                                        className='rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
+                                                        className='px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm'
                                                     />
                                                 </label>
                                                 <label className='text-gray-800 text-sm font-normal'>Upload File:

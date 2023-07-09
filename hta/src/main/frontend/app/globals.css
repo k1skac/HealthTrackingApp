@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+ .select-ready-food {
+    width: 32%;
+  }
+ .dropdown-link{
+     @apply flex p-2 hover:bg-fuchsia-900 rounded;
+ }

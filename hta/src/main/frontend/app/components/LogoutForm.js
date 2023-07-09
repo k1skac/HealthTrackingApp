@@ -39,36 +39,13 @@ const LogoutForm = () => {
 
 	return (
 		<div>
-			<button
-				onClick={openModal}
-				className='rounded bg-htadarkteal hover:bg-htadarktealhover text-white w-48 py-3 shadow-cyan-950 shadow-md font-semi'>
-				Logout
-			</button>
-
-			<Transition appear show={isOpen} as={Fragment}>
 				<div className='m-auto w-full max-w-screen-md text-left align-middle transition-all transform shadow-xl rounded-md' >
-					<Dialog
-						as="div"
-						className='fixed inset-24 max-w-screen-md h-max mx-auto'
-						onClose={closeModal}>
-						<div className='min-h-screen text-center'>
-							<Transition.Child
-								as={Fragment}
-								enter='ease-out duration-300'
-								enterFrom='opacity-0 scale-95'
-								enterTo='opacity-100 scale-100'
-								leave='ease-in duration-200'
-								leaveFrom='opacity-100 csale-100'
-								leaveTo='opacity-0 scale-95'>
-								<div className="overflow-auto">
-									<Dialog.Title
-										as='div'
-										className='mb-1 bg-htadarkteal rounded-md py-5 shadow-slate-900 shadow-md'>
+										 <div className='mb-1 bg-htadarkteal rounded-md py-5 shadow-slate-900 shadow-md'>
 										<h3
-											className='text-lg font-bold text-white m-auto'>
+											className='text-lg font-bold text-white m-auto text-center'>
 											Do you want to logout?
 										</h3>
-									</Dialog.Title>
+										 </div>
 									<div className="bg-htamediumteal rounded-md shadow-slate-900 shadow-md">
 										<div>
 												<div>
@@ -92,11 +69,6 @@ const LogoutForm = () => {
 										</div>
 									</div>
 								</div>
-							</Transition.Child>
-						</div>
-					</Dialog>
-				</div>
-			</Transition>
 		</div>
 	)
 }

@@ -198,7 +198,7 @@ const validateForm = () => {
                 <div  >
                     <Dialog
                         as="div"
-                        className='overflow-y-auto fixed inset-24 max-w-screen-md h-max mx-auto'
+                        className='fixed inset-24 max-w-screen-md h-max mx-auto'
                         onClose={closeModal}>
                         <div className='min-h-screen text-center'>
                             <Transition.Child
@@ -218,7 +218,7 @@ const validateForm = () => {
                                                 Please add your profile data
                                             </h3>
                                     </Dialog.Title>
-                                    <div className="bg-htamediumteal rounded-md shadow-slate-900 shadow-md">
+                                    <div className=" overflow-y-auto h-96 bg-htamediumteal rounded-md shadow-slate-900 shadow-md">
                                         <div>
                                             {loading && (
                                                 <div
@@ -228,7 +228,7 @@ const validateForm = () => {
                                             )}
                                             {!loading && (
                                                 <div className='m-auto max-w-md text-white'>
-                                                    <div className="overflow-y-auto h-96 ">
+                                                    <div>
                                                         <div className='pt-2'>
                                                             <label
                                                                 className='block py-2'>
@@ -340,7 +340,7 @@ const validateForm = () => {
                                                                 required
                                                                 value={registerDTO.cityName}
                                                                 className="rounded-sm h-8 w-96 text-black shadow-slate-900 shadow-sm">
-                                                                <option className="text-black" placeholder='Select a city'></option>
+                                                                <option value="">Select city</option>
                                                                 {cityOptions.map((city) =>
                                                                     <option className="text-black" key={city}  >
                                                                         {city}

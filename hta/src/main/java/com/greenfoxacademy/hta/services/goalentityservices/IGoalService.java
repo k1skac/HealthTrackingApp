@@ -19,7 +19,5 @@ public interface IGoalService {
     GoalDTO updateGoal(Long id, GoalDTO goalDTO, Authentication authentication) throws HtaException;
 
     GoalDTO convertGoal(Goal goal);
-
-    Goal giveLastGoal();
-
+    GoalDTO lastGoal (Authentication authentication) throws HtaException;
 }

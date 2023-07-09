@@ -10,7 +10,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
+@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Goal {
@@ -38,7 +40,40 @@ public class Goal {
         this.creationDate = creationDate;
     }
 
+    public Goal(String goalDescription,WeightLoss weightLoss) {
+        this.goalDescription = goalDescription;
+        this.weightLoss = weightLoss;
+    }
+
+    public Goal(String goalDescription,HealthyEating calorieIntakeLimit) {
+        this.goalDescription = goalDescription;
+        this.calorieIntakeLimit = calorieIntakeLimit;
+    }
+
+    public Goal(String goalDescription,Exercise exercise) {
+        this.goalDescription = goalDescription;
+        this.exercise = exercise;
+    }
+
+    public Goal(String goalDescription,WeightLoss weightLoss, HealthyEating calorieIntakeLimit) {
+        this.goalDescription = goalDescription;
+        this.weightLoss = weightLoss;
+        this.calorieIntakeLimit = calorieIntakeLimit;
+    }
+
+    public Goal(String goalDescription,WeightLoss weightLoss, Exercise exercise) {
+        this.goalDescription = goalDescription;
+        this.weightLoss = weightLoss;
+        this.exercise = exercise;
+    }
+
+    public Goal(String goalDescription,HealthyEating calorieIntakeLimit, Exercise exercise) {
+        this.goalDescription = goalDescription;
+        this.calorieIntakeLimit = calorieIntakeLimit;
+        this.exercise = exercise;
+    }
     public Goal(WeightLoss weightLoss) {
+
         this.weightLoss = weightLoss;
     }
 
@@ -47,6 +82,7 @@ public class Goal {
     }
 
     public Goal(Exercise exercise) {
+
         this.exercise = exercise;
     }
 
@@ -66,6 +102,7 @@ public class Goal {
     }
 
     public Goal(String goalDescription) {
+
         this.goalDescription = goalDescription;
     }
 

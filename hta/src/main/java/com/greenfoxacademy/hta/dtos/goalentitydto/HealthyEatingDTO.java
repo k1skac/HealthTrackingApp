@@ -14,4 +14,27 @@ public class HealthyEatingDTO {
     private float calorieLimit;
     private LocalDateTime deadline;
     private LocalDateTime startDate;
+    public HealthyEatingDTO(String description, float calorieLimit, LocalDateTime deadline) {
+        this.description = description;
+        this.calorieLimit = calorieLimit;
+        this.deadline = deadline;
+    }
+    public HealthyEatingDTO(float calorieLimit) {
+
+        this.calorieLimit = calorieLimit;
+    }
+    public HealthyEatingDTO(String description) {
+
+        this.description = description;
+    }
+    public HealthyEatingDTO(LocalDateTime deadline) {
+
+        this.deadline = deadline;
+    }
+   /* public HealthyEatingDTO(LocalDateTime startDate) {
+
+        this.startDate = startDate;
+    }*/
+
+
 }

@@ -210,27 +210,24 @@ const AddMeal = () => {
                       Add Meal
                     </h3>
                   </Dialog.Title>
-                  <div className="grid grid-cols-10 gap-4 overflow-y-auto h-96 bg-htamediumteal rounded-md shadow-slate-900 shadow-md">
-                    <div className="p-4 col-span-7">
-                      <div className="mb-4">
-                        <h2 className="text-lg font-semibold">Add Meal</h2>
-                        <label className="block mt-2">Meal Time:</label>
+                  <div className="grid grid-cols-10 overflow-y-auto h-96 bg-htamediumteal rounded-md shadow-slate-900 shadow-md">
+                      <div className=" mb-4 p-4 col-span-7">
+                        <label className="block mt-2 text-white">Meal Time:</label>
                         <input
                           type="datetime-local"
                           value={mealTime}
                           onChange={(e) => setMealTime(e.target.value)}
-                          className="border rounded-md px-2 py-1"
+                          className=" px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm "
                         />
-  
-                        <label className="block mt-4">Ingredients:</label>
-                        <div className="space-y-2">
+                        <label className="block mt-4 text-white">Ingredients:</label>
+                        <div className="space-y-2 pl-40 pr-2">
                           {foodstuffs.map((foodstuff, index) => (
                             <div key={index} className="flex items-center">
                               <select
                                 name="foodstuff"
                                 value={foodstuff.foodstuff}
                                 onChange={(e) => handleFoodstuffChange(index, e)}
-                                className="border rounded-md px-2 py-1 w-80"
+                                className="px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm"
                               >
                                 <option value="">Select Ingredient</option>
                                 {foodStuffOptions.map(option => (
@@ -242,8 +239,8 @@ const AddMeal = () => {
                                 name="quantity"
                                 value={foodstuff.quantity}
                                 onChange={(e) => handleFoodstuffChange(index, e)}
-                                placeholder="Gram"
-                                className="border rounded-md px-1 py-1 w-20 ml-2" // Adjusted input size and added ml-2 class for spacing
+                                placeholder="...g"
+                                className="border rounded-sm px-2 py-1 w-20 ml-2 shadow-slate-900 shadow-sm" // Adjusted input size and added ml-2 class for spacing
                               />
                               {index > 0 && (
                                 <button
@@ -256,24 +253,26 @@ const AddMeal = () => {
                               )}
                             </div>
                           ))}
+                          <div className="pr-32">
                           <button
                             type="button"
                             onClick={handleAddFoodstuff}
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-sm shadow-slate-900 shadow-sm"
                           >
                             Add Ingredient
                           </button>
+                          </div>
                         </div>
   
-                        <label className="block mt-4">Prepared Meal</label>
-                        <div className="space-y-2">
+                        <label className="block mt-4 text-white">Prepared Meal</label>
+                        <div className="space-y-2 pl-40 pr-2">
                           {readyFoods.map((readyFood, index) => (
                             <div key={index} className="flex items-center">
                               <select
                                 name="readyFood"
                                 value={readyFood.readyFood}
                                 onChange={(e) => handleReadyFoodChange(index, e)}
-                                className="border rounded-md px-2 py-1 select-ready-food w-80"
+                                className="px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm"
                               >
                                 <option value="">Select Ready Food</option>
                                 {readyFoodOptions.map(option => (
@@ -285,8 +284,8 @@ const AddMeal = () => {
                                 name="quantity"
                                 value={readyFood.quantity}
                                 onChange={(e) => handleReadyFoodChange(index, e)}
-                                placeholder="Quantity"
-                                className="border rounded-md px-1 py-1 w-20 ml-2" // Adjusted input size and added ml-2 class for spacing
+                                placeholder="quantity"
+                                className="border rounded-sm px-2 py-1 w-20 ml-2 shadow-slate-900 shadow-sm" // Adjusted input size and added ml-2 class for spacing
                               />
                               {index > 0 && (
                                 <button
@@ -299,16 +298,16 @@ const AddMeal = () => {
                               )}
                             </div>
                           ))}
+                          <div className="pr-32">
                           <button
                             type="button"
                             onClick={handleAddReadyFood}
-                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-sm shadow-slate-900 shadow-sm"
                           >
                             Add Prepared Food
                           </button>
+                          </div>
                         </div>
-  
-                        <div className='mt-2'></div>
                         <div className='flex justify-center pt-2 pb-20'>
                           <div className='h-14 my-4 pt-4'>
                             <button
@@ -337,9 +336,8 @@ const AddMeal = () => {
                             </button>
                           </div>
                         </div>
-                      </div>
                     </div>
-                    <div className="col-span-3">
+                    <div className="col-span-3 p-0">
                       <Donut />
                     </div>
                   </div>

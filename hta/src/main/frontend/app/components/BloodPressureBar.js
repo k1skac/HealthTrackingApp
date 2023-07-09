@@ -120,7 +120,7 @@ const BloodPressureBar = () => {
 
     return (
         <div>
-            <div className='w-[500px] h-80 bg-zinc-100 rounded-sm'>
+            <div className='w-[500px] h-80 bg-white rounded-sm border-4 border-htamediumteal'>
                 <Bar data={data} options={options} />
             </div>
         </div>

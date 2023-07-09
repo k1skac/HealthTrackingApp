@@ -37,7 +37,7 @@ function Alert({ id, fade, filterType }) {
                     setAlerts(alerts => ([...alerts, alert]));
                     if (alert.autoClose) {
                         if (alert.type === AlertType.Info) {
-                            setTimeout(() => removeAlert(alert), 30000);
+                            setTimeout(() => removeAlert(alert), 15000);
                         } else {
                             setTimeout(() => removeAlert(alert), 8000);
                         }

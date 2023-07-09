@@ -113,7 +113,7 @@ const AddCalorieIntake = () => {
         Add Calorie Intake
       </button>
       <Transition appear show={isOpen} as={Fragment}>
-        <div className='m-auto w-full max-w-screen-md overflow-hidden text-left align-middle transition-all transform shadow-xl rounded-md'>
+        <div className='m-auto w-full h-full max-w-screen-md overflow-hidden text-left align-middle transition-all transform shadow-xl rounded-md'>
           <Dialog
             as="div"
             className='fixed inset-24 max-w-screen-lg mx-auto'
@@ -138,30 +138,29 @@ const AddCalorieIntake = () => {
                       Add Prepared Food or Ingredient
                     </h3>
                   </Dialog.Title>
-  
+
                   <div className="overflow-y-auto h-96 bg-htamediumteal rounded-md shadow-slate-900 shadow-md">
                     <div className=" m-auto max-w-md inline-flex justify-center">
                       <div>
-                        <div className="flex flex-row">
-                          <div className="w-1/4 mr-4 mt-2 border-gray-300" />
-                          <h1 className="text-lg font-semibold text-white">Ingredient</h1>
-                          <div className="w-1/4 ml-4 mt-2 border-gray-300" />
+                        <div className="mt-10">
+                          <h1 className="m-auto max-w-md text-white text-lg font-semibold inline-flex justify-center">
+                            Ingredient
+                          </h1>
                         </div>
-  
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="flex flex-col">
-                            <label className="text-gray-800 text-sm font-normal">Food Name:</label>
+                        <div className="grid grid-cols-2 gap-14">
+                          <div>
+                            <label className="py-2 px-4 text-white text-sm font-normal">Food Name:</label>
                             <input
                               type="text"
                               name="name"
                               placeholder="Food Name"
                               value={foodStuff.name}
                               onChange={handleFoodStuffChange}
-                              className="h-10 border px-2 py-1"
+                              className="px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm"
                             />
                           </div>
-                          <div className="flex flex-col">
-                            <label className="text-gray-800 text-sm font-normal">Calories per 100g:</label>
+                          <div>
+                            <label className="py-2 px-4 text-white text-sm font-normal">Calories per 100g:</label>
                             <input
                               type="number"
                               step="0.01"
@@ -169,11 +168,11 @@ const AddCalorieIntake = () => {
                               placeholder="...cal"
                               value={foodStuff.caloriePer100g}
                               onChange={handleFoodStuffChange}
-                              className="h-10 border px-2 py-1"
+                              className="px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm"
                             />
                           </div>
-                          <div className="flex flex-col">
-                            <label className="text-gray-800 text-sm font-normal">Fat per 100g:</label>
+                          <div>
+                            <label className="py-2 px-4 text-white text-sm font-normal">Fat per 100g:</label>
                             <input
                               type="number"
                               step="0.01"
@@ -181,11 +180,11 @@ const AddCalorieIntake = () => {
                               placeholder="...g"
                               value={foodStuff.fatPer100g}
                               onChange={handleFoodStuffChange}
-                              className="h-10 border px-2 py-1"
+                              className="px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm"
                             />
                           </div>
-                          <div className="flex flex-col">
-                            <label className="text-gray-800 text-sm font-normal">Carbohydrate per 100g:</label>
+                          <div>
+                            <label className="py-2 px-4 text-white text-sm font-normal">Carbohydrate per 100g:</label>
                             <input
                               type="number"
                               step="0.01"
@@ -193,11 +192,11 @@ const AddCalorieIntake = () => {
                               placeholder="...g"
                               value={foodStuff.carbohydratePer100g}
                               onChange={handleFoodStuffChange}
-                              className="h-10 border px-2 py-1"
+                              className="px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm"
                             />
                           </div>
-                          <div className="flex flex-col">
-                            <label className="text-gray-800 text-sm font-normal">Protein per 100g:</label>
+                          <div>
+                            <label className="py-2 px-4 text-white text-sm font-normal">Protein per 100g:</label>
                             <input
                               type="number"
                               step="0.01"
@@ -205,54 +204,56 @@ const AddCalorieIntake = () => {
                               placeholder="...g"
                               value={foodStuff.proteinPer100g}
                               onChange={handleFoodStuffChange}
-                              className="h-10 border px-2 py-1"
+                              className="px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm"
                             />
                           </div>
                         </div>
-  
-                        <div className="mt-8 flex justify-end">
-                          <button
-                            type="button"
-                            onClick={resetFoodStuff}
-                            className='mx-2 rounded text-white font-semibold bg-orange-500 hover:bg-orange-700 py-2 px-6 shadow-slate-900 shadow-sm'
-                          >
-                            Reset Ingredient
-                          </button>
+
+                        <div className="pr-28 mt-8 flex justify-end">
                           <button
                             type="submit"
                             onClick={saveFoodStuff}
                             className='mx-2 rounded text-white font-semibold bg-green-500 hover:bg-green-700 py-2 px-6 shadow-slate-900 shadow-sm'
                           >
-                            Save Ingredient
+                            Save
                           </button>
+                          <button
+                            type="button"
+                            onClick={resetFoodStuff}
+                            className='mx-2 rounded text-white font-semibold bg-orange-500 hover:bg-orange-700 py-2 px-6 shadow-slate-900 shadow-sm'
+                        >
+                          Clear
+                        </button>
                         </div>
                       </div>
                     </div>
-  
-                    <div className="h-14 my-4 pt-4"></div>
-  
+
+                    <div className="h-14 my-4 pt-4">
+
                     <div className=" m-auto max-w-md text-black inline-flex justify-center">
                       <div>
-                        <div className="flex flex-row">
+                        <div>
                           <div className="w-1/4 mr-4 mt-2 border-gray-300" />
-                          <h2 className="text-gray-800 text-lg font-semibold text-white">Prepared Food</h2>
+                          <h2 className="m-auto max-w-md text-white text-lg font-semibold inline-flex justify-center">
+                            Prepared Food
+                          </h2>
                           <div className="w-1/4 ml-4 mt-2 border-gray-300" />
                         </div>
-  
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="flex flex-col">
-                            <label className="text-gray-800 text-sm font-normal">Food Name:</label>
+
+                        <div className="grid grid-cols-2 gap-16">
+                          <div>
+                            <label className="py-2 px-4 text-white text-sm font-normal">Food Name:</label>
                             <input
                               type="text"
                               name="name"
                               placeholder="Food Name"
                               value={readyFood.name}
                               onChange={handleReadyFoodChange}
-                              className="h-10 border px-2 py-1 text-black"
+                              className="px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm"
                             />
                           </div>
-                          <div className="flex flex-col">
-                            <label className="text-gray-800 text-sm font-normal">Calories per Portion:</label>
+                          <div>
+                            <label className="py-2 px-4 text-white text-sm font-normal">Calories per Portion:</label>
                             <input
                               type="number"
                               step="0.01"
@@ -260,11 +261,11 @@ const AddCalorieIntake = () => {
                               placeholder="...cal"
                               value={readyFood.caloriesPerPortion}
                               onChange={handleReadyFoodChange}
-                              className="h-10 border px-2 py-1"
+                              className="px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm"
                             />
                           </div>
-                          <div className="flex flex-col">
-                            <label className="text-gray-800 text-sm font-normal">Fat per Portion:</label>
+                          <div>
+                            <label className="py-2 px-4 text-white text-sm font-normal">Fat per Portion:</label>
                             <input
                               type="number"
                               step="0.01"
@@ -272,11 +273,11 @@ const AddCalorieIntake = () => {
                               placeholder="...g"
                               value={readyFood.fatPerPortion}
                               onChange={handleReadyFoodChange}
-                              className="h-10 border px-2 py-1"
+                              className="px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm"
                             />
                           </div>
-                          <div className="flex flex-col">
-                            <label className="text-gray-800 text-sm font-normal">Carbohydrate per Portion:</label>
+                          <div>
+                            <label className="text-white text-sm font-normal">Carbohydrate per Portion:</label>
                             <input
                               type="number"
                               step="0.01"
@@ -284,11 +285,11 @@ const AddCalorieIntake = () => {
                               placeholder="...g"
                               value={readyFood.carbohydratePerPortion}
                               onChange={handleReadyFoodChange}
-                              className="h-10 border px-2 py-1"
+                              className="px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm"
                             />
                           </div>
-                          <div className="flex flex-col">
-                            <label className="text-gray-800 text-sm font-normal">Protein per Portion:</label>
+                          <div>
+                            <label className="py-2 px-4 text-white text-sm font-normal">Protein per Portion:</label>
                             <input
                               type="number"
                               step="0.01"
@@ -296,38 +297,40 @@ const AddCalorieIntake = () => {
                               placeholder="...g"
                               value={readyFood.proteinPerPortion}
                               onChange={handleReadyFoodChange}
-                              className="h-10 border px-2 py-1"
+                              className="px-2 rounded-sm h-8 w-60 text-black shadow-slate-900 shadow-sm"
                             />
                           </div>
                         </div>
-  
-                        <div className="mt-8 flex justify-end">
-                          <button
-                            type="button"
-                            onClick={resetReadyFood}
-                            className='mx-2 rounded text-white font-semibold bg-orange-500 hover:bg-orange-700 py-2 px-6 shadow-slate-900 shadow-sm'
-                          >
-                            Reset Prepared Food
-                          </button>
+
+                        <div className="pr-12 mt-8 mb-36 flex justify-end">
                           <button
                             type="submit"
                             onClick={saveReadyFood}
                             className='mx-2 rounded text-white font-semibold bg-green-500 hover:bg-green-700 py-2 px-6 shadow-slate-900 shadow-sm'
                           >
-                            Save Prepared Food
+                            Save
                           </button>
+                          <button
+                            type="button"
+                            onClick={resetReadyFood}
+                            className='mx-2 rounded text-white font-semibold bg-orange-500 hover:bg-orange-700 py-2 px-6 shadow-slate-900 shadow-sm'
+                        >
+                          Clear
+                        </button>
+                          <button
+                            onClick={closeModal}
+                            className='mx-2 rounded text-white font-semibold bg-red-500 hover:bg-red-700 py-2 px-6 shadow-slate-900 shadow-sm'
+                        >
+                          Close
+                        </button>
                         </div>
                       </div>
                     </div>
                     <div>
                     <div className="mt-2" />
-                    <button
-                      onClick={closeModal}
-                      className='mx-2 rounded text-white font-semibold bg-red-500 hover:bg-red-700 py-2 px-6 shadow-slate-900 shadow-sm'
-                    >
-                      Close
-                    </button>
-                    <div className="mt-2"/>
+
+                    <div className="mb-10"/>
+                  </div>
                   </div>
                   </div>
                 </div>

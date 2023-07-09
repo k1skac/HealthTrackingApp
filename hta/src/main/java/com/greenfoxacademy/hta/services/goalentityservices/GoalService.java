@@ -2,8 +2,10 @@ package com.greenfoxacademy.hta.services.goalentityservices;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.greenfoxacademy.hta.dtos.goalentitydto.*;
+import com.greenfoxacademy.hta.dtos.nutritiondto.MealSumAggregateDataDTO;
 import com.greenfoxacademy.hta.exceptions.GoalNotFoundException;
 import com.greenfoxacademy.hta.exceptions.HtaException;
+import com.greenfoxacademy.hta.exceptions.MealDoesNotExistException;
 import com.greenfoxacademy.hta.models.user.User;
 import com.greenfoxacademy.hta.models.goalentities.Exercise;
 import com.greenfoxacademy.hta.models.goalentities.Goal;
@@ -93,7 +95,9 @@ public class GoalService implements IGoalService {
         }
         User user = iUserRepository.findByEmail(authentication.getName()).get();
         Goal goal = new Goal(goalDTO.getGoalDescription());
+        if (goalDTO.getWeightLoss().getDescription() == null || goalDTO.getCalorieIntakeLimit().getDescription() == null || goalDTO.getExercise().getDescription() == null) {
 
+        }
         WeightLoss weightLoss = new WeightLoss(
                 goalDTO.getWeightLoss().getDescription(),
                 goalDTO.getWeightLoss().getGoalWeight(),
@@ -112,6 +116,7 @@ public class GoalService implements IGoalService {
         weightLoss.setGoal(goal);
         healthyEating.setGoal(goal);
         exercise.setGoal(goal);
+
         IWeightLossRepository.save(weightLoss);
         IHealthyEatingRepository.save(healthyEating);
         IExerciseRepository.save(exercise);
@@ -144,12 +149,12 @@ public class GoalService implements IGoalService {
                 goalDTO.getCalorieIntakeLimit().getDescription(),
                 goalDTO.getCalorieIntakeLimit().getCalorieLimit(),
                 goalDTO.getCalorieIntakeLimit().getDeadline());
-                goalDTO.getCalorieIntakeLimit().getStartDate();
+        goalDTO.getCalorieIntakeLimit().getStartDate();
         goal.setDailyActiveTime(
                 goalDTO.getExercise().getDescription(),
                 goalDTO.getExercise().getDailyActiveTimeInMinutes(),
                 goalDTO.getExercise().getDeadline());
-                goalDTO.getExercise().getStartDate();
+        goalDTO.getExercise().getStartDate();
         Goal updatedGoal = IGoalRepository.save(goal);
         //ToDo LogSave
         return convertGoal(updatedGoal);
@@ -179,7 +184,11 @@ public class GoalService implements IGoalService {
     }
 
     @Override
-    public Goal giveLastGoal() {
-        return IGoalRepository.findLastGoal();
+    public GoalDTO lastGoal(Authentication authentication) throws HtaException {
+        User user = iUserRepository.findByEmail(authentication.getName()).get();
+        if (IGoalRepository.findTop1GoalByUserOrderByCreationDateDesc(user).isPresent()) {
+            return convertGoal(IGoalRepository.findTop1GoalByUserOrderByCreationDateDesc(user).get());
+        }
+        throw new GoalNotFoundException();
     }
 }

@@ -34,6 +34,8 @@ import Navbar from './Navbar';
 import {Alert} from "@/app/components/Alert";
 import {alertService, AlertType} from "@/app/service/AlertService";
 import MainService from "@/app/service/MainService";
+import NotificationService from "@/app/service/NotificationService";
+import Cookies from "js-cookie";
 
 const MainPage = () => {
 
@@ -55,16 +57,56 @@ const MainPage = () => {
         };
 
         fetchData();
+        fetchNotification();
     }, [loading]);
+
+    const fetchNotification = async () => {
+        try {
+            const weightResponse = await NotificationService.showWeightNotification();
+            const heartRateResponse = await NotificationService.showHeartRateNotification();
+            const bloodPressureResponse = await NotificationService.showBloodPressureNotification();
+            const medicationResponse = await NotificationService.showMedicationNotifications();
+
+            const weightMessage = weightResponse.data.weightMessage;
+            const weightCookie = Cookies.get(weightMessage); //date
+            if (!weightCookie || new Date(weightCookie) <= new Date()) {
+                alertService.info(weightMessage);
+            }
+
+            const heartRateMessage = heartRateResponse.data.heartRateMessage;
+            const heartRateCookie = Cookies.get(heartRateMessage); //date
+            if (!heartRateCookie || new Date(heartRateCookie) <= new Date()) {
+                alertService.info(heartRateMessage);
+            }
+
+            const bloodPressureMessage = bloodPressureResponse.data.bloodPressureMessage;
+            const bloodPressureCookie = Cookies.get(bloodPressureMessage); //date
+            if (!bloodPressureCookie || new Date(bloodPressureCookie) <= new Date()) {
+                alertService.info(bloodPressureMessage);
+            }
+
+            medicationResponse.data.medicationMessages.forEach(element => {
+                const medicationCookie = Cookies.get(element); //date
+                if (!medicationCookie || new Date(medicationCookie) <= new Date()) {
+                    alertService.info(element);
+                }
+            });
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            alertService.error(error);
+        }
+    };
 
 
     return (
-        <div className="bg-htadarkgrey h-screen overflow-auto">
+        <div className="bg-white h-screen overflow-auto">
             <Navbar />
             <div className="relative">
-                <div className="absolute top-0 right-0 mt-2 mr-2">
+                <div className="absolute top-0 left-0 mt-2 mr-2">
                     <Logo />
                 </div>
+            </div>
+            <div className='mt-20'>
             </div >
             <div>
                <Alert filterType={AlertType.Info}/>
@@ -102,7 +144,7 @@ const MainPage = () => {
                     </h1>
                 </div>
             ) : (
-                <div className="mt-48">
+                <div className="mt-36">
                     <div className="flex justify-evenly">
                         <div className="shadow-md shadow-black">
                             <BloodPressureBar />

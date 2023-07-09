@@ -3,12 +3,8 @@
 import ProfilePageService from "@/app/service/ProfilePageService";
 import {React, useEffect, useState,Fragment} from 'react'
 import axios from "axios";
-import {Dialog, Transition} from "@headlessui/react";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import NotificationService from "@/app/service/NotificationService";
-import {alertService} from "@/app/service/AlertService";
-import Cookies from "js-cookie";
 
 const PROFILE_UPDATE_API_BASE_URL = 'http://localhost:8080/api/user/update-user-profile';
 const PROFILE_CITY_NAME_API_BASE_URL = 'http://localhost:8080/api/user/get-cityname-list';
@@ -23,7 +19,6 @@ const ProfilePage = () => {
     useEffect(() => {
         fetchCityOptions();
         fetchData();
-        fetchNotification()
         setLoading(false);
     }, []);
 
@@ -58,45 +53,9 @@ const ProfilePage = () => {
             });
     }
 
-    const fetchNotification = async () => {
-        try {
-            const weightResponse = await NotificationService.showWeightNotification();
-            const heartRateResponse = await NotificationService.showHeartRateNotification();
-            const bloodPressureResponse = await NotificationService.showBloodPressureNotification();
-            const medicationResponse = await NotificationService.showMedicationNotifications();
-
-            const weightMessage = weightResponse.data.weightMessage;
-            const weightCookie = Cookies.get(weightMessage); //date
-            if (!weightCookie || new Date(weightCookie) <= new Date()) {
-                alertService.info(weightMessage);
-            }
-
-            const heartRateMessage = heartRateResponse.data.heartRateMessage;
-            const heartRateCookie = Cookies.get(heartRateMessage); //date
-            if (!heartRateCookie || new Date(heartRateCookie) <= new Date()) {
-                alertService.info(heartRateMessage);
-            }
-
-            const bloodPressureMessage = bloodPressureResponse.data.bloodPressureMessage;
-            const bloodPressureCookie = Cookies.get(bloodPressureMessage); //date
-            if (!bloodPressureCookie || new Date(bloodPressureCookie) <= new Date()) {
-                alertService.info(bloodPressureMessage);
-            }
-
-            medicationResponse.data.medicationMessages.forEach(element => {
-                const medicationCookie = Cookies.get(element); //date
-                if (!medicationCookie || new Date(medicationCookie) <= new Date()) {
-                    alertService.info(element);
-                }
-            });
-        } catch (error) {
-            console.error('Error fetching user data:', error);
-            alertService.error(error);
-        }
-    };
-
     function closeModal() {
         setIsOpen(false);
+        window.location.href = "/";
     }
 
     function openModal() {
@@ -133,38 +92,14 @@ const ProfilePage = () => {
     };
 
     return (
-        <div>
-            <button
-                onClick={openModal}
-                className='rounded bg-htadarkteal hover:bg-htadarktealhover text-white w-48 py-3 shadow-cyan-950 shadow-md font-semi'>
-                Update Profile
-            </button>
-
-            <Transition appear show={isOpen} as={Fragment}>
                 <div className='m-auto w-full max-w-screen-md text-left align-middle transition-all transform shadow-xl rounded-md' >
-                    <Dialog
-                        as="div"
-                        className='fixed inset-24 max-w-screen-md h-max mx-auto'
-                        onClose={closeModal}>
-                        <div className='min-h-screen text-center'>
-                            <Transition.Child
-                                as={Fragment}
-                                enter='ease-out duration-300'
-                                enterFrom='opacity-0 scale-95'
-                                enterTo='opacity-100 scale-100'
-                                leave='ease-in duration-200'
-                                leaveFrom='opacity-100 csale-100'
-                                leaveTo='opacity-0 scale-95'>
-                                <div className="overflow-auto">
-                                    <Dialog.Title
-                                        as='div'
-                                        className='mb-1 bg-htadarkteal rounded-md py-5 shadow-slate-900 shadow-md'>
-                                            <h3
-                                                className='text-lg font-bold text-white m-auto'>
-                                                Edit your profile data
-                                            </h3>
-                                    </Dialog.Title>
-                                    <div className="bg-htamediumteal rounded-md shadow-slate-900 shadow-md">
+                    <div className='mb-1 bg-htadarkteal rounded-md py-5 shadow-slate-900 shadow-md'>
+                    <h3
+                        className='text-lg font-bold text-white m-auto text-center'>
+                        Edit your profile data
+                    </h3>
+                    </div>
+                    <div className="bg-htamediumteal rounded-md shadow-slate-900 shadow-md">
                                         <div>
                                             {loading && (
                                                 <div
@@ -286,14 +221,9 @@ const ProfilePage = () => {
                                             )}
                                         </div>
                                     </div>
-                                </div>
-                            </Transition.Child>
-                        </div>
-                    </Dialog>
-                </div>
-            </Transition>
         </div>
     )
 }
+
 
 export default ProfilePage;

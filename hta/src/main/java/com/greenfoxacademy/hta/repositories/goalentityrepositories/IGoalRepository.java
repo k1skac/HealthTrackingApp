@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IGoalRepository extends JpaRepository<Goal, Long> {
@@ -15,5 +16,6 @@ public interface IGoalRepository extends JpaRepository<Goal, Long> {
     @Query ("SELECT g FROM Goal g WHERE g.id = (SELECT MAX (g.id) FROM Goal g)")
     Goal findLastGoal();
     List<Goal> findAllByUser(User user);
+    Optional <Goal> findTop1GoalByUserOrderByCreationDateDesc (User user);
 
 }

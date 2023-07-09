@@ -457,7 +457,7 @@ public class HtaApplication {
         HashMap<String,Double> newReadyFoods = new HashMap<>();
         newReadyFoods.put( "Norbi Update1 Párizsis zsemle", 1.5);
         newReadyFoods.put(  "Burger King Whopper", 1.0);
-        NewMealDTO newMeal = new NewMealDTO(LocalDateTime.of(2023, 8, 2, 12, 0, 0, 0),newFoodstuffs,newReadyFoods);
+        NewMealDTO newMeal = new NewMealDTO(LocalDateTime.of(2023, 7, 2, 12, 0, 0, 0),newFoodstuffs,newReadyFoods);
         iNutritionService.addNewMeal(newMeal, "user1@gmail.com");
     }
 

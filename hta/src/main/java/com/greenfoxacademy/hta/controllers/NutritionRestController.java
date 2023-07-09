@@ -90,7 +90,6 @@ public class NutritionRestController {
     iDynamicDataService.saveData(dynamicData);
     return ResponseEntity.ok("success");
   }
-
   @GetMapping("/get-food-data")
   public ResponseEntity<?> getDynamicData() {
     List<DynamicData> allData = iDynamicDataService.findAllData();

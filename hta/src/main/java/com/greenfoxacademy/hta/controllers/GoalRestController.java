@@ -41,11 +41,19 @@ public class GoalRestController {
         } catch (HtaException exception) {
             return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
         }
-
     }
 
     @GetMapping("/")
     public ResponseEntity<?> goalList(Authentication authentication) {
         return ResponseEntity.ok(IGoalService.getAllByUser(authentication));
     }
+    @GetMapping("/last-goal")
+    public ResponseEntity<?> lastGoal( Authentication authentication) {
+        try {
+            return ResponseEntity.ok(IGoalService.lastGoal(authentication));
+        } catch (HtaException exception) {
+            return ResponseEntity.status(exception.getStatus()).body(exception.getMessage());
+        }
+    }
+
 }

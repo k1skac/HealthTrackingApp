@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import mypic from '../asset/hta_logo_v3.png'
+import mypic from '../asset/hta_ALMA-removebg-preview (1)_light_green.png'
 
 const Logo = (props) => {
   return (

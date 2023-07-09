@@ -96,11 +96,9 @@ const MealCalorieDoughnutChart = () => {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <div className='w-full h-80 bg-htamediumteal rounded-sm'>
-          <div className="chart-container">
+          <div className="h-96 bg-htamediumteal rounded-sm chart-container">
           <Doughnut data={data} options={{ ...options, plugins: { ...options.plugins, datalabels: { ...options.plugins.datalabels, color: 'black', font: { weight: 'bold', size: 14 } } } }} />
           </div>
-        </div>
       )}
     </div>
   );

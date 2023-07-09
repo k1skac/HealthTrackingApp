@@ -114,7 +114,7 @@ const PROFILE_WEIGHT_NAME_API_BASE_URL =
     };
 
     return (
-              <div className='w-[500px] h-80 bg-zinc-100 rounded-sm'>
+              <div className='w-[500px] h-80 bg-white rounded-sm border-4 border-htamediumteal'>
                 <Line data={dataSet} options={options} />
             </div>
     )}
